@@ -1,0 +1,382 @@
+body
+{
+	margin: 0em;
+	background: #333;
+	font: normal 12px Arial;
+	overflow: scroll;
+}
+.clear
+{
+	clear: both;
+}
+.CENTER
+{
+	text-align: center;
+}
+.FL
+{
+	float: left;
+}
+.FR
+{
+	float: right;
+}
+.AREA_FOOTER
+{
+	clear: both;
+	margin-top: 0.5em;
+	text-align: center;
+	color: #FFF;
+	text-shadow: 0em -0.1em 0.1em #000;
+}
+.AREA_FOOTER a
+{
+	color: #FFF;
+}
+.AREA_FOOTER span
+{
+	color: #AAA;
+}
+.AREA_WRAPPER
+{
+	width: 60em;
+	margin: auto;
+	background: #222;
+	border: solid 0.2em #111;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+}
+.AREA_BANNER h1
+{
+	margin: 0em;
+	text-shadow: 0em 0em 0.2em #000;
+	color: #FFF;
+}
+.AREA_NAV
+{
+	padding-left: 0.5em;
+}
+.AREA_NAV a
+{
+	color: #FFF;
+	border-radius: 0.5em;
+	text-decoration: none;
+	text-shadow: 0em -0.1em 0.1em #333;
+	padding: 0.5em 0.25em;
+	display: inline-block;
+	background-image: url('../Images/gradient.png');
+	background-repeat: repeat-x;
+	background-size: auto 100%;
+}
+.AREA_NAV a.B1
+{
+	background-color: #0C0;
+}
+.AREA_NAV a.B2
+{
+	background-color: #09F;
+}
+.AREA_NAV a.B3
+{
+	background-color: #F90;
+}
+.AREA_NAV a.B4
+{
+	background-color: #C06;
+}
+.AREA_NAV a.B5
+{
+	background-color: #90C;
+}
+.AREA_NAV a.B6
+{
+	background: #C30;
+}
+.AREA_NAV a:hover, .AREA_NAV a:focus
+{
+	background-color: #999;
+}
+.AREA_NAV span
+{
+	float: right;
+	background: #FFF;
+	color: #000;
+	padding: 0.25em 0.5em;
+	border-top-left-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+	line-height: 0.65em;
+	height: 1.3em;
+	text-align: right;
+	box-shadow: 0em 0em 0.5em #000;
+}
+.AREA_NAV span img
+{
+	vertical-align: middle;
+	width: 1.3em;
+	height: 1.3em;
+}
+.AREA_CONTENT
+{
+	font-size: larger;
+	padding-top: 0.5em;
+	color: #FFF;
+}
+.AREA_CONTENT a
+{
+	color: #999;
+}
+.AREA_CONTENT p
+{
+	padding: 0em 0.5em 0.5em 0.5em;
+	text-shadow: 0em -0.1em 0.1em #000;
+}
+.AREA_CONTENT h2, .AREA_CONTENT h3
+{
+	border-radius: 0.5em;
+	padding: 0.5em;
+	font-size: inherit;
+	margin: 0.25em 0.25em 0.5em 0.25em;
+	text-shadow: none;
+}
+.AREA_CONTENT h2
+{
+	background: #000;
+	color: #FFF;
+}
+.AREA_CONTENT h3
+{
+	background: #CCC;
+	color: #333;
+}
+.AREA_CONTENT ul li
+{
+	margin-bottom: 0.25em;
+}
+.AREA_CONTENT ul li a
+{
+	display: inline-block;
+	padding: 0.25em;
+	border-radius: 0.5em;
+}
+.AREA_CONTENT ul li a:hover, .AREA_CONTENT ul li a:focus
+{
+	background: #CCC;
+	color: #333;
+	text-decoration: none;
+}
+.IMAGE
+{
+	border-radius: 0.5em;
+	border: solid 0.2em #000;
+	box-shadow: 0em 0em 0.5em #111;
+	max-width: 45em;
+}
+.TABLE input[type=text], .TABLE select, .TABLE textarea
+{
+	border: solid 0.1em #333;
+	font-size: larger;
+	color: #333;
+	border-radius: 0.25em;
+}
+.TABLE input[type=text]:hover, .TABLE input[type=text]:focus,
+.TABLE select:hover, .TABLE select:focus,
+.TABLE textarea:hover, .TABLE textarea:focus
+{
+	background: #CCC;
+	color: #333;
+}
+.TABLE input[type=submit], .BUTTON
+{
+	background: #333;
+	color: #FFF !important;
+	border: 0em;
+	border-radius: 0.5em;
+	padding: 0.25em 0.5em;
+	font-weight: bold;
+	cursor: pointer;
+	text-decoration: none;
+}
+.TABLE input[type=submit]:hover, .TABLE input[type=submit]:focus,
+.BUTTON:hover, .BUTTON:focus
+{
+	background: #666;
+}
+.BUTTON
+{
+	display: inline-block;
+	margin: 0.5em;
+}
+.TABLE
+{
+	display: block;
+	width: 70%;
+	margin: auto;
+	margin-bottom: 0.5em;
+	border: solid 0.1em #333;
+	border-radius: 0.5em;
+	overflow: hidden;
+}
+.ROW
+{
+	display: block;
+	background: #555;
+}
+.ROW:nth-child(even)
+{
+	background: #444;
+}
+.ROW .CELL, .ROW .HEADER
+{
+	display: inline-block;
+	vertical-align: middle;
+	float: left;
+}
+.ROW .HEADER
+{
+	background: #333;
+	width: 100% !important;
+	color: #FFF;
+	font-weight: bold;
+}
+.ROW .CELL
+{
+	width: 50%;
+}
+.ROW .LABEL
+{
+	line-height: 2.5em;
+}
+.ROW .LABEL div
+{
+	height: 2em;
+	padding-left: 0.5em;
+}
+.ROW .CELL .P, .ROW .HEADER .P
+{
+	padding: 0.5em;
+}
+.ERROR
+{
+	width: 100%;
+	display: none;
+}
+.ERROR.VISIBLE
+{
+	display: block;
+}
+.ERROR .P
+{
+	padding: 0.25em 0.5em;
+	background: #FCC;
+	border: solid 0.2em #F00;
+	color: #F00;
+	margin: 0.5em;
+}
+.STATUS_ONLINE, .STATUS_OFFLINE
+{
+	text-shadow: 0em -0.1em 0.1em #000;
+}
+.STATUS_ONLINE
+{
+	background: #3C3 !important;
+}
+.STATUS_ONLINE:nth-child(even)
+{
+	background: #093 !important;
+}
+.STATUS_OFFLINE
+{
+	background: #C00 !important;
+}
+.STATUS_OFFLINE:nth-child(even)
+{
+	background: #F30 !important;
+}
+.LABEL_GREY
+{
+	color: #999;
+}
+.GB_POST
+{
+	margin: auto;
+	width: 80%;
+	background: #555;
+	border-radius: 0.5em;
+	overflow: hidden;
+	margin-bottom: 0.5em;
+}
+.GB_POST .P
+{
+	padding: 0.5em;
+}
+.GB_POST .BOTTOM
+{
+	background: #444;
+	height: 2em;
+	line-height: 2em;
+	padding: 0em 0.5em;
+	overflow: hidden;
+	color: #CCC;
+}
+.GB_POST .BOTTOM.ADMIN
+{
+	background: #333 !important;
+}
+.GB_POST .BOTTOM.ADMIN a
+{
+	padding: 0.5em 0.2em;
+}
+.GB_POST .BOTTOM.ADMIN a:hover, .GB_POST .BOTTOM.ADMIN a:focus
+{
+	color: #C00;
+}
+.GB_POST .BOTTOM img
+{
+	width: 1.33em;
+	height: 1.33em;
+	vertical-align: middle;
+}
+.GB_POST .BOTTOM .R
+{
+	float: right;
+}
+.GB_NAV
+{
+	padding: 0.5em;
+	text-align: center;
+}
+.GB_NAV a
+{
+	display: block;
+	width: 4em;
+	padding: 0.4em 0.3em;
+	background: #444;
+	color: #FFF;
+	border-radius: 0.5em;
+	text-decoration: none;
+	background-image: url('../Images/gradient.png');
+	background-repeat: repeat-x;
+	background-size: auto 100%;
+	visibility: hidden;
+}
+.GB_NAV a.VISIBLE
+{
+	visibility: visible;
+}
+.GB_NAV a:hover, .GB_NAV a:focus
+{
+	background-color: #555;
+}
+.GB_NAV .LEFT
+{
+	float: left;
+}
+.GB_NAV .RIGHT
+{
+	float: right;
+}
+.GB_CONTAINER
+{
+	padding-left: 4em;
+	border-left: solid 0.5em #222;
+}

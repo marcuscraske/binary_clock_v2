@@ -1,0 +1,331 @@
+<!--include(header.bct)-->
+<h2>About</h2>
+<p>
+	This binary clock is actually version two; on this page you'll find information
+	about both versions - as well as plenty of media; if you're interested in the
+	more in-depth technical specifications and wiring, please <a href="http://ubermeat.co.uk/revision_notes/binary_clock_v2">
+	visit the article</a> at Ubermeat.
+</p>
+
+<h3>Version 1.0 - Evilduino</h3>
+<p>
+	The original binary clock, powered using a Netduino Plus v1 micro-controller using C#; the
+	hardware capabilities were very small, featuring only:
+</p>
+<ul>
+	<li>An ARM7 48 MHz (megahertz) 32-bit processor.</li>
+	<li>64 KB (kilobytes) of code storage and 42 KB of RAM.</li>
+	<li>2 GB (gigabytes) of on-board storage.</li>
+</ul>
+
+<p>
+	The Evilduino was also controlled using a web-server and featured 15-minute time-updating
+	using the <a href="http://www.timeapi.org/">time-api.org</a> service. Due to the lack of
+	memory, the web-server had to be single-threaded and requests would take about a second
+	to process - with the device often crashing when multiple users attempted to request a page.
+	However the server used my own custom paging to build large pages, with parts written
+	to storage temporarily; once the page for the request was built, chunks of bytes of the
+	page would be streamed back to the user.
+</p>
+<p>
+	This version was also mounted on cardboard and frequently crashed due to a lack of memory,
+	despite all efforts to overcome this issue using e.g. page caching - the clock was
+	simply not stable enough. Other features:
+</p>
+<ul>
+	<li>
+		Photo-resistor for measuring light; the LED display would automatically turn-off when
+		the amount of light went below a specified threshold (to avoid LED's being on when I would
+		usually be trying to sleep).
+	</li>
+	<li>
+		A TMP36 temperature sensor, which never correctly functioned due to compatibility
+		issues with the analogue inputs on the Netduino.
+	</li>
+	<li>
+		An alarm system with an on-board buzzer; only one date/time could be specified.
+	</li>
+	<li>
+		A very primitive multi-threaded service system, with: the display, alarm system,
+		time-updating and web-server running within different threads (in-case of an
+		unexpected service failure to avoid the entire clock crashing).
+	</li>
+	<li>
+		A web server capable of supporting URL-encoding, large file-uploading GET and POST requests.
+		Large files could also be downloaded by clients through streaming.
+	</li>
+</ul>
+<p>
+	Images:
+</p>
+<div class="CENTER">
+	<img src="./Content/Images/about/old/1.jpg" alt="Binary Clock Project" class="IMAGE" />
+	<img src="./Content/Images/about/old/2.jpg" alt="Binary Clock Project" class="IMAGE" />
+	<img src="./Content/Images/about/old/3.jpg" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The Ubertarian creature from Uber Media!
+	</p>
+	<img src="./Content/Images/about/old/site.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The site of the old binary clock.
+	</p>
+</div>
+
+<h3>Version 2.0 - The Monolithic Binary Clock</h3>
+<p>
+	The second version is powered by the Raspberry Pi Model B revision 2 single-board computer, with the
+	software for the binary clock written in C++. The specifications are:
+</p>
+<ul>
+	<li>A 700MHz ARM11 32-bit processor.</li>
+	<li>512 MB of RAM.</li>
+	<li>32 GB of on-board memory.</li>
+	<li>On-board GPU which shares the RAM - although this will probably never be utilized.</li>
+	<li><i>Debian Squeeze</i> Linux distribution.</li>
+</ul>
+<p>
+	Compared to version one, the binary clock is powered by a device with far greater capacity;
+	this allows for the web-server to be multi-threaded and public! The device will also be
+	later utilized to provide other services to my home network such as a local private
+	Git repository for backups and private projects. I also designed the clock to be
+	a lot more disposable, with LED's easily replaceable and the circuit-boards for the sensors,
+	relays and display easy to replace/remove.
+</p>
+<p>
+	Summary of features:
+</p>
+<ul>
+	<li>Functioning, unlike version one, TMP36 temperature sensor.</li>
+	<li>Photo-resistor for automatically switching-off the LED display when it's dark.</li>
+	<li>On-board buzzer for the alarm system.</li>
+	<li>
+		Eight fake electrical sockets, each individually controllable via an eight-channel relay
+		for room automation.
+	</li>
+	<li>Software improvements:</li>
+	<ul>
+		<li>
+			Functions of the clock, referred to as services, are threaded like version one; however
+			these services can be started/stopped/restarted.
+		</li>
+		<li>Automatic saving of configuration, such as alarm-times; this was not present in version
+		one and an alarm-time would have to be reset.</li>
+		<li>The alarm service/clock allows multiple time events to be specified.</li>
+		<li>
+			Services can be individually controlled and started/stopped/restarted; the entire binary
+			clock can be shutdown/restarted too.
+		</li>
+	</ul>
+	<li>Web-server improvements:</li>
+	<ul>
+		<li>Multi-threaded web-server to handle a larger volume of requests and to be more responsive.</li>
+		<li>
+			Almost a pure MVC (model-view-control) design. Web-pages are actually files with
+			<i>.bc/.bct</i> (same function except bct files cannot be directly accessed) file-extensions. For
+			exmaple the home-page is actually represented by <a href="./home.bc">home.bc</a>; this file
+			uses a custom scripting/markup language which calls backend functions to insert data and
+			manipulate the page dynamically.
+		</li>
+	</ul>
+</ul>
+
+<p>
+	Overall the new binary clock, so far, has been very stable and reliable; the design improvements
+	both physically and architecturally also allow the clock to be easily maintained.
+</p>
+
+<h3>Images of v2.0: Admin Panel</h3>
+<p>
+	These images have been provided since you should not be able to access the admin panel.
+</p>
+<div class="CENTER">
+	<img src="./Content/Images/about/admin/1.png" alt="Binary Clock Project" class="IMAGE" />
+	<img src="./Content/Images/about/admin/2.png" alt="Binary Clock Project" class="IMAGE" />
+	<img src="./Content/Images/about/admin/3.png" alt="Binary Clock Project" class="IMAGE" />
+	<img src="./Content/Images/about/admin/4.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Note: settings removed.
+	</p>
+</div>
+
+<h3>Images of v2.0: Hardware</h3>
+<div class="CENTER">
+	<img src="./Content/Images/about/1.png" alt="Binary Clock Project" class="IMAGE" />
+	<img src="./Content/Images/about/2.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Testing the Raspberry Pi with two 74HC595 16-dip shift register IC's.
+	</p>
+	
+	<img src="./Content/Images/about/3.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Testing an eight-channel relay for controlling electrical appliances; this is later used
+		to switch on/off fake sockets.
+	</p>
+	
+	<img src="./Content/Images/about/4.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The piece of MDF (medium-density fibreboard) used to construct the shell of the binary clock.
+	</p>
+	
+	<img src="./Content/Images/about/5.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		A section of the MDF cut-out, with fake sockets mounted.
+	</p>
+	
+	<img src="./Content/Images/about/6.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The wired 13-amp plug, which powers the entire binary clock - including the Raspberry Pi.
+	</p>
+	
+	<img src="./Content/Images/about/7.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The other primary three faces of the clock cut-out.
+	</p>
+	
+	<img src="./Content/Images/about/8.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Wiring-up the fake sockets and testing each one with the relay, which is controlled by
+		the Raspberry Pi.
+	</p>
+	
+	<img src="./Content/Images/about/9.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The finished wiring of the fake sockets.
+	</p>
+	
+	<img src="./Content/Images/about/10.png" alt="Binary Clock Project" class="IMAGE" />
+	<img src="./Content/Images/about/11.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The finished circuit-board, with three 74HC595 shift-registers, for controlling the
+		LED display.
+	</p>
+	
+	<img src="./Content/Images/about/12.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Each LED on the clock is designed to be easily disposable, for future upgrades
+		and/or replacement in-case of failure; each node/LED is held within a tight 5mm
+		hole on the wood, with each anode designed to plug into the LED circuit board.
+		The reason for not soldering is to allow the LED circuit board to be easily removed
+		for replacement/maintenance as well.
+	</p>
+	
+	<img src="./Content/Images/about/13.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The initial wiring of the LED nodes; this was admittedly a poor decision and resulted
+		in a mess, with the ground wires easily breaking-off.
+	</p>
+	
+	<img src="./Content/Images/about/14.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The ground wiring redesigned for the LED nodes; this looks far neater - it's also
+		a lot easier for maintenance and a lot stronger.
+	</p>
+	
+	<img src="./Content/Images/about/15.png" alt="Binary Clock Project" class="IMAGE" />
+	<img src="./Content/Images/about/16.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The final home of the Raspberry Pi, the serious construction begins!
+	</p>
+	
+	<img src="./Content/Images/about/17.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The primary faces conjoined; the open-side face is only partially statically fixed,
+		with most of the face attachable via velcro - acting as a side panel for future
+		maintenance.
+	</p>
+	
+	<img src="./Content/Images/about/18.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The binary clock at this stage is now strong enough to stand-up.
+	</p>
+	
+	<img src="./Content/Images/about/19.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Remotely testing the LED display; as you can see, all the LEDs are responding - success!
+	</p>
+	
+	<img src="./Content/Images/about/20.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Inserting the sensor circuit-board, which contains an MCP3008 analogue-to-digital (ADC)
+		16-dip IC with a temperature and photo-resistor (for measuring light) sensor attached.
+	</p>
+	
+	<img src="./Content/Images/about/21.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The addition of the three red error LEDs for signaling errors during run-time.
+	</p>
+	
+	<img src="./Content/Images/about/22.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The final wiring within the binary clock; although at this stage, the relay is not
+		wired due to waiting for a delivery from China.
+	</p>
+
+	<img src="./Content/Images/about/23.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		To the left is v1.0 (<i>Evilduino</i>) of the binary clock, with v2.0 (<i>The Monolithic
+		Binary Clock</i>) next to it - the size difference is impressive. This was the last
+		time v1.0 was online.
+	</p>
+	
+	<img src="./Content/Images/about/24.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The current state of the binary clock...possibly being painted black soon.
+	</p>
+</div>
+
+<h3>Version 2.1</h3>
+<p>
+	The software of version 2.0 was fairly stable, however a bug did exist which could crash the program;
+	additionally the sorting code of the times for the alarm service was the wrong way round. Therefore version
+	2.1 featured major software upgrades:
+</p>
+<ul>
+	<li>
+		Services such as the configurator used semaphores and condition variables to self-block
+		until an event occurred (rather than sleeping) - saving a lot of CPU.
+	</li>
+	<li>
+		Disk caching added to the web-server, where items with a certain extension are stored in
+		primary memory to reduce I/O time. In some pages, this caused a significant speed-up from
+		32 m/s with the slowest page (admin settings page) to just 1 m/s.
+	</li>
+	<li>
+		Complete overhaul of the web design to make the site look pretty with better consideration
+		of colours.
+	</li>
+	<li>
+		More site pages added, with the tools page from version 1.0 partially brought back. The
+		guestbook page was also added, with threaded/multi-level posts using Postgres for storage.
+	</li>
+	<li>
+		IP Country Lookup service added; this allows for the users of the guestbook to have a flag
+		of their country next to their name. This works by periodically downloading the lists of
+		IP block allocations from the five world Internet registers (APNIC, ARIN, RIPE NCC, Lacnic and Afrinic)
+		and parsing the allocations to find a match for an IP.
+	</li>
+	<li>
+		Added a read-only API with general information about the system, application and sensors.
+	</li>
+	<li>
+		Settings and services pages in the admin panel are automatically generated due to services now
+		being added independently to the service-controller. This new architecture means entire services
+		can be added and removed within a single line of code to the runtime; it also means the web-server
+		service can be rebooted when new settings are applied, since the service controller now has its own
+		thread for background tasks such as rebooting all the services.
+	</li>
+	<li>
+		General code-base cleanup, library greatly extended, a few bug-fixes and more commenting/documentation and testing.
+	</li>
+</ul>
+<p>
+	The circuitry was also completely remade due to solder joints on the sensor board coming loose in
+	the summer; the clock has also been painted white, a base added (to avoid falling over, which has occurred) and velcro
+	mostly removed from the inside of the clock.
+</p>
+<h3>Images of v2.1</h3>
+<div class="CENTER">
+
+</div>
+
+<!--include(footer.bct)-->

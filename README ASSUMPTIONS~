@@ -1,0 +1,36 @@
+Service Rules
+***************
+1.	Services should only be added when the application launches.
+
+2.	Services should only be removed when the entire controller is shutdown; this
+	is because a service may reference another service during runtime (all services
+	are shutdown when the controller is not running).
+
+3.	Services are not started in any particular order, thus the prerun() function
+	should be used for loading any data, settings or any pre-run configuration
+	which another service may depend upon. No inter-service communication
+	should occur at this stage.
+
+4.	The prerun() function is not executed as a separate thread; the thread used is
+	the same one invoking start() on the service controller.
+
+5.	Any services left in the controller when the destructor of the controller is
+	invoked, will be deleted.
+
+
+/* Current format:
+* key = value
+* 
+* Current keys:
+* - key                        value
+* alarm.buzzes                 int
+* alarm.buzz_length            int
+* alarm.times                  yyy:mm:dd:hh:mm:ss;<same>;...
+* display.sequence_high        int
+* display.sequence_low         int
+* display.sequence_buzz        int
+* display.light_threshold      int
+* web.port                     int
+* web.sockets_backlog          int
+* web.threads_max              int
+*/

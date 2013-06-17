@@ -1,0 +1,14 @@
+<form method="post" action="./admin?page=settings" class="TABLE">
+	%SETTINGS%
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">&nbsp;</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<input type="submit" class="BUTTON" value="Save" />
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</form>

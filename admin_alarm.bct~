@@ -1,0 +1,117 @@
+d<a href="./admin" class="BUTTON">Back to Admin</a>
+<div class="ERROR %ERROR_CLASS%">
+	<div class="P">%ERROR%</div>
+</div>
+<form method="post" action="./admin?page=alarm" class="TABLE">
+	<div class="ROW">
+		<div class="HEADER">
+			<div class="P">
+				Add Alarm Event
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				Year:
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<input type="text" name="year" value="<!--getFieldTime(year)-->" />
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				Month:
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<input type="text" name="month" value="<!--getFieldTime(month)-->" />
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				Day:
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<input type="text" name="day" value="<!--getFieldTime(day)-->" />
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				Hour:
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<input type="text" name="hour" value="<!--getFieldTime(hour)-->" />
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				Minute:
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<input type="text" name="minute" value="<!--getFieldTime(minute)-->" />
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				Second:
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<input type="text" name="second" value="<!--getFieldTime(second)-->" />
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				&nbsp;
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<input type="submit" value="Add" />
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</form>
+
+<div class="TABLE">
+	<div class="ROW">
+		<div class="HEADER">
+			<div class="P">
+				Current Events
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<!--getAlarms()-->
+</div>

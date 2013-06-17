@@ -1,0 +1,13 @@
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="AREA_FOOTER">
+		The Monolithic Binary Clock - v1.0.0<br />
+		<a href="http://www.ubermeat.co.uk">ubermeat.co.uk</a><br />
+		<span>
+			Processed in <!--getProcessTime()--><br />
+			Uptime: <!--getUptime()-->
+		</span>
+	</div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<div class="ROW">
+	<div class="HEADER">
+		<div class="P">
+			%TITLE%
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+%ITEMS%

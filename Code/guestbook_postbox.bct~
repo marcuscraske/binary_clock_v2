@@ -1,0 +1,50 @@
+<form method="post" action="./guest_book">
+	<div class="TABLE">
+		<div class="ROW">
+			<div class="CELL">
+				<div class="P">
+					Name:
+				</div>
+			</div>
+			<div class="CELL">
+				<div class="P">
+					<input type="text" name="gb_name" value="%NAME%" />
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="ROW">
+			<div class="CELL">
+				<div class="P">
+					Parent post ID:
+				</div>
+			</div>
+			<div class="CELL">
+				<div class="P">
+					<input type="text" id="gb_parent" name="gb_parent" value="%PARENT%" />
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="ROW">
+			<div class="P CENTER">
+				<textarea name="gb_message" rows="2" cols="45">%MESSAGE%</textarea>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="ROW">
+			<div class="CELL">
+				<div class="P">
+					<span class="LABEL_GREY">%MESSAGE_MAX% max. characters.</span>
+				</div>
+			</div>
+			<div class="CELL">
+				<div class="P">
+					<input type="submit" value="Post" />
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</form>

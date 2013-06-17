@@ -1,0 +1,5 @@
+<!--include(header.bct)-->
+<h2>Guest-Book</h2>
+<script src="/Content/JS/guestbook.js"></script>
+<!--pageGuestbook()-->
+<!--include(footer.bct)-->

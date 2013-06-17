@@ -1,0 +1,8 @@
+<h3>Database Failure</h3>
+<div class="CENTER">
+	<img src="./Content/Images/database_failure.png" alt="Database Failure" />
+</div>
+<p>
+	The requested page is currently unavailable since a connection or an error has occurred
+	whilst interfacing with the databse server - sorry!
+</p>

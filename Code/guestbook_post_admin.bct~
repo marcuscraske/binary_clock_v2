@@ -1,0 +1,17 @@
+<div class="GB_POST">
+	<div class="P">
+	%MESSAGE%
+	</div>
+	<div class="BOTTOM">
+		<img src="%COUNTRY_FLAG%" alt="%COUNTRY_NAME%" title="%COUNTRY_NAME%" /> %NAME%
+		<div class="R">
+			(ID: #%POSTID%) <span title="%DATETIME_RAW%">%DATETIME_FORMATTED%</span> <a onclick="return gbReply(%POSTID%);" href="./guest_book?reply=%POSTID%">[Reply]</a>
+		</div>
+	</div>
+	<div class="BOTTOM ADMIN">
+		IP: %IP%
+		<div class="R">
+			<a href="./guest_book?option=ban&pid=%POSTID%">[Ban]</a> <a href="./guest_book?option=delete&pid=%POSTID%">[Delete Post]</a> <a href="./guest_book?option=delete_all&pid=%POSTID%">[Delete All Posts by IP]</a>
+		</div>
+	</div>
+</div>

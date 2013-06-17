@@ -1,0 +1,8 @@
+<!--include(header.bct)-->
+<p>
+	The requested resource could not be located!
+</p>
+<p>
+	You can optionally contact the owner via the <a href="./contact">contact</a> page.
+</p>
+<!--include(footer.bct)-->

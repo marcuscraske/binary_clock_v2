@@ -1,0 +1,7 @@
+<h2>Admin - Access Denied</h2>
+<div class="CENTER">
+	<img src="./Content/Images/admin_denied.png" class="IMAGE" alt="Unimpressed Creepy Cat" />
+</div>
+<p>
+	Your IP addresss (<!--getIpAddress()-->) is not allowed here...
+</p>

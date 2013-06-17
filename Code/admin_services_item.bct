@@ -1,0 +1,11 @@
+<div class="ROW STATUS_%STATUS%">
+	<div class="CELL LABEL">
+		<div>%TITLE%</div>
+	</div>
+	<div class="CELL">
+		<a class="BUTTON" href="./admin?page=services&amp;action=start&amp;service=%NAME%">Start</a>
+		<a class="BUTTON" href="./admin?page=services&amp;action=stop&amp;service=%NAME%">Stop</a>
+		<a class="BUTTON" href="./admin?page=services&amp;action=restart&amp;service=%NAME%">Restart</a>
+	</div>
+	<div class="clear"></div>
+</div>

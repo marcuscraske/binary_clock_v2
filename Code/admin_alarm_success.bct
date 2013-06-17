@@ -1,0 +1,5 @@
+<a href="./admin" class="BUTTON">Back to Admin</a>
+<a href="./admin?page=alarm" class="BUTTON">Back to Alarm Clock</a>
+<p>
+	Successfully added new alarm clock event.
+</p>

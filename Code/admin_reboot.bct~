@@ -1,0 +1,6 @@
+<p>
+	Are you absolutely sure you want to reboot?
+</p>
+<p>
+	<a href="./admin?page=reboot&amp;confirm=1" class="BUTTON">Confirm Reboot</a>
+</p>

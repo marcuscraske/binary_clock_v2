@@ -1,0 +1,15 @@
+<div class="ROW">
+	<div class="CELL">
+		<div class="P">
+			%TITLE%
+		</div>
+	</div>
+	<div class="CELL">
+		<div class="P">
+			<select name="%TITLE%">
+				%ITEMS%
+			</select>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>

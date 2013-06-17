@@ -1,0 +1,10 @@
+<!--include(header.bct)-->
+<h2>Malformed Request</h2>
+<p>
+	Your request is malformed and cannot be served :_:...
+</p>
+<p>
+	This may be an indicator of packet loss or interception, or
+	possibly an error on the web-server.
+</p>
+<!--include(footer.bct)-->
