@@ -68,7 +68,6 @@ namespace BC
             void prerun();
             void run();
             void logic();
-            Relay* addRelay(int gpioPin);
             // Member Functions - Accessors
             inline int getTotalRelays() { return relayPins.size(); }
             inline Relay* getRelay(int index) { return relayPins.at(index); }

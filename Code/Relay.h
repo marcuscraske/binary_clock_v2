@@ -54,6 +54,7 @@ using BC::Utils;
 using BC::Services::RelayCondition;
 
 #include "RelayBoard.h"
+#include "Configurator.h"
 
 // Forward declarations
 namespace BC
@@ -87,9 +88,10 @@ namespace BC
             vector<RelayCondition>      conditionsOn,           // List of logical OR functions for switching the relay on.
                                         conditionsOff;          // List of logical OR functions for switching the relay off.
             mutex                       lmutex;                 // Used for thread-safe operations.
+            int                         index;                  // The index of the relay.
         public:
             // Member Functions - Constructors -------------------------------->
-            Relay(RelayBoard *board, int gpioPin);
+            Relay(RelayBoard *board, int index);
         private:
             // Member Functions ----------------------------------------------->
             ////////////////////////////////////////////////////////////////////
@@ -105,14 +107,6 @@ namespace BC
             }
             void parseConditions(string config, vector<RelayCondition> &list);
         public:
-            inline void parseConditionsOn(string config)
-            {
-                parseConditions(config, conditionsOn);
-            }
-            inline void parseConditionsOff(string config)
-            {
-                parseConditions(config, conditionsOff);
-            }
             void set(bool state)
             {
                 unique_lock<mutex> lock(lmutex);
@@ -143,6 +137,31 @@ namespace BC
             {
                 return conditionsOff;
             }
+        private:
+            void saveList(Configurator* c, string key, vector<RelayCondition> &list);
+            void save();
+        public:
+            void addConditionOn(RelayCondition cond)
+            {
+                conditionsOn.push_back(cond);
+            }
+            void addConditionOff(RelayCondition cond)
+            {
+                conditionsOff.push_back(cond);
+            }
+            void removeConditionOn(int index)
+            {
+                unique_lock<mutex> lock(lmutex);
+                if(index < conditionsOn.size())
+                    conditionsOn.erase(conditionsOn.begin() + index);
+            }
+            void removeConditionOff(int index)
+            {
+                unique_lock<mutex> lock(lmutex);
+                if(index < conditionsOff.size())
+                    conditionsOff.erase(conditionsOff.begin() + index);
+            }
+            void changeGPIOPin(int newPin);
             inline mutex *getMutex()
             {
                 return &lmutex;
