@@ -89,7 +89,7 @@ namespace BC
                 {
                     v = (*it).second;
                     std::replace(v.begin(), v.end(), '\n', CONFIG_NEWLINE_CHAR);
-                    file << (*it).first << "=" << (*it).second << endl;
+                    file << (*it).first << "=" << v << endl;
                 }
                 file.close();
                 lastSave = Utils::getEpochTimeMs();

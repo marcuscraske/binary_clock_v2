@@ -34,6 +34,11 @@ namespace BC
 }
 using BC::Time;
 
+#include <sstream>
+using std::stringstream;
+
+#include <cstdarg> // Used for va_list.
+
 namespace BC
 {
     static const char base64map[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/'};
@@ -420,6 +425,20 @@ namespace BC
             srand(time(0));
         }
         static string getTimeDateGBString();
+        static string concatChars(int totalChars, char chars, ...)
+        {
+            stringstream ss;
+            va_list l;
+            va_start(l, chars);
+            char t;
+            for(int i = 0; i < totalChars; i++)
+            {
+                t = va_arg(l, int);
+                ss << t;
+            }
+            va_end(l);
+            return ss.str();
+        }
     };
 }
 
