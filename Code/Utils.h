@@ -247,18 +247,18 @@ namespace BC
             return val >= 0 ? val : val *-1;
         }
         // -- Splits a string by a delimiter and returns a vector of tokens.
-        // -- Blank tokens are ignored.
+        // -- Blank tokens are not ignored.
         static vector<string> split(string source, char delimiter)
         {
             vector<string> tokens;
-            string ct; // The current token
+            string ct = ""; // The current token
             char c;
             for(int i = 0; i < source.length(); i++)
             {
                 c = source[i];
                 if(c != delimiter)
                     ct += c;
-                else if(ct.length() > 0)
+                else
                 {
                     tokens.push_back(ct);
                     ct = "";
@@ -425,15 +425,16 @@ namespace BC
             srand(time(0));
         }
         static string getTimeDateGBString();
-        static string concatChars(int totalChars, char chars, ...)
+        static string concatChars(int totalChars, ...)
         {
             stringstream ss;
             va_list l;
-            va_start(l, chars);
+            va_start(l, totalChars);
             char t;
             for(int i = 0; i < totalChars; i++)
             {
                 t = va_arg(l, int);
+                std::cout << "'" << t << "'" << std::endl;
                 ss << t;
             }
             va_end(l);
