@@ -1,0 +1,24 @@
+<h2>Admin - Disk Cache Items</h2>
+<p>
+	Base-path: %BASE_PATH%<br />
+	Total size: %TOTAL_SIZE%
+</p>
+<div class="TABLE">
+	<div class="ROW HEADER">
+		<div class="CELL">
+			<div class="P">
+				Key
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				Size
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	%ITEMS%
+</div>
+<p>
+	<a href="/admin">Back</a>
+</p>

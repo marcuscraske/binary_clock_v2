@@ -231,7 +231,7 @@ body
 	vertical-align: middle;
 	float: left;
 }
-.ROW .HEADER
+.ROW .HEADER, .ROW.HEADER
 {
 	background: #333;
 	width: 100% !important;

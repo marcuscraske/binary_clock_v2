@@ -79,6 +79,20 @@ namespace BC
                 void reload(ServiceController *con);
                 // -- Disposes all of the cached items.
                 void dispose();
+                // -- Constant access to cache items; not thread-safe, use
+                // -- getMutex to lock the collection.
+                inline map<string, DiskCacheItem*> const* getItems()
+                {
+                    return &items;
+                }
+                inline mutex* getMutex()
+                {
+                    return &mlock;
+                }
+                inline string getBasePath()
+                {
+                    return basePath;
+                }
             private:
                 // -- Attempts to load an item at the specified path; returns
                 // -- 0 if it could not be loaded. This is an internal

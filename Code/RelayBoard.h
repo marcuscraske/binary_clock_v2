@@ -60,9 +60,9 @@ namespace BC
             friend Relay;
         private:
             // Fields --------------------------------------------------------->
-            vector<Relay*>                                                      relayPins;              // Holds all of the relays belonging to this relay board; each index corresponds to the virtual socket.
-            mutex                                                               lmutex;                 // The mutex used for safely modifying the collection of relays.
-            map<string, RelayCondition::ConditionFunction>                   conditionFuncs;         // All of the condition fuction mappings; name -> function. Should only be modified by prerun.
+            vector<Relay*>                                      relayPins;              // Holds all of the relays belonging to this relay board; each index corresponds to the virtual socket.
+            mutex                                               lmutex;                 // The mutex used for safely modifying the collection of relays.
+            map<string, RelayCondition::ConditionFunction>      conditionFuncs;         // All of the condition fuction mappings; name -> function. Should only be modified by prerun.
         public:
             // Member Functions - Constructors -------------------------------->
             RelayBoard(ServiceController *controller) : IService(controller)

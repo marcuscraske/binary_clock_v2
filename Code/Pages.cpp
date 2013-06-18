@@ -307,6 +307,28 @@ namespace BC
                         content = "Failed to load cache reloaded template!";
                     handler->getDiskCache()->reload(handler->getService_WebHttp()->getController());
                 }
+                else if(page == "disk_cache")
+                {
+                    content = handler->getDiskCache()->fetch("admin_cache.bct", "Failed to load disk cache layout template!");
+                    string templateItem = handler->getDiskCache()->fetch("admin_cache_item.bct", "Failed to load disk cache item template!");
+                    // Display list of items
+                    stringstream items;
+                    unique_lock<mutex> lockCaache(*handler->getDiskCache()->getMutex());
+                    map<string, DiskCacheItem*> const *its = handler->getDiskCache()->getItems();
+                    string item;
+                    long long totalSize = 0LL;
+                    for(map<string, DiskCacheItem*>::const_iterator it = its->begin(); it != its->end(); it++)
+                    {
+                        item = templateItem;
+                        Utils::replace(item, "%KEY%", (*it).first);
+                        Utils::replace(item, "%SIZE%", Utils::bytesToHumanString((*it).second->getLength()));
+                        totalSize += (*it).second->getLength();
+                        items << item;
+                    }
+                    Utils::replace(content, "%BASE_PATH%", handler->getDiskCache()->getBasePath());
+                    Utils::replace(content, "%TOTAL_SIZE%", Utils::bytesToHumanString(totalSize));
+                    Utils::replace(content, "%ITEMS%", items.str());
+                }
                 else if(page == "country_lookup_wake")
                 {
                     if(!handler->getDiskCache()->fetchLoad("admin_country_wakeup.bct", content))
