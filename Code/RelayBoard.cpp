@@ -24,11 +24,11 @@ namespace BC
                 cout << getTitle() << ": added " << totalSocks << " relay sockets!" << endl;
             }
             // Periodically execute logic until shutdown
-            unique_lock<mutex> l(mutexService);
+            unique_lock<mutex> lSleep(mutexService);
             while(!shutdown)
             {
                 logic();
-                Utils::conditionVariableSleep(l, cvService, RELAYBOARD_LOGIC_INTERVAL);
+                Utils::conditionVariableSleep(lSleep, cvService, RELAYBOARD_LOGIC_INTERVAL);
             }
             // Disable/switch-off (for safety) and dispose each relay socket
             Relay *r;

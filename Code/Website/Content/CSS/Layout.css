@@ -225,7 +225,10 @@ body
 {
 	background: #444;
 }
-.ROW .CELL, .ROW .HEADER
+.ROW .HEADER,
+.ROW .CELL,
+.ROW .CELL3,
+.ROW .CELL4
 {
 	display: inline-block;
 	vertical-align: middle;
@@ -242,6 +245,14 @@ body
 {
 	width: 50%;
 }
+.ROW .CELL3
+{
+	width: 33.33% !important;
+}
+.ROW .CELL4
+{
+	width: 25%  !important;
+}
 .ROW .LABEL
 {
 	line-height: 2.5em;
@@ -251,7 +262,10 @@ body
 	height: 2em;
 	padding-left: 0.5em;
 }
-.ROW .CELL .P, .ROW .HEADER .P
+.ROW .HEADER .P,
+.ROW .CELL .P,
+.ROW .CELL3 .P,
+.ROW .CELL4 .P
 {
 	padding: 0.5em;
 }

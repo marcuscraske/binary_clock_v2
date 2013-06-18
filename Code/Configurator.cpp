@@ -44,8 +44,11 @@ namespace BC
                     cvService.wait(cl);
             }
             // Save settings
-            cout << "Shutdown initiated, saving configuration..." << endl;
-            save();
+            if(unsavedConfig)
+            {
+                cout << "Shutdown initiated, forcefully saving configuration..." << endl;
+                save();
+            }
         }
         void Configurator::load()
         {
@@ -57,6 +60,8 @@ namespace BC
                 config.clear();
                 string line, key, value;
                 int separator;
+                string  nl = Utils::concatChars(2, '\\', CONFIG_NEWLINE_CHAR),
+                        nl2 = Utils::concatChars(1, CONFIG_NEWLINE_CHAR);
                 while(file.good())
                 {
                     getline(file, line, '\n');
@@ -66,6 +71,7 @@ namespace BC
                     {
                         key = line.substr(0, separator);
                         value = separator == line.length() ? std::string() : Utils::trim(line.substr(separator+1));
+                        Utils::replace(value, nl, nl2);
                         std::replace(value.begin(), value.end(), CONFIG_NEWLINE_CHAR, '\n');
                         config[key] = value;
                         cout << getTitle() << ": loaded setting - k: '" << key << ", v: '" << value << "'." << endl;
@@ -85,9 +91,12 @@ namespace BC
             {
                 // Write each setting to file
                 string v;
+                string  nl = Utils::concatChars(2, '\\', CONFIG_NEWLINE_CHAR),
+                        nl2 = Utils::concatChars(1, CONFIG_NEWLINE_CHAR);
                 for(map<string, string>::iterator it = config.begin(); it != config.end(); it++)
                 {
                     v = (*it).second;
+                    Utils::replace(v, nl2, nl);
                     std::replace(v.begin(), v.end(), '\n', CONFIG_NEWLINE_CHAR);
                     file << (*it).first << "=" << v << endl;
                 }

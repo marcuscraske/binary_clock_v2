@@ -1,14 +1,5 @@
+
 #include "Pages.h"
-
-#include <sstream>
-#include <stdlib.h>
-
-#include "Utils.h"
-#include "Alarm.h"
-
-using std::stringstream;
-
-using BC::Services::Alarm;
 
 namespace BC
 {
@@ -54,253 +45,11 @@ namespace BC
                     // Admin home-page
                     content = handler->getDiskCache()->fetch("admin_home.bct", "Failed to load admin_home.bct!");
                 else if(page == "alarm")
-                {
-                    // Alarm-clock
-                    // -- Check for deletion of event ('yyyymmddhhmmss' - 14 chars)
-                    if(request->queryStrings["delete"].length() == 14)
-                    {
-                        string raw = request->queryStrings["delete"];
-                        int year, month, day, hour, minute, second;
-                        if(     Utils::tryParse(raw.substr(0, 4), year) &&
-                                Utils::tryParse(raw.substr(4, 2), month) &&
-                                Utils::tryParse(raw.substr(6, 2), day) &&
-                                Utils::tryParse(raw.substr(8, 2), hour) &&
-                                Utils::tryParse(raw.substr(10, 2), minute) &&
-                                Utils::tryParse(raw.substr(12, 2), second)
-                        )
-                        {
-                            DateTime at = DateTime(year, month, day, hour, minute, second);
-                            handler->getService_Alarm()->remove(at);
-                            response->redirect("/admin?page=alarm");
-                        }
-                    }
-                    // -- Check for addition of event
-                    string  year = request->formData["year"],
-                            month = request->formData["month"],
-                            day = request->formData["day"],
-                            hour = request->formData["hour"],
-                            minute = request->formData["minute"],
-                            second = request->formData["second"];
-                    string error;
-                    if(year.length() > 0 && month.length() > 0 && day.length() > 0 && hour.length() > 0 && minute.length() > 0 && second.length() > 0)
-                    {
-                        // Validate input
-                        int pYear, pMonth, pDay, pHour, pMinute, pSecond;
-                        DateTime time = Utils::getDateTime();
-                        // Add and save config
-                        if(!Utils::tryParse(year, pYear) || pYear < time.year)
-                            error = "Invalid year!";
-                        else if(!Utils::tryParse(month, pMonth))
-                            error = "Invalid month!";
-                        else if(!Utils::tryParse(day, pDay))
-                            error = "Invalid year!";
-                        else if(!Utils::tryParse(hour, pHour))
-                            error = "Invalid hour!";
-                        else if(!Utils::tryParse(minute, pMinute))
-                            error = "Invalid minute!";
-                        else if(!Utils::tryParse(second, pSecond))
-                            error = "Invalid second!";
-                        else
-                        {
-                            // Check the date has not already passed i.e. would set the alarm-off straight away
-                            DateTime alarmNew = DateTime(pYear, pMonth, pDay, pHour, pMinute, pSecond);
-                            DateTime alarmCurr = DateTime(time.year, time.month, time.day, time.hour, time.minute, time.second);
-                            if(alarmCurr > alarmNew)
-                                error = "The specified time has already passed!";
-                            else
-                            {
-                                handler->getService_Alarm()->add(alarmNew);
-                                content = handler->getDiskCache()->fetch("admin_alarm_success.bct", "Failed to load alarm success template!");
-                            }
-                        }
-                    }
-                    if(content.length() == 0)
-                    {
-                        content = handler->getDiskCache()->fetch("admin_alarm.bct", "Failed to load alarm template!");
-                        // Check if to display an error-message
-                        if(error.length() > 0)
-                        {
-                            Utils::replace(content, "%ERROR%", error);
-                            Utils::replace(content, "%ERROR_CLASS%", "VISIBLE");
-                        }
-                    }
-                }
+                    pageAdmin_alarm(content, handler, module, client, request, response, arguments, pageUpper, pageLower);
                 else if(page == "settings")
-                {
-                    // Settings
-                    Configurator *config = handler->getService_Configurator();
-                    if(config == 0)
-                        content = "Configurator service is not running!";
-                    else
-                    {
-                        // -- Check for post-back of any settings
-                        if(request->formData.size() > 0)
-                        {
-                            // -- Save keys to configurator service
-                            for(map<string, string>::iterator it = request->formData.begin(); it != request->formData.end(); it++)
-                                    config->set((*it).first, Utils::urlDecodeBasic((*it).second));
-                            // Restart all services
-                            handler->getService_WebHttp()->getController()->restartServices();
-                        }
-                        // -- Display each setting
-                        string templateSettings;
-                        string templateSettingsSection;
-                        string templateItemText;
-                        string templateItemSequence;
-                        // -- -- Load Templates
-                        if(!handler->getDiskCache()->fetchLoad("admin_settings.bct", templateSettings))
-                            content = "Failed to load settings template!";
-                        else if(!handler->getDiskCache()->fetchLoad("admin_settings_section.bct", templateSettingsSection))
-                            content = "Failed to load settings section template!";
-                        else if(!handler->getDiskCache()->fetchLoad("admin_settings_text.bct", templateItemText))
-                            content = "Failed to load settings text template!";
-                        else if(!handler->getDiskCache()->fetchLoad("admin_settings_sequence.bct", templateItemSequence))
-                            content = "Failed to load settings sequence template!";
-                        else
-                        {
-                            // -- -- Build output
-                            stringstream output;
-                            {
-                                stringstream section;
-                                map<string, string> kv = config->getAll();
-                                string sectionPrev, sectionCurr;
-                                string k, v, i; // k = key, v = value, i = temp for item replacement
-                                for(map<string, string>::iterator it = kv.begin(); it != kv.end(); it++)
-                                {
-                                    k = (*it).first;
-                                    v = (*it).second;
-                                    // Decide if we're in a new section
-                                    int sep = k.find_first_of('.');
-                                    if(sep == string::npos || sep == k.length())
-                                        sectionCurr = "";
-                                    sectionCurr = sep == string::npos || sep == k.length() ? "" : k.substr(0, sep);
-                                    // Dump previous section if it contains anythings
-                                    if(sectionCurr != sectionPrev)
-                                    {
-                                        string prev = section.str();
-                                        if(prev.length() > 0)
-                                        {
-                                            if(sectionPrev.length() > 0)
-                                            {
-                                                // Output the section
-                                                string t = templateSettingsSection;
-                                                Utils::replace(t, "%TITLE%", sectionPrev);
-                                                Utils::replace(t, "%ITEMS%", prev);
-                                                output << t;
-                                            }
-                                            else
-                                                output << prev;
-                                            // Clear the section buffer, ready for the new section
-                                            section.str(std::string());
-                                            section.clear();
-                                        }
-                                        sectionPrev = sectionCurr;
-                                    }
-                                    // Write the current item
-                                    if(sectionCurr == "display" && (k == CONFIG__DISPLAY__LIGHT_LOW || k == CONFIG__DISPLAY__LIGHT_HIGH || k == CONFIG__DISPLAY__LIGHT_BUZZ))
-                                    {
-                                        i = templateItemSequence;
-                                        // Generate possible sequence selections
-                                        stringstream seqs;
-                                        string title;
-                                        int vI = -1;
-                                        Utils::tryParse(v, vI);
-                                        for(int i = 0; i < Display::NUMBER_OF_SEQUENCES; i++)
-                                        {
-                                            // Get title
-                                            switch(i)
-                                            {
-                                                case Display::Sequence::AllLeds:
-                                                    title = "All On";
-                                                    break;
-                                                case Display::Sequence::Failure:
-                                                    title = "Error - Failure";
-                                                    break;
-                                                case Display::Sequence::ManualBuffer:
-                                                    title = "Manual via Buffer";
-                                                    break;
-                                                case Display::Sequence::Offline:
-                                                    title = "All Off";
-                                                    break;
-                                                case Display::Sequence::SingleLedTest:
-                                                    title = "Test - Single LED Increment";
-                                                    break;
-                                                case Display::Sequence::SymbolX:
-                                                    title = "Symbol - X";
-                                                    break;
-                                                case Display::Sequence::Time:
-                                                    title = "Binary Time";
-                                                    break;
-                                                default:
-                                                    title = "Unknown Sequence";
-                                                    break;
-                                            }
-                                            // Generate select item
-                                            if(i == vI)
-                                                seqs << "<option value=\"" << i << "\" selected>" << title << "</option>";
-                                            else
-                                                seqs << "<option value=\"" << i << "\">" << title << "</option>";
-                                        }
-                                        // Replace template
-                                        Utils::replace(i, "%TITLE%", k);
-                                        Utils::replace(i, "%ITEMS%", seqs.str());
-                                    }
-                                    else
-                                    {
-                                        i = templateItemText;
-                                        Utils::replace(i, "%TITLE%", k);
-                                        Utils::replace(i, "%VALUE%", v);
-                                    }
-                                    // Append item data
-                                    section << i;
-                                }
-                                // Write last section
-                                string prev = section.str();
-                                if(prev.length() > 0)
-                                {
-                                    if(sectionCurr.length() > 0)
-                                    {
-                                        string t = templateSettingsSection;
-                                        Utils::replace(t, "%TITLE%", sectionCurr);
-                                        Utils::replace(t, "%ITEMS%", prev);
-                                        output << t;
-                                    }
-                                    else
-                                        output << prev;
-                                }
-                            }
-                            Utils::replace(templateSettings, "%SETTINGS%", output.str());
-                            content = templateSettings;
-                        }
-                    }
-                }
+                    pageAdmin_settings(content, handler, module, client, request, response, arguments, pageUpper, pageLower);
                 else if(page == "services")
-                {
-                    // Service control page
-                    string action = request->queryStrings["action"];
-                    string service = request->queryStrings["service"];
-                    if(action.length() != 0 && service.length() != 0)
-                    {
-                        // Get the service
-                        Utils::replace(service, "_", " ");
-                        IService *s = handler->getService_WebHttp()->getController()->getServiceByName(service);
-                        // Apply action
-                        if(s != 0)
-                        {
-                            if(action == "start")
-                                s->start();
-                            if(action == "stop")
-                                s->stop();
-                            if(action == "restart")
-                            {
-                                s->stop();
-                                s->start();
-                            }
-                        }
-                    }
-                    if(!handler->getDiskCache()->fetchLoad("admin_services.bct", content))
-                        content = "Failed to load services template!";
-                }
+                    pageAdmin_services(content, handler, module, client, request, response, arguments, pageUpper, pageLower);
                 else if(page == "reload_cache")
                 {
                     if(!handler->getDiskCache()->fetchLoad("admin_cache_reloaded.bct", content))
@@ -308,27 +57,9 @@ namespace BC
                     handler->getDiskCache()->reload(handler->getService_WebHttp()->getController());
                 }
                 else if(page == "disk_cache")
-                {
-                    content = handler->getDiskCache()->fetch("admin_cache.bct", "Failed to load disk cache layout template!");
-                    string templateItem = handler->getDiskCache()->fetch("admin_cache_item.bct", "Failed to load disk cache item template!");
-                    // Display list of items
-                    stringstream items;
-                    unique_lock<mutex> lockCaache(*handler->getDiskCache()->getMutex());
-                    map<string, DiskCacheItem*> const *its = handler->getDiskCache()->getItems();
-                    string item;
-                    long long totalSize = 0LL;
-                    for(map<string, DiskCacheItem*>::const_iterator it = its->begin(); it != its->end(); it++)
-                    {
-                        item = templateItem;
-                        Utils::replace(item, "%KEY%", (*it).first);
-                        Utils::replace(item, "%SIZE%", Utils::bytesToHumanString((*it).second->getLength()));
-                        totalSize += (*it).second->getLength();
-                        items << item;
-                    }
-                    Utils::replace(content, "%BASE_PATH%", handler->getDiskCache()->getBasePath());
-                    Utils::replace(content, "%TOTAL_SIZE%", Utils::bytesToHumanString(totalSize));
-                    Utils::replace(content, "%ITEMS%", items.str());
-                }
+                    pageAdmin_diskCache(content, handler, module, client, request, response, arguments, pageUpper, pageLower);
+                else if(page == "relay_board")
+                    pageAdmin_relayBoard(content, handler, module, client, request, response, arguments, pageUpper, pageLower);
                 else if(page == "country_lookup_wake")
                 {
                     if(!handler->getDiskCache()->fetchLoad("admin_country_wakeup.bct", content))
@@ -366,6 +97,415 @@ namespace BC
                 // Format the page
                 content = Templates::format(handler, content, client, request, response);
                 return content;
+            }
+            void Pages::pageAdmin_relayBoard(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower)
+            {
+                RelayBoard *rb = handler->getRelayBoard();
+                if(rb == 0)
+                    return;
+                int ir;
+                Relay *relay;
+                if(Utils::tryParse(request->queryStrings["relay"], ir) && (relay = rb->getRelay(ir)) != 0)
+                {
+                    // Check for post-back
+                    string error = "";
+                    string      pbConditionType = Utils::urlDecodeBasic(request->formData["relay_condition_type"]),
+                                pbConditionFunc = Utils::urlDecodeBasic(request->formData["relay_condition_func"]),
+                                pbConditionParam1 = Utils::urlDecodeBasic(request->formData["relay_condition_param_1"]),
+                                pbConditionParam2 = Utils::urlDecodeBasic(request->formData["relay_condition_param_2"]),
+                                pbGPIOPin = Utils::urlDecodeBasic(request->formData["relay_gpio_pin"]),
+                                pbLabel = Utils::urlDecodeBasic(request->formData["relay_label"]),
+                                pbRemoveCondition = Utils::urlDecodeBasic(request->queryStrings["remove_condition"]);
+                    // -- Addition of condition
+                    if(pbConditionType.length() > 0 && pbConditionFunc.length() > 0)
+                    {
+                        RelayCondition::ConditionFunction f;
+                        if(pbConditionType != "on" && pbConditionType != "off")
+                            error = "Invalid condition type!";
+                        else if((f = rb->getConditionFunction(pbConditionFunc)) == 0)
+                            error = "Invalid condition function - does not exist!";
+                        else
+                        {
+                            // Success - add the new condition!
+                            if(pbConditionType == "on")
+                                relay->addConditionOn(RelayCondition(pbConditionFunc, f, pbConditionParam1, pbConditionParam2));
+                            else
+                                relay->addConditionOff(RelayCondition(pbConditionFunc, f, pbConditionParam1, pbConditionParam2));
+                        }
+                    }
+                    // -- Update of GPIO pin
+                    else if(pbGPIOPin.length() > 0)
+                    {
+                        int pin;
+                        if(!Utils::tryParse(pbGPIOPin, pin))
+                            error = "Invalid GPIO pin specified, value must be numeric!";
+                        else
+                            relay->changeGPIOPin(pin);
+                    }
+                    // -- Update of label
+                    else if(pbLabel.length() > 0)
+                        relay->changeLabel(pbLabel);
+                    else if(pbRemoveCondition.length() > 0)
+                    {
+                        int condition;
+                        if(!Utils::tryParse(pbRemoveCondition, condition))
+                            error = "Invalid condition identifier specified, value must be numeric!";
+                        else if(!relay->removeCondition(condition))
+                            error = "Condition not found!";
+                    }
+                    else if(request->queryStrings["toggle"].length() > 0)
+                        relay->toggle();
+                    // Build conditions
+                    string templateCondition = handler->getDiskCache()->fetch("admin_relay_condition.bct", "Failed to load condition template!");
+                    string conditionsOn = pageAdmin_relayBoard_buildConditions(relay->getIndex(), templateCondition, relay->getConditionsForOn());
+                    string conditionsOff = pageAdmin_relayBoard_buildConditions(relay->getIndex(), templateCondition, relay->getConditionsForOff());
+                    // Build function conditions
+                    string functions;
+                    {
+                        stringstream funcs;
+                        map<string, RelayCondition::ConditionFunction> cfs = rb->getConditionFunctions();
+                        string t;
+                        for(map<string, RelayCondition::ConditionFunction>::iterator it = cfs.begin(); it != cfs.end(); it++)
+                        {
+                            t = (*it).first;
+                            funcs << "<option" << (t == pbConditionFunc ? " selected" : "") << ">" << Utils::htmlEncode(t) << "</option>";
+                        }
+                        functions = funcs.str();
+                    }
+                    // Render error-box
+                    string errBox;
+                    if(error.length() > 0)
+                    {
+                        handler->getDiskCache()->fetch("admin_relay_error.bct", "Failed to load error message template!");
+                        Utils::replace(errBox, "%ERROR%", error);
+                    }
+                    else
+                        errBox = "";
+                    // Render page
+                    content = handler->getDiskCache()->fetch("admin_relay.bct", "Failed to load relay layout template!");
+                    Utils::replace(content, "%ERROR%", errBox);
+                    Utils::replace(content, "%INDEX%", Utils::intToString(relay->getIndex()));
+                    Utils::replace(content, "%GPIO_PIN%", pbGPIOPin.length() > 0 ? Utils::htmlEncode(pbGPIOPin) : Utils::intToString(relay->getGPIOPin()));
+                    Utils::replace(content, "%STATUS%", relay->getOnline() ? "Online" : "Offline");
+                    Utils::replace(content, "%STATUS_CAPS%", relay->getOnline() ? "ONLINE" : "OFFLINE");
+                    Utils::replace(content, "%LABEL%", Utils::htmlEncode(pbLabel.length() > 0 ? pbLabel : relay->getLabel()));
+                    Utils::replace(content, "%CONDITION_FUNCTIONS%", functions);
+                    Utils::replace(content, "%CONDITION_PARAM_1%", Utils::htmlEncode(pbConditionParam1));
+                    Utils::replace(content, "%CONDITION_PARAM_2%", Utils::htmlEncode(pbConditionParam2));
+                    Utils::replace(content, "%CONDITIONS_ON%", conditionsOn);
+                    Utils::replace(content, "%CONDITIONS_OFF%", conditionsOff);
+                }
+                else
+                {
+                    stringstream relays;
+                    string templateRelay = handler->getDiskCache()->fetch("admin_relay_board_item.bct", "Failed to load relay item template!");
+                    // List all of the available relays
+                    {
+                        unique_lock<mutex> lockRelays(*rb->getCollectionMutex());
+                        Relay *relay;
+                        string item;
+                        for(int i = 0; i < rb->getTotalRelays(); i++)
+                        {
+                            relay = rb->getRelay(i);
+                            item = templateRelay;
+                            Utils::replace(item, "%INDEX%", Utils::intToString(i));
+                            Utils::replace(item, "%GPIO_PIN%", Utils::intToString(relay->getGPIOPin()));
+                            Utils::replace(item, "%LABEL%", Utils::htmlEncode(relay->getLabel()));
+                            Utils::replace(item, "%STATUS%", relay->getOnline() ? "ONLINE" : "OFFLINE");
+                            relays << item;
+                        }
+                    }
+                    content = handler->getDiskCache()->fetch("admin_relay_board.bct", "Failed to load relay board layout template!");
+                    Utils::replace(content, "%ITEMS%", relays.str());
+                }
+            }
+            string Pages::pageAdmin_relayBoard_buildConditions(int index, string &templateCondition, vector<RelayCondition> conditions)
+            {
+                stringstream ss;
+                string t;
+                RelayCondition c;
+                for(vector<RelayCondition>::iterator it = conditions.begin(); it != conditions.end(); it++)
+                {
+                    c = *it;
+                    t = templateCondition;
+                    Utils::replace(t, "%INDEX%", Utils::intToString(index));
+                    Utils::replace(t, "%UNIQUE_ID%", Utils::intToString(c.uniqueID));
+                    Utils::replace(t, "%FUNCTION%", Utils::htmlEncode(c.conditionName));
+                    Utils::replace(t, "%PARAM_1%", c.param1);
+                    Utils::replace(t, "%PARAM_2%", c.param2);
+                    ss << t;
+                }
+                return ss.str();
+            }
+            void Pages::pageAdmin_alarm(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower)
+            {
+                // Alarm-clock
+                // -- Check for deletion of event ('yyyymmddhhmmss' - 14 chars)
+                if(request->queryStrings["delete"].length() == 14)
+                {
+                    string raw = request->queryStrings["delete"];
+                    int year, month, day, hour, minute, second;
+                    if(     Utils::tryParse(raw.substr(0, 4), year) &&
+                            Utils::tryParse(raw.substr(4, 2), month) &&
+                            Utils::tryParse(raw.substr(6, 2), day) &&
+                            Utils::tryParse(raw.substr(8, 2), hour) &&
+                            Utils::tryParse(raw.substr(10, 2), minute) &&
+                            Utils::tryParse(raw.substr(12, 2), second)
+                    )
+                    {
+                        DateTime at = DateTime(year, month, day, hour, minute, second);
+                        handler->getService_Alarm()->remove(at);
+                        response->redirect("/admin?page=alarm");
+                    }
+                }
+                // -- Check for addition of event
+                string  year = request->formData["year"],
+                        month = request->formData["month"],
+                        day = request->formData["day"],
+                        hour = request->formData["hour"],
+                        minute = request->formData["minute"],
+                        second = request->formData["second"];
+                string error;
+                if(year.length() > 0 && month.length() > 0 && day.length() > 0 && hour.length() > 0 && minute.length() > 0 && second.length() > 0)
+                {
+                    // Validate input
+                    int pYear, pMonth, pDay, pHour, pMinute, pSecond;
+                    DateTime time = Utils::getDateTime();
+                    // Add and save config
+                    if(!Utils::tryParse(year, pYear) || pYear < time.year)
+                        error = "Invalid year!";
+                    else if(!Utils::tryParse(month, pMonth))
+                        error = "Invalid month!";
+                    else if(!Utils::tryParse(day, pDay))
+                        error = "Invalid year!";
+                    else if(!Utils::tryParse(hour, pHour))
+                        error = "Invalid hour!";
+                    else if(!Utils::tryParse(minute, pMinute))
+                        error = "Invalid minute!";
+                    else if(!Utils::tryParse(second, pSecond))
+                        error = "Invalid second!";
+                    else
+                    {
+                        // Check the date has not already passed i.e. would set the alarm-off straight away
+                        DateTime alarmNew = DateTime(pYear, pMonth, pDay, pHour, pMinute, pSecond);
+                        DateTime alarmCurr = DateTime(time.year, time.month, time.day, time.hour, time.minute, time.second);
+                        if(alarmCurr > alarmNew)
+                            error = "The specified time has already passed!";
+                        else
+                        {
+                            handler->getService_Alarm()->add(alarmNew);
+                            content = handler->getDiskCache()->fetch("admin_alarm_success.bct", "Failed to load alarm success template!");
+                        }
+                    }
+                }
+                if(content.length() == 0)
+                {
+                    content = handler->getDiskCache()->fetch("admin_alarm.bct", "Failed to load alarm template!");
+                    // Check if to display an error-message
+                    if(error.length() > 0)
+                    {
+                        Utils::replace(content, "%ERROR%", error);
+                        Utils::replace(content, "%ERROR_CLASS%", "VISIBLE");
+                    }
+                }
+            }
+            void Pages::pageAdmin_settings(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower)
+            {
+                // Settings
+                Configurator *config = handler->getService_Configurator();
+                if(config == 0)
+                    content = "Configurator service is not running!";
+                else
+                {
+                    // -- Check for post-back of any settings
+                    if(request->formData.size() > 0)
+                    {
+                        // -- Save keys to configurator service
+                        for(map<string, string>::iterator it = request->formData.begin(); it != request->formData.end(); it++)
+                                config->set((*it).first, Utils::urlDecodeBasic((*it).second));
+                        // Restart all services
+                        handler->getService_WebHttp()->getController()->restartServices();
+                    }
+                    // -- Display each setting
+                    string templateSettings;
+                    string templateSettingsSection;
+                    string templateItemText;
+                    string templateItemSequence;
+                    // -- -- Load Templates
+                    if(!handler->getDiskCache()->fetchLoad("admin_settings.bct", templateSettings))
+                        content = "Failed to load settings template!";
+                    else if(!handler->getDiskCache()->fetchLoad("admin_settings_section.bct", templateSettingsSection))
+                        content = "Failed to load settings section template!";
+                    else if(!handler->getDiskCache()->fetchLoad("admin_settings_text.bct", templateItemText))
+                        content = "Failed to load settings text template!";
+                    else if(!handler->getDiskCache()->fetchLoad("admin_settings_sequence.bct", templateItemSequence))
+                        content = "Failed to load settings sequence template!";
+                    else
+                    {
+                        // -- -- Build output
+                        stringstream output;
+                        {
+                            stringstream section;
+                            map<string, string> kv = config->getAll();
+                            string sectionPrev, sectionCurr;
+                            string k, v, i; // k = key, v = value, i = temp for item replacement
+                            for(map<string, string>::iterator it = kv.begin(); it != kv.end(); it++)
+                            {
+                                k = (*it).first;
+                                v = (*it).second;
+                                // Decide if we're in a new section
+                                int sep = k.find_first_of('.');
+                                if(sep == string::npos || sep == k.length())
+                                    sectionCurr = "";
+                                sectionCurr = sep == string::npos || sep == k.length() ? "" : k.substr(0, sep);
+                                // Dump previous section if it contains anythings
+                                if(sectionCurr != sectionPrev)
+                                {
+                                    string prev = section.str();
+                                    if(prev.length() > 0)
+                                    {
+                                        if(sectionPrev.length() > 0)
+                                        {
+                                            // Output the section
+                                            string t = templateSettingsSection;
+                                            Utils::replace(t, "%TITLE%", sectionPrev);
+                                            Utils::replace(t, "%ITEMS%", prev);
+                                            output << t;
+                                        }
+                                        else
+                                            output << prev;
+                                        // Clear the section buffer, ready for the new section
+                                        section.str(std::string());
+                                        section.clear();
+                                    }
+                                    sectionPrev = sectionCurr;
+                                }
+                                // Write the current item
+                                if(sectionCurr == "display" && (k == CONFIG__DISPLAY__LIGHT_LOW || k == CONFIG__DISPLAY__LIGHT_HIGH || k == CONFIG__DISPLAY__LIGHT_BUZZ))
+                                {
+                                    i = templateItemSequence;
+                                    // Generate possible sequence selections
+                                    stringstream seqs;
+                                    string title;
+                                    int vI = -1;
+                                    Utils::tryParse(v, vI);
+                                    for(int i = 0; i < Display::NUMBER_OF_SEQUENCES; i++)
+                                    {
+                                        // Get title
+                                        switch(i)
+                                        {
+                                            case Display::Sequence::AllLeds:
+                                                title = "All On";
+                                                break;
+                                            case Display::Sequence::Failure:
+                                                title = "Error - Failure";
+                                                break;
+                                            case Display::Sequence::ManualBuffer:
+                                                title = "Manual via Buffer";
+                                                break;
+                                            case Display::Sequence::Offline:
+                                                title = "All Off";
+                                                break;
+                                            case Display::Sequence::SingleLedTest:
+                                                title = "Test - Single LED Increment";
+                                                break;
+                                            case Display::Sequence::SymbolX:
+                                                title = "Symbol - X";
+                                                break;
+                                            case Display::Sequence::Time:
+                                                title = "Binary Time";
+                                                break;
+                                            default:
+                                                title = "Unknown Sequence";
+                                                break;
+                                        }
+                                        // Generate select item
+                                        if(i == vI)
+                                            seqs << "<option value=\"" << i << "\" selected>" << title << "</option>";
+                                        else
+                                            seqs << "<option value=\"" << i << "\">" << title << "</option>";
+                                    }
+                                    // Replace template
+                                    Utils::replace(i, "%TITLE%", k);
+                                    Utils::replace(i, "%ITEMS%", seqs.str());
+                                }
+                                else
+                                {
+                                    i = templateItemText;
+                                    Utils::replace(i, "%TITLE%", k);
+                                    Utils::replace(i, "%VALUE%", v);
+                                }
+                                // Append item data
+                                section << i;
+                            }
+                            // Write last section
+                            string prev = section.str();
+                            if(prev.length() > 0)
+                            {
+                                if(sectionCurr.length() > 0)
+                                {
+                                    string t = templateSettingsSection;
+                                    Utils::replace(t, "%TITLE%", sectionCurr);
+                                    Utils::replace(t, "%ITEMS%", prev);
+                                    output << t;
+                                }
+                                else
+                                    output << prev;
+                            }
+                        }
+                        Utils::replace(templateSettings, "%SETTINGS%", output.str());
+                        content = templateSettings;
+                    }
+                }
+            }
+            void Pages::pageAdmin_services(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower)
+            {
+                // Service control page
+                string action = request->queryStrings["action"];
+                string service = request->queryStrings["service"];
+                if(action.length() != 0 && service.length() != 0)
+                {
+                    // Get the service
+                    Utils::replace(service, "_", " ");
+                    IService *s = handler->getService_WebHttp()->getController()->getServiceByName(service);
+                    // Apply action
+                    if(s != 0)
+                    {
+                        if(action == "start")
+                            s->start();
+                        if(action == "stop")
+                            s->stop();
+                        if(action == "restart")
+                        {
+                            s->stop();
+                            s->start();
+                        }
+                    }
+                }
+                if(!handler->getDiskCache()->fetchLoad("admin_services.bct", content))
+                    content = "Failed to load services template!";
+            }
+            void Pages::pageAdmin_diskCache(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower)
+            {
+                content = handler->getDiskCache()->fetch("admin_cache.bct", "Failed to load disk cache layout template!");
+                string templateItem = handler->getDiskCache()->fetch("admin_cache_item.bct", "Failed to load disk cache item template!");
+                // Display list of items
+                stringstream items;
+                unique_lock<mutex> lockCaache(*handler->getDiskCache()->getMutex());
+                map<string, DiskCacheItem*> const *its = handler->getDiskCache()->getItems();
+                string item;
+                long long totalSize = 0LL;
+                for(map<string, DiskCacheItem*>::const_iterator it = its->begin(); it != its->end(); it++)
+                {
+                    item = templateItem;
+                    Utils::replace(item, "%KEY%", (*it).first);
+                    Utils::replace(item, "%SIZE%", Utils::bytesToHumanString((*it).second->getLength()));
+                    totalSize += (*it).second->getLength();
+                    items << item;
+                }
+                Utils::replace(content, "%BASE_PATH%", handler->getDiskCache()->getBasePath());
+                Utils::replace(content, "%TOTAL_SIZE%", Utils::bytesToHumanString(totalSize));
+                Utils::replace(content, "%ITEMS%", items.str());
             }
             string Pages::pageGuestbook(HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower)
             {

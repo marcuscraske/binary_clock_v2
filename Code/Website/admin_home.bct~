@@ -5,6 +5,7 @@
 		<li><a href="/admin?page=alarm">Alarm Clock</a></li>
 		<li><a href="/admin?page=settings">Settings</a></li>
 		<li><a href="/admin?page=services">Services</a></li>
+		<li><a href="/admin?page=relay_board">Relay Board</a></li>
 		<li><a href="/admin?page=reload_cache">Reload Web Cache</a></li>
 		<li><a href="/admin?page=disk_cache">View Cache Items</a></li>
 		<li><a href="/admin?page=country_lookup_wake">Wakeup IP Country Lookup Service</a></li>

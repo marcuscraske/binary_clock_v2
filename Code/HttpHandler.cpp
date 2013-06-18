@@ -23,6 +23,7 @@ namespace BC
                     serviceSensors = static_cast<Sensors*>(web->getController()->getServiceByName(SERVICETITLE_SENSORS));
                     serviceWebHttp = static_cast<WebHttp*>(web->getController()->getServiceByName(SERVICETITLE_WEBHTTP));
                     serviceCountryLookup = static_cast<CountryLookup*>(web->getController()->getServiceByName(SERVICETITLE_COUNTRYLOOKUP));
+                    serviceRelayBoard = static_cast<RelayBoard*>(web->getController()->getServiceByName(SERVICETITLE_RELAYBOARD));
                 }
                 // Load page function modules
                 moduleLoad(new PageFunctions());

@@ -80,6 +80,8 @@ namespace BC
         class Relay
         {
         private:
+            // Static Fields
+            static int uniqueIDCounter;                                // Used for assigning ID's for relay conditions, as a temp. point of reference.
             // Fields --------------------------------------------------------->
             RelayBoard                  *board;                 // The parent of the relay.
             int                         gpioPin;                // The GPIO pin.
@@ -89,6 +91,7 @@ namespace BC
                                         conditionsOff;          // List of logical OR functions for switching the relay off.
             mutex                       lmutex;                 // Used for thread-safe operations.
             int                         index;                  // The index of the relay.
+            string                      label;                  // The label of the relay socket; used for humans.
         public:
             // Member Functions - Constructors -------------------------------->
             Relay(RelayBoard *board, int index);
@@ -103,7 +106,7 @@ namespace BC
             ////////////////////////////////////////////////////////////////////
             inline void _toggle()
             {
-                set(!online);
+                _set(!online);
             }
             void parseConditions(string config, vector<RelayCondition> &list);
         public:
@@ -141,31 +144,15 @@ namespace BC
             void saveList(Configurator* c, string key, vector<RelayCondition> &list);
             void save();
         public:
-            void addConditionOn(RelayCondition cond)
-            {
-                conditionsOn.push_back(cond);
-            }
-            void addConditionOff(RelayCondition cond)
-            {
-                conditionsOff.push_back(cond);
-            }
-            void removeConditionOn(int index)
-            {
-                unique_lock<mutex> lock(lmutex);
-                if(index < conditionsOn.size())
-                    conditionsOn.erase(conditionsOn.begin() + index);
-            }
-            void removeConditionOff(int index)
-            {
-                unique_lock<mutex> lock(lmutex);
-                if(index < conditionsOff.size())
-                    conditionsOff.erase(conditionsOff.begin() + index);
-            }
+            void addConditionOn(RelayCondition cond);
+            void addConditionOff(RelayCondition cond);
+            bool removeCondition(int uniqueID);
             void changeGPIOPin(int newPin);
-            inline mutex *getMutex()
-            {
-                return &lmutex;
-            }
+            void changeLabel(string newLabel);
+            inline mutex *getMutex() { return &lmutex; }
+            inline string getLabel() { return label; }
+            inline int getIndex() { return index; }
+            inline bool getOnline() { return online; }
         };
     }
 }

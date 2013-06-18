@@ -1,0 +1,21 @@
+		<div class="ROW">
+			<div class="CELL">
+				<div class="P">
+					%FUNCTION%
+				</div>		
+			</div>
+			<div class="CELL4">
+				<div class="P">
+					Param 1: '%PARAM_1%'
+				</div>
+			</div>
+			<div class="CELL4">
+				<div class="P">
+					Param 2: '%PARAM_2%'
+				</div>
+			</div>
+			<div class="CELL4">
+				<a class="BUTTON" href="/admin?page=relay_board&relay=%INDEX%&remove_condition=%UNIQUE_ID%">Remove</a>
+			</div>
+			<div class="clear"></div>
+		</div>

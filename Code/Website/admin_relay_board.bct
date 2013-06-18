@@ -1,0 +1,25 @@
+<h2>Admin - Relay Board</h2>
+<div class="TABLE">
+	<div class="ROW HEADER">
+		<div class="CELL3">
+			<div class="P">
+				Index
+			</div>
+		</div>
+		<div class="CELL3">
+			<div class="P">
+				Label
+			</div>
+		</div>
+		<div class="CELL3">
+			<div class="P">
+				Options
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	%ITEMS%
+</div>
+<p>
+	<a href="/admin">Back</a>
+</p>

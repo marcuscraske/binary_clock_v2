@@ -73,8 +73,25 @@ namespace BC
             void logic();
             // Member Functions - Accessors
             inline int getTotalRelays() { return relayPins.size(); }
-            inline Relay* getRelay(int index) { return relayPins.at(index); }
-            string getTitle() { return "Relay Board Controller"; }
+            // Not thread-safe!
+            Relay* getRelay(int index)
+            {
+                if(index >= relayPins.size())
+                    return 0;
+                else
+                    return relayPins.at(index);
+            }
+            string getTitle() { return SERVICETITLE_RELAYBOARD; }
+            inline mutex* getCollectionMutex() { return &lmutex; }
+            map<string, RelayCondition::ConditionFunction> getConditionFunctions() { return conditionFuncs; }
+            RelayCondition::ConditionFunction getConditionFunction(string name)
+            {
+                map<string, RelayCondition::ConditionFunction>::iterator it = conditionFuncs.find(name);
+                if(it == conditionFuncs.end())
+                    return 0;
+                else
+                    return (*it).second;
+            }
         };
     }
 }

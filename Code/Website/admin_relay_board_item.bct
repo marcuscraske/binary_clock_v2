@@ -1,0 +1,17 @@
+	<div class="ROW STATUS_%STATUS%">
+		<div class="CELL3">
+			<div class="P">
+				%INDEX% (GPIO Pin: %GPIO_PIN%)
+			</div>
+		</div>
+		<div class="CELL3">
+			<div class="P">
+				%LABEL%
+			</div>
+		</div>
+		<div class="CELL3">
+			<a href="/admin?page=relay_board&relay=%INDEX%" class="BUTTON">Edit</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+

@@ -1,0 +1,167 @@
+<h2>Admin - Relay Board - Socket #%INDEX%</h2>
+%ERROR%
+<div class="TABLE">
+	<div class="ROW">
+		<div class="HEADER">
+			<div class="P">
+				General Info
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				Socket/index:
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				%INDEX%
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW STATUS_%STATUS_CAPS%">
+		<div class="CELL">
+			<div class="P">
+				Status:
+			</div>
+		</div>
+		<div class="CELL">
+			%STATUS% <a href="/admin?page=relay_board&relay=%INDEX%&toggle=1" class="BUTTON">Toggle</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				GPIO Pin:
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<form method="post" action="/admin?page=relay_board&relay=%INDEX%">
+					<input type="text" name="relay_gpio_pin" value="%GPIO_PIN%" />  <input type="submit" value="Update" />
+				</form>
+				Set to -1 to disable.
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="CELL">
+			<div class="P">
+				Label:
+			</div>
+		</div>
+		<div class="CELL">
+			<div class="P">
+				<form method="post" action="/admin?page=relay_board&relay=%INDEX%">
+					<input type="text" name="relay_label" value="%LABEL%" /> <input type="submit" value="Update" />
+				</form>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ROW">
+		<div class="HEADER">
+			<div class="P">
+				Conditions - Offline to Online
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	%CONDITIONS_ON%
+	<div class="ROW">
+		<div class="HEADER">
+			<div class="P">
+				Conditions - Online to Offline
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	%CONDITIONS_OFF%
+	<div class="ROW">
+		<div class="HEADER">
+			<div class="P">
+				Add Condition
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<form method="post" action="/admin?page=relay_board&relay=%INDEX%">
+		<div class="ROW">
+			<div class="CELL">
+				<div class="P">
+					Type:
+				</div>
+			</div>
+			<div class="CEL">
+				<div class="P">
+					<select name="relay_condition_type">
+						<option value="on">Offline to Online</option>
+						<option value="off">Online to Offline</option>
+					</select>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="ROW">
+			<div class="CELL">
+				<div class="P">
+					Function:
+				</div>
+			</div>
+			<div class="CELL">
+				<div class="P">
+					<select name="relay_condition_func">
+						%CONDITION_FUNCTIONS%
+					</select>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="ROW">
+			<div class="CELL">
+				<div class="P">
+					Parameter 1:
+				</div>
+			</div>
+			<div class="CELL">
+				<div class="P">
+					<input type="text" name="relay_condition_param_1" value="%CONDITION_PARAM_1%" />
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="ROW">
+			<div class="CELL">
+				<div class="P">
+					Parameter 2:
+				</div>
+			</div>
+			<div class="CELL">
+				<div class="P">
+					<input type="text" name="relay_condition_param_2" value="%CONDITION_PARAM_2%" />
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="ROW">
+			<div class="CELL">
+				&nbsp;
+			</div>
+			<div class="CELL">
+				<div class="P">
+					<input type="submit" value="Add" />
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<p>
+	<a href="/admin?page=relay_board">Back</a>
+</p>

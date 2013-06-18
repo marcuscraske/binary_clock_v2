@@ -30,6 +30,7 @@
 #include "Display.h"
 #include "Sensors.h"
 #include "WebHttp.h"
+#include "RelayBoard.h"
 
 using std::map;
 using std::stringstream;
@@ -56,6 +57,7 @@ namespace BC
         class Sensors;
         class WebHttp;
         class CountryLookup;
+        class RelayBoard;
     }
     namespace Web
     {
@@ -76,6 +78,7 @@ using BC::Services::Display;
 using BC::Services::Sensors;
 using BC::Services::WebHttp;
 using BC::Services::CountryLookup;
+using BC::Services::RelayBoard;
 using BC::Web::Core::IClientHandler;
 using BC::Web::Http::HttpRequest;
 using BC::Web::Http::DiskCache;
@@ -112,6 +115,7 @@ namespace BC
                 Sensors         *serviceSensors;
                 WebHttp         *serviceWebHttp;
                 CountryLookup   *serviceCountryLookup;
+                RelayBoard      *serviceRelayBoard;
                 // -- Used for caching items on the file-system.
                 DiskCache       *diskCache;
             public:
@@ -137,33 +141,37 @@ namespace BC
                 }
                 inline long long getEpochStartTimeMs() { return epochStartTime; }
                 // Member Functions - Service Accessors ----------------------->
-                Alarm *getService_Alarm()
+                inline Alarm *getService_Alarm()
                 {
                     return serviceAlarm;
                 }
-                Configurator *getService_Configurator()
+                inline Configurator *getService_Configurator()
                 {
                     return serviceConfig;
                 }
-                Display *getService_Display()
+                inline Display *getService_Display()
                 {
                     return serviceDisplay;
                 }
-                Sensors *getService_Sensors()
+                inline Sensors *getService_Sensors()
                 {
                     return serviceSensors;
                 }
-                WebHttp *getService_WebHttp()
+                inline WebHttp *getService_WebHttp()
                 {
                     return serviceWebHttp;
                 }
-                DiskCache *getDiskCache()
+                inline DiskCache *getDiskCache()
                 {
                     return diskCache;
                 }
-                CountryLookup *getCountryLookup()
+                inline CountryLookup *getCountryLookup()
                 {
                     return serviceCountryLookup;
+                }
+                inline RelayBoard *getRelayBoard()
+                {
+                    return serviceRelayBoard;
                 }
             private:
                 // -- Used to load and register a new module.

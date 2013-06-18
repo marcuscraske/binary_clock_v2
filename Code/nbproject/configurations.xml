@@ -119,11 +119,6 @@
             <Elem>LINUX</Elem>
           </preprocessorList>
         </ccTool>
-        <linkerTool>
-          <linkerAddLib>
-            <pElem>WiringPi</pElem>
-          </linkerAddLib>
-        </linkerTool>
       </compileType>
       <item path="Alarm.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -59,3 +59,4 @@
 #define SERVICETITLE_SENSORS                    "Sensors"
 #define SERVICETITLE_WEBHTTP                    "Web Server"
 #define SERVICETITLE_COUNTRYLOOKUP              "IP Address Country Lookup"
+#define SERVICETITLE_RELAYBOARD                 "Relay Board Controller"

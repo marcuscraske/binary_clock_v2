@@ -8,6 +8,7 @@
 #include <string>
 #include <pqxx/pqxx>
 #include <sstream>
+#include <stdlib.h>
 
 #include "Definitions.h"
 #include "WebHttp.h"
@@ -31,6 +32,15 @@ using BC::Web::Http::HttpHandler;
 using BC::Web::Http::HttpRequest;
 using BC::Web::Http::HttpResponse;
 using BC::Web::Modules::SystemInfo;
+
+#include "Utils.h"
+using BC::Utils;
+
+#include "Alarm.h"
+using BC::Services::Alarm;
+
+#include "RelayBoard.h"
+using BC::Services::RelayBoard;
 
 // Forward declarations
 namespace BC
@@ -73,6 +83,14 @@ namespace BC
             public:
                 bool moduleRegister(HttpHandler * const handler);
                 static string pageAdmin(HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower);
+                static void pageAdmin_alarm(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower);
+                static void pageAdmin_settings(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower);
+                static void pageAdmin_services(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower);
+                static void pageAdmin_diskCache(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower);
+                static void pageAdmin_relayBoard(string &content, HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower);
+            private:
+                static string pageAdmin_relayBoard_buildConditions(int index, string &templateCondition, vector<RelayCondition> conditions);
+            public:
                 static string pageGuestbook(HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower);
             private:
                 static string pageGuestbook_recursiveRenderSubPosts(result::const_iterator postTuple, string &templateContainer, string &templatePost, work *w);
