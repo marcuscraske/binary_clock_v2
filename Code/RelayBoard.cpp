@@ -1,6 +1,5 @@
 
 #include "RelayBoard.h"
-#include "Configurator.h"
 
 namespace BC
 {

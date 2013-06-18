@@ -11,7 +11,7 @@ namespace BC
     {
         namespace Http
         {
-            DiskCache::DiskCache(ServiceController *con)
+            DiskCache::DiskCache(ServiceController *con, string basePath) : basePath(basePath)
             {
                 reload(con);
             }
@@ -35,7 +35,6 @@ namespace BC
                 cachedExtensions = Utils::split(config->get(CONFIG__HTTP_DISKCACHE_EXTENSIONS, HTTP_DISKCACHE_DEFAULT_EXTENSIONS), ',');
                 for(vector<string>::iterator it = cachedExtensions.begin(); it != cachedExtensions.end(); it++)
                     cout << "Disk Cache - caching extension '" << *it << "'" << endl;
-                string basePath = Utils::getBasePath();
                 if(basePath.length() == 0)
                     cerr << "Disk Cache - critical failure: unable to determine base-path of program!" << endl;
                 else
@@ -48,17 +47,17 @@ namespace BC
                     Utils::getRecursiveFilesAndDirectories(basePath, dirs, files);
                     // Cache all the items with an extension in cachedExtensions
                     cout << "Disk Cache - processing items to be cached..." << endl;
-                    string p;
+                    string relativePath;
                     DiskCacheItem *item = 0;
                     long long totalBytes = 0;
                     for(vector<FileInfo>::iterator i = files.begin(); i != files.end(); i++)
                     {
                         item = 0;
-                        p = (*i).path;
-                        if(isCacheAppropriate(p) && (item = load(p)) != 0)
+                        relativePath = (*i).path.substr(lengthRemoved);
+                        if(isCacheAppropriate(relativePath) && (item = load(relativePath)) != 0)
                         {
-                            items[p.substr(lengthRemoved)] = item;
-                            cout << "Disk Cache - cached item at '" << p << "' - " << item->length << " bytes" << endl;
+                            items[relativePath] = item;
+                            cout << "Disk Cache - cached item at '" << basePath << "/" << relativePath << "' ('" << relativePath << "') - " << item->length << " bytes" << endl;
                             totalBytes += item->length;
                         }
                         else if(item != 0)
@@ -71,40 +70,41 @@ namespace BC
             {
                 dispose();
             }
-            DiskCacheItem* DiskCache::fetch(string path)
+            DiskCacheItem* DiskCache::fetch(string relativePath)
             {
                 unique_lock<mutex> lock(mlock);
-                map<string, DiskCacheItem*>::iterator it = items.find(path);
+                // Locate the item in the cache
+                map<string, DiskCacheItem*>::iterator it = items.find(relativePath);
                 if(it == items.end())
                 {
                     // Attempt to load it from disk
-                    DiskCacheItem *item = load(path);
-                    if(item != 0 && isCacheAppropriate(path))
+                    DiskCacheItem *item = load(relativePath);
+                    if(item != 0 && isCacheAppropriate(relativePath))
                     {
                         // Cache the item
-                        items[path] = item;
-                        cout << "Disk Cache - cached item at '" << path << "'." << endl;
+                        items[relativePath] = item;
+                        cout << "Disk Cache - cached item at '" << basePath << "/" << relativePath << "' ('" << relativePath << "')." << endl;
                     }
                     return item;
                 }
                 else
                     return (*it).second;
             }
-            string DiskCache::fetch(string path, string errorMessage)
+            string DiskCache::fetch(string relativePath, string errorMessage)
             {
-                DiskCacheItem *item = fetch(path);
+                DiskCacheItem *item = fetch(relativePath);
                 return item == 0 ? errorMessage : string(item->data, item->length);
             }
-            bool DiskCache::fetchLoad(string path, string &dest)
+            bool DiskCache::fetchLoad(string relativePath, string &dest)
             {
-                DiskCacheItem *item = fetch(path);
+                DiskCacheItem *item = fetch(relativePath);
                 if(item != 0)
                     dest = string(item->data, item->length);
                 return item != 0;
             }
-            DiskCacheItem* DiskCache::load(string path)
+            DiskCacheItem* DiskCache::load(string relativePath)
             {
-                ifstream file(path, std::ios::binary | std::ios::ate);
+                ifstream file(basePath + "/" + relativePath, std::ios::binary | std::ios::ate);
                 if(file.is_open())
                 {
                     // Read data into a new cache item

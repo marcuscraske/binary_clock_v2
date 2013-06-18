@@ -28,6 +28,9 @@ using BC::Services::IService;
 #include "ServiceController.h"
 using BC::ServiceController;
 
+#include "Configurator.h"
+using BC::Services::Configurator;
+
 #include "RelayCondition.h"
 using BC::Services::RelayCondition;
 

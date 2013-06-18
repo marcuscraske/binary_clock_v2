@@ -1,4 +1,4 @@
-BinaryClock v2.1
+BinaryClock v2.1 - The Monolithic Binary Clock
 ***************************************************************************************
 About
 -------------------------------------------------------------------------------------->
@@ -27,11 +27,23 @@ Features
 	- Sensors
 		- Routely polls TMP36 temperature sensor and a photo-resistor.
 
+Developers
+--------------------------------------------------------------------------------------->
+You should be able to fork a copy of this repository, compile and run it straight away
+on any Unix system (tested on Debian Squeeze and Arch May 2013 release). For hardware
+interaction on the Raspberry Pi, you should modify the definition "HARDWARE_VIRTUAL_MODE"
+to false (located in main.cpp). YOU SHOULD NOT modify this flag on a non-Raspberry-Pi
+system because it modifies the kernel memory and may crash the target system!
+
+Any service can be easily disabled by commenting out its addition to the service
+controller, located in main.cpp.
+
 History
 --------------------------------------------------------------------------------------->
 This project originally started in mid-April 2012 with Binary Clock v1.0, called
-"EvilDuino". The software for this version was written in C# and used the Netduino
-Plus (v1.0) as hardware.
+"EvilDuino". The software was written in C# and used the Netduino Plus (v1.0) as
+hardware. Many thanks is owed to the netduino community for helping with the shift
+registers malfunctioning.
 
 Around the end of December 2012, Binary Clock v2.1 was created, called
 "The Monolithic Binary Clock" due to its much larger physical appearance as a tower
@@ -56,3 +68,7 @@ Live Version
 A live version of this clock can sometimes be found at:
 http://www.ubermeat.co.uk:82/
 
+Contact
+--------------------------------------------------------------------------------------->
+Website:	ubermeat.co.uk
+E-mail:		limpygnome@gmail.com

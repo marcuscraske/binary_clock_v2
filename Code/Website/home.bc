@@ -1,0 +1,17 @@
+<!--include(header.bct)-->
+<h2>Home</h2>
+<img class="FL" src="/Content/Images/monolithic.png" alt="Monolithic Binary Clock" />
+<p>
+	Welcome to the web-server of The Monolithic Binary Clock!
+</p>
+<p>
+	You are currently viewing the website used for information access
+	and control of a binary clock built using a Raspberry Pi and C++,
+	using the Linux distribution <i>Debian</i>. In fact the very website
+	you're currently using is custom-written, using its own,
+	very simple, scripting language!
+</p>
+<div class="CENTER">
+	<img src="/Content/Images/cat.png" alt="Cat" class="IMAGE" />
+</div>
+<!--include(footer.bct)-->

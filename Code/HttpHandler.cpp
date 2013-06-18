@@ -29,7 +29,7 @@ namespace BC
                 moduleLoad(new Pages());
                 
                 // Load disk cache
-                diskCache = new DiskCache(web->getController());
+                diskCache = new DiskCache(web->getController(), Utils::getBasePath() + "/Website");
                 
                 // Set startup time
                 epochStartTime = Utils::getEpochTimeMs();

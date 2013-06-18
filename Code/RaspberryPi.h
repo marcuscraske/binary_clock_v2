@@ -1,4 +1,9 @@
 
+// add credit for http://elinux.org/RPi_Low-level_peripherals
+// -- Gert van Loo & Dom
+
+// add pin layout schematic
+
 #ifndef RASPBERRYPI_H
 #define	RASPBERRYPI_H
 

@@ -53,23 +53,24 @@ namespace BC
             class DiskCache
             {
             private:
+                string basePath;                        // The base path for files.
                 mutex mlock;                            // Used for locking mutual access to the cache.
                 map<string, DiskCacheItem*> items;      // Cached items.
                 vector<string> cachedExtensions;        // The extensions to be cached.
             public:
-                DiskCache(ServiceController *con);
+                DiskCache(ServiceController *con, string basePath);
                 ~DiskCache();
                 // -- Fetches an item from cache; returns zero if not found.
                 // -- If the item is not in the cache, it'll check the
                 // -- file-system and cache the item if its extension is
                 // -- to be cached.
-                DiskCacheItem* fetch(string path);
+                DiskCacheItem* fetch(string relativePath);
                 // -- Fetches an item as a string; returns errorMessage if
                 // -- the item could not be loaded.
-                string fetch(string path, string errorMessage);
+                string fetch(string relativePath, string errorMessage);
                 // -- Fetches an item and places it in dest if found; returns
                 // -- true if found, false if not found.
-                bool fetchLoad(string path, string &dest);
+                bool fetchLoad(string relativePath, string &dest);
                 // -- Indicates if the item at the path ends with an
                 // -- extension which is in the cache list.
                 bool isCacheAppropriate(string path);
@@ -83,7 +84,7 @@ namespace BC
                 // -- 0 if it could not be loaded. This is an internal
                 // -- function. Does not load items into the cache, but
                 // -- rather the invoking function should add it to the cache.
-                DiskCacheItem* load(string path);
+                DiskCacheItem* load(string relativePath);
             };
         }
     }
