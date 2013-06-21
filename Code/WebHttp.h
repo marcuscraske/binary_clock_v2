@@ -5,7 +5,7 @@
 #define WEBHTTP_DEFAULT_PORT                    5000
 #define WEBHTTP_DEFAULT_SOCKETS_BACKLOG         64
 #define WEBHTTP_DEFAULT_THREADS_MAX             64
-#define WEBHTTP_SOCKET_POLLRATE_MS              100
+#define WEBHTTP_SOCKET_POLLRATE_MS              500
 
 #include <iostream>
 #include <sys/socket.h>

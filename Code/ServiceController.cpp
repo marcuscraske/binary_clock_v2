@@ -55,13 +55,47 @@ namespace BC
                 for(map<string, IService*>::iterator it = controller->services.begin(); it != controller->services.end(); it++)
                 {
                     s = (*it).second;
-                    cout << "Stopping '" << s->getTitle() << "'..." << endl;
+                    cout << "Controller background worker: stopping '" << s->getTitle() << "'..." << endl;
                     s->stop();
-                    cout << "Starting '" << s->getTitle() << "'..." << endl;
+                    cout << "Controller background worker: starting '" << s->getTitle() << "'..." << endl;
                     s->start();
-                    cout << "Restarted '" << s->getTitle() << "'!" << endl;
+                    cout << "Controller background worker: restarted '" << s->getTitle() << "'!" << endl;
                 }
                 cout << "Restarted services complete!" << endl;
+            }
+            // -- Check if to perform service-specific tasks
+            if(controller->flagRestartService.size() > 0)
+            {
+                IService *s;
+                string title;
+                for(map<string, RestartType>::iterator it = controller->flagRestartService.begin(); it != controller->flagRestartService.end(); it++)
+                {
+                    title = (*it).first;
+                    s = controller->_getServiceByName(title);
+                    if(s == 0)
+                        cout << "Controller background worker: failed to find service '" << title << "' for specific task!" << endl;
+                    else
+                    {
+                        switch((*it).second)
+                        {
+                            case RestartType::Restart:
+                                cout << "Controller background worker: restarting '" << title << "' ~ stopping..." << endl;
+                                s->stop();
+                                cout << "Controller background worker: restarting '" << title << "' ~ starting..." << endl;
+                                s->start();
+                                break;
+                            case RestartType::Start:
+                                cout << "Controller background worker: starting '" << title << "'!" << endl;
+                                s->start();
+                                break;
+                            case RestartType::Stop:
+                                cout << "Controller background worker: stopping '" << title << "'!" << endl;
+                                s->stop();
+                                break;
+                        }
+                    }
+                }
+                controller->flagRestartService.clear();
             }
         }
     }
@@ -79,6 +113,18 @@ namespace BC
             return;
         // Update the flag for the background service
         flagRestartServices = true;
+        // Wake background service
+        cvWorker.notify_all();
+    }
+    void ServiceController::restartService(string title, RestartType type)
+    {
+        unique_lock<mutex> lock(mutexController);
+        // Check the controller is still running
+        if(!flagRunning)
+            return;
+        // Add the service specific task to the scheduler
+        // -- The great thing with a map is that the same service with a new task will replace the old!
+        flagRestartService[title] = type;
         // Wake background service
         cvWorker.notify_all();
     }

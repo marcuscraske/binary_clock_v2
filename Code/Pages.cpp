@@ -66,6 +66,63 @@ namespace BC
                         content = "Failed to load IP country lookup service wake-up template!";
                     handler->getCountryLookup()->wake();
                 }
+                else if(page == "database_debug")
+                {
+                    content = handler->getDiskCache()->fetch("admin_database_debug.bct", "Failed to load database debug template!");
+                    stringstream output;
+                    // Perform debugging
+                    try
+                    {
+                        output << "Type-casting module...<br />";
+                        Pages *m = static_cast<Pages*>(module);
+                        output << "Connection string: '" << m->dbConnectionString << "'.<br />";
+                        output << "Creating connection object...<br />";
+                        connection conn(m->dbConnectionString);
+                        output << "Checking connection...<br />";
+                        if(conn.is_open())
+                            output << "Successfully opened connection!<br />";
+                        else
+                            output << "Failed to open connection!<br />";
+                    }
+                    catch(pqxx::broken_connection ex)
+                    {
+                        output << "Broken connection: '" << ex.what() << "'!<br />";
+                    }
+                    catch(pqxx::in_doubt_error ex)
+                    {
+                        output << "In-doubt error: '" << ex.what() << "'!<br />";
+                    }
+                    catch(pqxx::internal_error ex)
+                    {
+                        output << "Internal PQXX library error: '" << ex.what() << "'!<br />";
+                    }
+                    catch(pqxx::data_exception ex)
+                    {
+                        output << "Data exception error: '" << ex.query() << "', '" << ex.what() << "'!<br />";
+                    }
+                    catch(pqxx::integrity_constraint_violation ex)
+                    {
+                        output << "Integrity constraint violation error: '" << ex.query() << "', '" << ex.what() << "!<br />";
+                    }
+                    catch(pqxx::invalid_cursor_name ex)
+                    {
+                        output << "Invalid cursor name error: '" << ex.query() << "', '" << ex.what() << "'!<br />";
+                    }
+                    catch(pqxx::invalid_sql_statement_name ex)
+                    {
+                        output << "Invalid SQL statement name error: '" << ex.query() << "', '" << ex.what() << "'!<br />";
+                    }
+                    catch(pqxx::invalid_cursor_state ex)
+                    {
+                        output << "Invalid cursor state error: '" << ex.query() << "', '" << ex.what() << "'!<br />";
+                    }
+                    catch(std::exception ex)
+                    {
+                        output << "Unhandled exception: '" << ex.what() << "'!<br />";
+                    }
+                    // Output
+                    Utils::replace(content, "%OUTPUT%", output.str());
+                }
                 else if(page == "terminate")
                 {
                     if(!handler->getDiskCache()->fetchLoad("admin_terminated.bct", content))
@@ -472,14 +529,11 @@ namespace BC
                     if(s != 0)
                     {
                         if(action == "start")
-                            s->start();
-                        if(action == "stop")
-                            s->stop();
-                        if(action == "restart")
-                        {
-                            s->stop();
-                            s->start();
-                        }
+                            handler->getService_WebHttp()->getController()->restartService(s->getTitle(), ServiceController::RestartType::Start);
+                        else if(action == "stop")
+                            handler->getService_WebHttp()->getController()->restartService(s->getTitle(), ServiceController::RestartType::Stop);
+                        else if(action == "restart")
+                            handler->getService_WebHttp()->getController()->restartService(s->getTitle(), ServiceController::RestartType::Restart);
                     }
                 }
                 if(!handler->getDiskCache()->fetchLoad("admin_services.bct", content))

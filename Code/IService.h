@@ -100,7 +100,15 @@ namespace BC
             // this function invokes a member function of a passed service.
             static void runThread(IService *service)
             {
-                service->run();
+                try
+                {
+                    service->run();
+                }
+                catch(std::exception ex)
+                {
+                    cerr << "CRITICAL SERVICE FAILURE OF '" << service->getTitle() << "'!" << endl;
+                    cerr << "Service '" << service->getTitle() << "' has failed; service is now shutdown." << endl;
+                }
             }
         };
     }

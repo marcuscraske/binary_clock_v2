@@ -56,12 +56,13 @@ namespace BC
             // -- Keep retrying if we fail until we acquire the socket.
             while(!shutdown && bind(socketListen, (struct sockaddr *) &addrServer, sizeof(addrServer)) < 0)
             {
-                startupFailure("Error: failed to create new socket!");
+                cout <<"Error: failed to create new socket! Re-polling..." << endl;
                 Utils::conditionVariableSleep(cl, cvService, WEBHTTP_SOCKET_POLLRATE_MS);
             }
             // In-case we have failed to get a socket, check if the shutdown condition was fulfilled - if so, abort.
             if(shutdown)
             {
+                startupFailure("Failed to start before shutdown!");
                 close(socketListen);
                 return;
             }
@@ -123,9 +124,23 @@ namespace BC
                     threads[threadId] = th;
                 }
             }
+             // Disallow any further requests
+            ::shutdown(socketListen, 1);
             // Inform the client-handler we've shutdown
             clientHandler->serviceEnd(this);
-            // Dispose listener socket
+            // Dispose client sockets
+            cout << getTitle() << ": disposing client threads..." << endl;
+            for(int i = 0; i < threadsMax; i++)
+            {
+                thread *th = threads[i];
+                if(th !=0 && th->joinable())
+                {
+                    cout << getTitle() << ": joining client thread '" << i << "', waiting for end." << endl;
+                    th->join();
+                }
+            }
+            cout << getTitle() << ": disposed all client threads!" << endl;
+            // Dispose listen socket
             close(socketListen);
             // Dispose thread-pool
             disposeThreads();

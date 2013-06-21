@@ -86,8 +86,7 @@ namespace BC
                             break;
                     }
                     // Push the buffer to the shift-registers
-                    if(controller->isHardwareEnabled())
-                        IC_74HC595::write(controller, registerCount, pinData, pinClock, pinLatch, buffer);
+                    IC_74HC595::write(controller, registerCount, pinData, pinClock, pinLatch, buffer);
                     // We don't sleep for the delay-time because we want
                     // the while-loop to be able to exit at any point
                     delayTime = time + delay;

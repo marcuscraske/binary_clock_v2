@@ -9,6 +9,7 @@
 		<li><a href="/admin?page=reload_cache">Reload Web Cache</a></li>
 		<li><a href="/admin?page=disk_cache">View Cache Items</a></li>
 		<li><a href="/admin?page=country_lookup_wake">Wakeup IP Country Lookup Service</a></li>
+		<li><a href="/admin?page=database_debug">Database Debug</a></li>		
 		<li><a href="/admin?page=terminate">Terminate Daemon</a></li>
 		<li><a href="/admin?page=shutdown">Shutdown</a></li>
 		<li><a href="/admin?page=reboot">Reboot</a></li>

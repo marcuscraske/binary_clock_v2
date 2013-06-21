@@ -57,7 +57,7 @@ int main(int argc, char** argv)
     // -- Display
     controller->serviceAdd(new Display(controller));
     // -- Sensors
-    controller->serviceAdd(new Sensors(controller));
+    //controller->serviceAdd(new Sensors(controller));
     // -- Web HTTP
     HttpHandler *handler = new HttpHandler();
     controller->serviceAdd(new WebHttp(controller, handler));

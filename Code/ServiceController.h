@@ -53,18 +53,25 @@ namespace BC
             Input,
             Output
         };
+        enum RestartType
+        {
+            Start,
+            Stop,
+            Restart
+        };
     private:
         // Fields ------------------------------------------------------------->
-        bool    flagRunning,                    // Indicates if the controller's services are running.
-                flagRestartServices;            // Indicates if the controller needs to restart the services.
-        mutex mutexController;                  // Used for thread-safe operations of internal operations on data.
-        map<string, IService*> services;        // Holds a collection of services belonging to the controller.
-        bool hardwareEnabled;                   // Indicates if we can communicate with hardware.
-        thread threadWorker;                    // Used for misc tasks such as restarting services.
-        condition_variable cvWorker;            // Used to wait until flags change to process background tasks; also
-                                                // used by the waitForShutdown() function.
-        mutex mutexWorker;                      // The mutex for synchronising the worker locks.
-        RaspberryPi     *pi;                    // Used for interfacing with the Raspberry Pi GPIO pins.
+        bool                            flagRunning,            // Indicates if the controller's services are running.
+                                        flagRestartServices;    // Indicates if the controller needs to restart the services.
+        mutex                           mutexController;        // Used for thread-safe operations of internal operations on data.
+        map<string, IService*>          services;               // Holds a collection of services belonging to the controller.
+        bool                            hardwareEnabled;        // Indicates if we can communicate with hardware.
+        thread                          threadWorker;           // Used for misc tasks such as restarting services.
+        condition_variable              cvWorker;               // Used to wait until flags change to process background tasks; also
+                                                                // used by the waitForShutdown() function.
+        mutex                           mutexWorker;            // The mutex for synchronising the worker locks.
+        RaspberryPi                     *pi;                    // Used for interfacing with the Raspberry Pi GPIO pins.
+        map<string, RestartType>        flagRestartService;     // used for starting/stopping/restarting specific services.
     public:
         // Constructors ------------------------------------------------------->
         ServiceController(bool hardwareEnabled);
@@ -80,6 +87,8 @@ namespace BC
         void waitForShutdown();
         // -- Restarts all of the services.
         void restartServices();
+        // -- Performs a specific start/stop/restart of a service.
+        void restartService(string title, RestartType type);
     private:
         static void backgroundWorker(ServiceController *controller);
         // Stops the services; no thread-safe protection.
@@ -144,11 +153,9 @@ namespace BC
         // Member Functions - Accessors --------------------------------------->
         inline bool isRunning() { return flagRunning; }
         inline bool isHardwareEnabled() { return hardwareEnabled; }
-        // --Fetches a service by its title name; returns 0/null-pointer if the
-        // -- service could not be found.
-        inline IService* getServiceByName(string name)
+    private:
+        inline IService* _getServiceByName(string name)
         {
-            unique_lock<mutex> lock(mutexController);
             if(!flagRunning)
             {
                 cerr << "Attempted to get service (by name) when controller is not running!" << endl;
@@ -156,6 +163,14 @@ namespace BC
             }
             map<string, IService*>::iterator it = services.find(name);
             return it == services.end() ? 0 : (*it).second;
+        }
+    public:
+        // --Fetches a service by its title name; returns 0/null-pointer if the
+        // -- service could not be found.
+        inline IService* getServiceByName(string name)
+        {
+            unique_lock<mutex> lock(mutexController);
+            return _getServiceByName(name);
         }
         // -- Same as getServices without a lock on the controller's mutex;
         // -- thus not thread-safe.

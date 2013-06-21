@@ -130,7 +130,7 @@ namespace BC
             conditionsOff.push_back(cond);
             // Save
             Configurator *c = static_cast<Configurator*>(board->controller->getServiceByName(SERVICETITLE_CONFIGURATOR));
-            saveList(c, "relayboard.socket_" + Utils::intToString(index) + "_conditions_off", conditionsOff);
+            saveList(c, "relayboard.socket_" + Utils::intToString(index) + "_conditions_on", conditionsOff);
         }
         bool Relay::removeCondition(int uniqueID)
         {

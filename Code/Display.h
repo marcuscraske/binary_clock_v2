@@ -3,34 +3,34 @@
 
 // Definitions of shift-register pins for the LEDs
 // -- Hours
-#define DISPLAY_LED_H_16        4096
-#define DISPLAY_LED_H_8         8192
-#define DISPLAY_LED_H_4         16384
-#define DISPLAY_LED_H_2         32768
-#define DISPLAY_LED_H_1         65536
+#define DISPLAY_LED_H_16        1
+#define DISPLAY_LED_H_8         2
+#define DISPLAY_LED_H_4         4
+#define DISPLAY_LED_H_2         8
+#define DISPLAY_LED_H_1         16
 // -- Minutes
-#define DISPLAY_LED_M_32        64
-#define DISPLAY_LED_M_16        128
-#define DISPLAY_LED_M_8         256
-#define DISPLAY_LED_M_4         512
-#define DISPLAY_LED_M_2         1024
-#define DISPLAY_LED_M_1         2048
+#define DISPLAY_LED_M_32        32
+#define DISPLAY_LED_M_16        64
+#define DISPLAY_LED_M_8         128
+#define DISPLAY_LED_M_4         256
+#define DISPLAY_LED_M_2         512
+#define DISPLAY_LED_M_1         1024
 // -- Seconds
-#define DISPLAY_LED_S_32        1
-#define DISPLAY_LED_S_16        2
-#define DISPLAY_LED_S_8         4
-#define DISPLAY_LED_S_4         8
-#define DISPLAY_LED_S_2         16
-#define DISPLAY_LED_S_1         32
+#define DISPLAY_LED_S_32        2048
+#define DISPLAY_LED_S_16        4096
+#define DISPLAY_LED_S_8         8192
+#define DISPLAY_LED_S_4         16384
+#define DISPLAY_LED_S_2         32768
+#define DISPLAY_LED_S_1         65536
 // -- Error LEDs
 #define DISPLAY_LED_ERROR_1     131072
 #define DISPLAY_LED_ERROR_2     262144
 #define DISPLAY_LED_ERROR_3     524288
 // Definitions of pin info for interfacing with the shift-registers
 #define DISPLAY_DEFAULT_REGISTERS       3
-#define DISPLAY_DEFAULT_PIN_DATA        0
-#define DISPLAY_DEFAULT_PIN_LATCH       2
-#define DISPLAY_DEFAULT_PIN_CLOCK       3
+#define DISPLAY_DEFAULT_PIN_DATA        14
+#define DISPLAY_DEFAULT_PIN_LATCH       18
+#define DISPLAY_DEFAULT_PIN_CLOCK       15
 // Definitions of default light sequences
 #define DISPLAY_DEFAULT_SEQUENCE_LIGHT_LOW      Sequence::Offline
 #define DISPLAY_DEFAULT_SEQUENCE_LIGHT_HIGH     Sequence::Time
