@@ -11,6 +11,7 @@ namespace BC
             conditionFuncs["temperature"] = RelayConditionFunctions::temperature;
             conditionFuncs["light"] = RelayConditionFunctions::light;
             conditionFuncs["time_of_day"] = RelayConditionFunctions::timeOfDay;
+            conditionFuncs["alarm_buzzing"] = RelayConditionFunctions::alarmBuzzing;
         }
         void RelayBoard::run()
         {

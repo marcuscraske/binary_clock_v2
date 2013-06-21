@@ -141,7 +141,8 @@ namespace BC
             }
             string PageFunctions::getUptime(HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower)
             {
-                return Utils::getSecondsAsString((Utils::getEpochTimeMs() - handler->getEpochStartTimeMs()) / 1000LL);
+                long long uptime = Utils::getEpochTimeMs() - handler->getEpochStartTimeMs();
+                return Utils::getSecondsAsString(uptime / 1000LL);
             }
             string PageFunctions::getProcessTime(HttpHandler * const handler, IModule *module, Client *client, HttpRequest *request, HttpResponse *response, string arguments, string &pageUpper, string &pageLower)
             {

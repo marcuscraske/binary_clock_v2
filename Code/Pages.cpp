@@ -897,12 +897,12 @@ namespace BC
                     else
                     {
                         Utils::randomSetSeed();
-                        result = std::to_string(Utils::random(iMin, iMax)) + " <br /><br />" + Utils::getTimeDateGBString();
+                        result = std::to_string(Utils::random(iMin, iMax)) + " <br /><br />" + Utils::htmlEncode(Utils::getTimeDateGBString());
                     }
                 }
                 Utils::replace(content, "%MINIMUM%", Utils::htmlEncode(min));
                 Utils::replace(content, "%MAXIMUM%", Utils::htmlEncode(max));
-                Utils::replace(content, "%RESULT%", Utils::htmlEncode(result));
+                Utils::replace(content, "%RESULT%", result);
                 return content;
             }
         }

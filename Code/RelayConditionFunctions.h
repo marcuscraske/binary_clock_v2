@@ -11,14 +11,17 @@ using BC::ServiceController;
 #include "Time.h"
 using BC::Time;
 
+#include "Alarm.h"
 #include "Sensors.h"
 namespace BC
 {
     namespace Services
     {
         class Sensors;
+        class Alarm;
     }
 }
+using BC::Services::Alarm;
 using BC::Services::Sensors;
 
 namespace BC
@@ -34,6 +37,8 @@ namespace BC
             static bool light(ServiceController *controller, string param1, string param2);
             // Returns true if the current time is between the two times (hh:mm:ss format).
             static bool timeOfDay(ServiceController *controller, string param1, string param2);
+            // Returns true if the buzzer of the alarm service is buzzing; no parameters.
+            static bool alarmBuzzing(ServiceController *controller, string param1, string param2);
         };
     }
 }

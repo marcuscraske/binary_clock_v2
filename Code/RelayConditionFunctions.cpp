@@ -36,5 +36,10 @@ namespace BC
             else
                 return false;
         }
+        bool RelayConditionFunctions::alarmBuzzing(ServiceController *controller, string param1, string param2)
+        {
+            Alarm *a = static_cast<Alarm*>(controller->getServiceByName(SERVICETITLE_ALARM));
+            return a != 0 && a->isBuzzing();
+        }
     }
 }

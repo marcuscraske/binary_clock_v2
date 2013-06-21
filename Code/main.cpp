@@ -19,7 +19,7 @@ using BC::Web::Core::ClientSocket;
 
 #include "Utils.h"
 
-#define HARDWARE_VIRTUAL_MODE   true    // Indicates if hardware interaction should be disabled for
+#define HARDWARE_VIRTUAL_MODE   false    // Indicates if hardware interaction should be disabled for
                                         // virtual-mode for testing purposes.
 
 using BC::ServiceController;

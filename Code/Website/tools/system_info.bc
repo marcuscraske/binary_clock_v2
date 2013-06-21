@@ -1,7 +1,5 @@
 <!--include(header.bct)-->
-<p>
-	<!--pageToolsSystemInfo()-->
-</p>
+<!--pageToolsSystemInfo()-->
 <p>
 	<a href="/tools">Back</a>
 </p>

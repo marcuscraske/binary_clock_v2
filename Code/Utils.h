@@ -383,6 +383,7 @@ namespace BC
             Utils::replace(input, "%3F", "?");
             Utils::replace(input, "%27", "'");
             Utils::replace(input, "%60", "`");
+            Utils::replace(input, "%23", "#");
             return input;
         }
         // -- Returns the human-readable representation of the bytes e.g.

@@ -315,17 +315,96 @@
 		thread for background tasks such as rebooting all the services.
 	</li>
 	<li>
+		A background thread runs in the service controller, used for applying actions to the services
+		(start, stop, restart, all-restart) to avoid dead-locks from actions committed by the web-http service.
+	</li>
+	<li>
 		General code-base cleanup, library greatly extended, a few bug-fixes and more commenting/documentation and testing.
+	</li>
+	<li>
+		Relay board service and admin pages added, as well as condition functions for testing if to switch the
+		current state of a relay on the relay-board.
+	</li>
+	<li>
+		Added the ability to run the clock in virtual mode, allowing the software to run on a
+		non-Raspberry-Pi device (for faster testing of non-hardware functions).
 	</li>
 </ul>
 <p>
 	The circuitry was also completely remade due to solder joints on the sensor board coming loose in
-	the summer; the clock has also been painted white, a base added (to avoid falling over, which has occurred) and velcro
-	mostly removed from the inside of the clock.
+	the summer; the clock has also been painted white, a base added (to avoid falling over, which has occurred), velcro
+	mostly removed from the inside of the clock, a wooden skeleton has been added to the inside to avoid
+	the clock's shell from flexing when plugging-in appliances and the clock's power cable has been replaced
+	with something far more flexible and insulated.
 </p>
-<h3>Images of v2.1</h3>
+<h3>Images of v2.1: Hardware</h3>
 <div class="CENTER">
-
+	<img src="./Content/Images/about/v2.1/1.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The front-side of the clock in its current state.
+	</p>
+	<img src="./Content/Images/about/v2.1/2.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The skeleton added to the clock.
+	</p>
+	<img src="./Content/Images/about/v2.1/3.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		The new circuit board.
+	</p>
+</div>
+<h3>Images of v2.1: Site</h3>
+<div class="CENTER">
+	<img src="./Content/Images/about/v2.1/4.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		New home-page.
+	</p>
+	<img src="./Content/Images/about/v2.1/5.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Tools menu.
+	</p>
+	<img src="./Content/Images/about/v2.1/6.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Tools, System information.
+	</p>
+	<img src="./Content/Images/about/v2.1/7.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Tools, Developers API.
+	</p>
+	<img src="./Content/Images/about/v2.1/8.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Tools, Random Number Generator.
+	</p>
+	<img src="./Content/Images/about/v2.1/9.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Guestbook, demonstrating multi-level posts.
+	</p>
+</div>
+<h3>Images of v2.1: Admin Panel</h3>
+<div class="CENTER">
+	<img src="./Content/Images/about/v2.1/10.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		New admin menu.
+	</p>
+	<img src="./Content/Images/about/v2.1/11.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Updated services page.
+	</p>
+	<img src="./Content/Images/about/v2.1/12.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Relay Board menu.
+	</p>
+	<img src="./Content/Images/about/v2.1/13.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Modifying a specific relay on the relay board.
+	</p>
+	<img src="./Content/Images/about/v2.1/14.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Viewing the web-cache items.
+	</p>
+	<img src="./Content/Images/about/v2.1/15.png" alt="Binary Clock Project" class="IMAGE" />
+	<p>
+		Database diagnostics page.
+	</p>
 </div>
 
 <!--include(footer.bct)-->

@@ -8,8 +8,8 @@
 	You are currently viewing the website used for information access
 	and control of a binary clock built using a Raspberry Pi and C++,
 	using the Linux distribution <i>Debian</i>. In fact the very website
-	you're currently using is custom-written web-server with its own very
-	simple markup language!
+	you're currently using is custom-written, using its own,
+	very simple, scripting language!
 </p>
 <div class="CENTER">
 	<img src="/Content/Images/cat.png" alt="Cat" class="IMAGE" />
