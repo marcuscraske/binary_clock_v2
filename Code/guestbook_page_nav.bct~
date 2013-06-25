@@ -1,6 +1,0 @@
-<div class="GB_NAV">
-	<a class="LEFT %VISIBLE_LEFT%" href="./guest_book?page=%PREV%">Previous</a>
-	Page: %PAGE%
-	<a class="RIGHT %VISIBLE_RIGHT%" href="./guest_book?page=%NEXT%">Next</a>
-	<div class="clear"></div>
-</div>

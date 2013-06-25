@@ -1,7 +1,0 @@
-<h2>Admin - Database Debug</h2>
-<p>
-	%OUTPUT%
-</p>
-<p>
-	<a href="/admin">Back</a>
-</p>
