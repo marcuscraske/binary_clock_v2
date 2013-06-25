@@ -1,9 +1,0 @@
-<!--include(header.bct)-->
-<h2>Tools</h2>
-<ul>
-	<li><a href="./tools/system_info">System Information</a></li>
-	<li><a href="./tools/api">Developers API</a></li>
-	<li><a href="./tools/random">Random Number Generator</a></li>
-	<li><a href="./tools/random_video">Random Video (18+ only)</a></li>
-</ul>
-<!--include(footer.bct)-->
