@@ -1,3 +1,29 @@
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           main.cpp
+ *      Path:           main.cpp
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The execution entry-point for the program.
+ * *****************************************************************************
+ */
 #include <iostream>
 #include <signal.h>
 #include "ServiceController.h"

@@ -1,15 +1,49 @@
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           Sensors.h
+ *      Path:           BC/Services/Sensors.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The sensor service, used to periodically poll sensor data.
+ * *****************************************************************************
+ */
 #ifndef SENSORS_H
 #define	SENSORS_H
 
+#include "Definitions.h"
+
 #include <unistd.h>
 
-#include "Definitions.h"
 #include "IService.h"
-#include "IC_MCP3008.h"
-#include "PhotoResistor.h"
-#include "TMP36.h"
-#include "Utils.h"
+using BC::Services::IService;
 
+#include "IC_MCP3008.h"
+using BC::Hardware::IC_MCP3008;
+
+#include "PhotoResistor.h"
+using BC::Hardware::PhotoResistor;
+
+#include "TMP36.h"
+using BC::Hardware::TMP36;
+
+#include "Utils.h"
 using BC::Utils;
 
 #define SENSORS_DEFAULT_MCP_TMP36                IC_MCP3008::Pin1

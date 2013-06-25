@@ -1,3 +1,30 @@
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           IC_74HC595.h
+ *      Path:           BC/Hardware/74HC595.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * Used to interact with the hardware integrated-circuit "74HC595", an 8-bit
+ * shift-register.
+ * *****************************************************************************
+ */
 #ifndef IC_74HC595_H
 #define	IC_74HC595_H
 

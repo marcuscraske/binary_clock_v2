@@ -1,4 +1,31 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           RelayBoard.h
+ *      Path:           BC/Services/RelayBoard.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The relay-board service, used to operate the hardware relay-board on the
+ * binary clock. This service runs the logic to check any conditions of
+ * individual relays and handles the on-board relay board.
+ * *****************************************************************************
+ */
 #ifndef RELAYBOARD_H
 #define	RELAYBOARD_H
 

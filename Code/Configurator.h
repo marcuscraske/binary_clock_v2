@@ -1,4 +1,30 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           Configurator.h
+ *      Path:           BC/Services/Configurator.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The configuration service; used for shared configuration between other
+ * services with protection against disk-thrashing and other features.
+ * *****************************************************************************
+ */
 #ifndef CONFIGURATOR_H
 #define	CONFIGURATOR_H
 
@@ -14,31 +40,38 @@
                                                                 // configuration on disk.
 
 #define CONFIG_NEWLINE_CHAR             '$'                     // \n is replaced with this character.
-#include <unistd.h>
-#include <map>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
 
 #include "Definitions.h"
-#include "IService.h"
-#include "ServiceController.h"
-#include "Utils.h"
 
+#include <unistd.h>
+#include <map>
 using std::map;
+using std::pair;
+
+#include <string>
 using std::string;
+
+#include <iostream>
 using std::cout;
 using std::endl;
+using std::ios;
+
+#include <fstream>
 using std::ifstream;
 using std::ofstream;
-using std::ios;
-using std::pair;
+
+#include <sstream>
 using std::stringstream;
 
+#include <algorithm>
+
+#include "IService.h"
 using BC::Services::IService;
+
+#include "ServiceController.h"
 using BC::ServiceController;
+
+#include "Utils.h"
 using BC::Utils;
 
 namespace BC

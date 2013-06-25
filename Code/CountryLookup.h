@@ -1,4 +1,31 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           CountryLookup.h
+ *      Path:           BC/Services/CountryLookup.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The country look-up service. Used to download five IP block allocation lists,
+ * which are used to determine the location of IPs for the ip table in the
+ * database (used by the guest-book etc).
+ * *****************************************************************************
+ */
 #ifndef COUNTRYLOOKUP_H
 #define	COUNTRYLOOKUP_H
 
@@ -18,26 +45,36 @@
 
 #define COUNTRYLOOKUP_LIST_DEFAULT_UPDATE_INTERVAL      86400000LL // Default: 1 day
 
-#include <string>
-#include <pqxx/pqxx>
-#include <vector>
-
 #include "Definitions.h"
-#include "IService.h"
-#include "ServiceController.h"
-#include "IPAddress.h"
-#include "Utils.h"
-#include "ClientSocket.h"
-#include "Configurator.h"
-#include "Pages.h"
 
+#include <string>
 using std::string;
-using std::vector;
+
+#include <pqxx/pqxx>
 using namespace pqxx;
 
-using BC::Utils;
+#include <vector>
+using std::vector;
+
+#include "IService.h"
+using BC::Services::IService;
+
+#include "ServiceController.h"
+using BC::ServiceController;
+
+#include "IPAddress.h"
 using BC::Services::IPAddress;
+
+#include "Utils.h"
+using BC::Utils;
+
+#include "ClientSocket.h"
 using BC::Web::Core::ClientSocket;
+
+#include "Configurator.h"
+using BC::Services::Configurator;
+
+#include "Pages.h" // Access to defines only.
 
 namespace BC
 {

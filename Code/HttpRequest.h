@@ -1,18 +1,49 @@
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           HttpRequest.h
+ *      Path:           BC/Web/Http/HttpRequest.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * Used to represent a client's HTTP request data to the web server.
+ * *****************************************************************************
+ */
 #ifndef HTTPREQUEST_H
 #define	HTTPREQUEST_H
 
 #include <map>
+using std::map;
+
 #include <string>
+using std::string;
 
 #include "Structs.h"
-#include "HttpHandler.h"
-#include "WebHttp.h"
-#include "Utils.h"
-
-using std::map;
-using std::string;
 using BC::Web::Core::Client;
+using BC::Web::Core::Data;
+
+#include "HttpHandler.h"
+using BC::Web::Http::HttpHandler;
+
+#include "WebHttp.h"
 using BC::Services::WebHttp;
+
+#include "Utils.h"
 using BC::Utils;
 
 // Forward declarations

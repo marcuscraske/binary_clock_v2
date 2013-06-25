@@ -1,21 +1,52 @@
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           ServiceController.h
+ *      Path:           BC/ServiceController.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The service controller is the backbone to the entire application,
+ * responsible for managing the services used to operate the binary clock.
+ * This is similar to the micro-kernel architecture with daemons/services, this
+ * class would therefore be equivalent to the "daemon manager".
+ * *****************************************************************************
+ */
 #ifndef SERVICECONTROLLER_H
 #define	SERVICECONTROLLER_H
 
 #include <mutex>
+using std::mutex;
+
 #include <map>
+using std::map;
+
 #include <thread>
+using std::thread;
+using std::unique_lock;
+
 #include <condition_variable>
+using std::condition_variable;
 
 #include "IService.h"
 
 #include "RaspberryPi.h"
 using BC::Hardware::RaspberryPi;
-
-using std::mutex;
-using std::unique_lock;
-using std::thread;
-using std::condition_variable;
-using std::map;
 
 // Forward declarations
 namespace BC
@@ -95,61 +126,9 @@ namespace BC
         void stopServices();
     public:
         // Member Functions - Mutators ---------------------------------------->
-        inline bool serviceAdd(IService *service)
-        {
-            unique_lock<mutex> lock(mutexController);
-            if(flagRunning)
-            {
-                cerr << "Cannot add a service when the controller is operational!" << endl;
-                return false;
-            }
-            services[service->getTitle()] = service;
-            return true;
-        }
-        inline bool serviceRemove(IService *service)
-        {
-            unique_lock<mutex> lock(mutexController);
-            if(flagRunning)
-            {
-                cerr << "Cannot remove a service when the controller is operational!" << endl;
-                return false;
-            }
-            // Find the service
-            map<string, IService*>::iterator it = services.begin();
-            while(it != services.end() && (*it).second != service)
-                it++;
-            // Remove it
-            if(it != services.end())
-            {
-                services.erase(it);
-                return true;
-            }
-            else
-            {
-                cerr << "Could not remove service with pointer '" << service << "'; not found in the service collection!" << endl;
-                return false;
-            }
-        }
-        inline bool serviceRemove(string name)
-        {
-            unique_lock<mutex> lock(mutexController);
-            if(flagRunning)
-            {
-                cerr << "Cannot remove a service when the controller is operational!" << endl;
-                return false;
-            }
-            map<string, IService*>::iterator it = services.find(name);
-            if(it == services.end())
-            {
-                cerr << "Failed to remove service '" << name << "' - not found!" << endl;
-                return false;
-            }
-            else
-            {
-                services.erase(it);
-                return true;
-            }
-        }
+        bool serviceAdd(IService *service);
+        bool serviceRemove(IService *service);
+        bool serviceRemove(string name);
         // Member Functions - Accessors --------------------------------------->
         inline bool isRunning() { return flagRunning; }
         inline bool isHardwareEnabled() { return hardwareEnabled; }

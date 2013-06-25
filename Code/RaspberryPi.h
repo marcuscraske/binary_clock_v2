@@ -1,9 +1,33 @@
-
-// add credit for http://elinux.org/RPi_Low-level_peripherals
-// -- Gert van Loo & Dom
-
-// add pin layout schematic
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           RaspberryPi.h
+ *      Path:           BC/Hardware/RaspberryPi.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * A class used for interacting with the Raspberry Pi on a hardware level; at
+ * present this is only used for GPIO interaction through memory mapping.
+ * Credit is due to Gert van Loo & Dom for their work on finding the addresses
+ * of the BCM (chipset of the Raspberry Pi) GPIO pins:
+ * http://elinux.org/RPi_Low-level_peripherals
+ * *****************************************************************************
+ */
 #ifndef RASPBERRYPI_H
 #define	RASPBERRYPI_H
 
@@ -16,6 +40,8 @@ using std::endl;
 
 #include <mutex>
 using std::mutex;
+
+#include <thread>
 using std::unique_lock;
 
 #include "Utils.h"

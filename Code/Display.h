@@ -1,3 +1,30 @@
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           Display.h
+ *      Path:           BC/Services/Display.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The display service, used for interacting with the shift-registers of the
+ * binary clock for displaying light sequences (refer to sequence enum).
+ * *****************************************************************************
+ */
 #ifndef DISPLAY_H
 #define	DISPLAY_H
 
@@ -37,10 +64,11 @@
 #define DISPLAY_DEFAULT_SEQUENCE_LIGHT_BUZZ     Sequence::AllLeds
 #define DISPLAY_DEFAULT_LIGHT_THRESHOLD         35
 
+#include "Definitions.h"
+
 #include <unistd.h>
 #include <time.h>
 
-#include "Definitions.h"
 #include "IService.h"
 using BC::Services::IService;
 

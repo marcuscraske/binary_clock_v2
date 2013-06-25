@@ -1,34 +1,67 @@
-
-// thread safe collection
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           DiskCache.h
+ *      Path:           BC/Web/Http/DiskCache.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * Disk caching used for the web-server, although this could be used for other
+ * things since it's independent. This is also a thread-safe collection.
+ * Disk caching is used to store files in primary memory, as opposed to
+ * secondary memory, to speed-up requests by reducing I/O time.
+ * *****************************************************************************
+ */
 #ifndef DISKCACHE_H
 #define	DISKCACHE_H
 
 #define HTTP_DISKCACHE_DEFAULT_EXTENSIONS       ".bc,.bct,.css,.png,.jpg"
 
-#include <map>
-#include <mutex>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <iostream>
-
 #include "Definitions.h"
-#include "ServiceController.h"
-#include "DiskCacheItem.h"
-#include "Utils.h"
-#include "Configurator.h"
 
+#include <map>
 using std::map;
+
+#include <mutex>
 using std::mutex;
 using std::unique_lock;
+
+#include <string>
 using std::string;
+
+#include <vector>
 using std::vector;
+
+#include <iostream>
+#include <fstream>
 using std::iostream;
 using std::ifstream;
 
+#include "ServiceController.h"
 using BC::ServiceController;
+
+#include "DiskCacheItem.h"
+using BC::Web::Http::DiskCacheItem;
+
+#include "Utils.h"
 using BC::Utils;
+
+#include "Configurator.h"
 using BC::Services::Configurator;
 
 // Forward declarations

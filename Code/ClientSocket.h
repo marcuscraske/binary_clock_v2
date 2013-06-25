@@ -1,4 +1,30 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           ClientSocket.h
+ *      Path:           BC/Web/Core/ClientSocket.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * A class used for connecting to a specified destination using TCP/IP
+ * for sending and receiving data.
+ * *****************************************************************************
+ */
 #ifndef CLIENTSOCKET_H
 #define	CLIENTSOCKET_H
 
@@ -6,18 +32,22 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include <iostream>
-#include <ostream>
-#include <string>
-#include <sstream>
-#include <netdb.h>
-#include <fcntl.h>
 
+#include <iostream>
 using std::cerr;
 using std::endl;
-using std::string;
-using std::stringstream;
+
+#include <ostream>
 using std::ostream;
+
+#include <string>
+using std::string;
+
+#include <sstream>
+using std::stringstream;
+
+#include <netdb.h>
+#include <fcntl.h>
 
 namespace BC
 {

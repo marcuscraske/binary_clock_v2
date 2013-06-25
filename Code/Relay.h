@@ -9,13 +9,13 @@
  *                      |            |  _  |            |
  *                      |____________| |_| |____________|
  *                        
- *      Author(s):      limpygnome (Marcus Craske)      limpygnome@gmail.com
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
  * 
  *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
  *                      http://creativecommons.org/licenses/by-sa/3.0/
  * 
  *      File:           Relay.h
- *      Path:           BC/Hardware/Relay.h
+ *      Path:           BC/Services/Relay.h
  * 
  *      Change-Log:
  *                      2013-06-13      Created.

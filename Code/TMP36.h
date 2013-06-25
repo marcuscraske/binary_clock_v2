@@ -1,4 +1,31 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           TMP36.h
+ *      Path:           BC/Hardware/TMP36.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * Used to interact with the TMP36 temperature sensor hardware component;
+ * data-sheet:
+ * http://www.analog.com/static/imported-files/data_sheets/TMP35_36_37.pdf‎
+ * *****************************************************************************
+ */
 #ifndef TMP36_H
 #define	TMP36_H
 

@@ -1,29 +1,63 @@
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           Relay.h
+ *      Path:           BC/Services/Alarm.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The alarm service, used for enabling a buzzer when a specified time for alarm
+ * has been surpassed.
+ * *****************************************************************************
+ */
 #ifndef ALARM_H
 #define	ALARM_H
 
+#include "Definitions.h"
+
 #include <algorithm>
 #include <unistd.h>
-#include <vector>
-#include <iostream>
-#include <string>
-#include <sstream>
 
-#include "Definitions.h"
+#include <vector>
+using std::vector;
+
+#include <iostream>
+using std::cout;
+using std::cerr;
+using std::endl;
+
+#include <string>
+using std::string;
+
+#include <sstream>
+using std::stringstream;
+
 #include "IService.h"
+using BC::Services::IService;
+
 #include "ServiceController.h"
+using BC::ServiceController;
 
 #include "DateTime.h"
 using BC::DateTime;
 
 #include "Utils.h"
 using BC::Utils;
-
-using std::vector;
-using std::cout;
-using std::cerr;
-using std::endl;
-using std::string;
-using std::stringstream;
 
 #define ALARM_DEFAULT_PIN_BUZZER        7
 #define ALARM_DEFAULT_BUZZES            20
@@ -64,7 +98,7 @@ namespace BC
             {
                 alarms.push_back(time);
                 sort();
-                cout << "Added an alarm for " << time.day << "/" << time.month << "/" << time.year << " " << time.hour << ":" << time.minute << ":" << time.second << "." << endl;
+                cout << getTitle() << ": added an alarm for " << time.day << "/" << time.month << "/" << time.year << " " << time.hour << ":" << time.minute << ":" << time.second << "." << endl;
                 save();
             }
             // -- Removes an alarm time, if it can be found.

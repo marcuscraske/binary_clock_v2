@@ -1,24 +1,57 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           PageFunctions.h
+ *      Path:           BC/Web/Modules/PageFunctions.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * A module with many common page functions for the web-server.
+ * *****************************************************************************
+ */
 #ifndef PAGEFUNCTIONS_H
 #define	PAGEFUNCTIONS_H
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <string>
-#include <functional>
-
-#include "HttpResponse.h"
-#include "HttpRequest.h"
-
 using std::ifstream;
+
+#include <sstream>
 using std::stringstream;
-using std::map;
+
+#include <string>
 using std::string;
 
+#include <functional>
+
+#include <map>
+using std::map;
+
+#include "WebHttp.h"
 using BC::Services::WebHttp;
+
+#include "HttpHandler.h"
 using BC::Web::Http::HttpHandler;
+
+#include "HttpRequest.h"
 using BC::Web::Http::HttpRequest;
+
+#include "HttpResponse.h"
 using BC::Web::Http::HttpResponse;
 
 namespace BC

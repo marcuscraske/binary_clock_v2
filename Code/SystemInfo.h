@@ -1,12 +1,40 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           SystemInfo.h
+ *      Path:           BC/Web/Modules/SystemInfo.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * Used to retrieve information about the current system the binary clock
+ * application is operating upon.
+ * *****************************************************************************
+ */
 #ifndef SYSTEMINFO_H
 #define	SYSTEMINFO_H
 
 #include <sys/sysinfo.h>
+
 #include <iostream>
 #include <fstream>
-#include "Utils.h"
 using std::ifstream;
+
+#include "Utils.h"
 using BC::Utils;
 
 namespace BC

@@ -1,27 +1,67 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           Utils.h
+ *      Path:           BC/Utils.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * A utilities class with shared functions. The code in this class should be
+ * highly tested, since some functions can be critical to the entire operation
+ * of the binary clock (i.e. shared by many, if not all, services).
+ * *****************************************************************************
+ */
 #ifndef UTILS_H
 #define	UTILS_H
 
-#include <ctime>
 #include <string>
+using std::string;
+
+#include <ctime>
 #include <math.h>
 #include <unistd.h>
-#include <vector>
+
 #include <dirent.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <chrono>
+
 #include <condition_variable>
+using std::condition_variable;
+
 #include <mutex>
+using std::mutex;
+
 #include <thread>
+using std::thread;
 
-#include "FileItemType.h"
-#include "FileInfo.h"
+#include <sstream>
+using std::stringstream;
 
-using std::string;
+#include <vector>
 using std::vector;
 
+#include <cstdarg> // Used for va_list.
+
+#include "FileItemType.h"
 using BC::FileItemType;
+
+#include "FileInfo.h"
 using BC::FileInfo;
 
 #include "DateTime.h"
@@ -33,11 +73,6 @@ namespace BC
     class Time;
 }
 using BC::Time;
-
-#include <sstream>
-using std::stringstream;
-
-#include <cstdarg> // Used for va_list.
 
 namespace BC
 {
@@ -399,21 +434,13 @@ namespace BC
             double v = (double)bytes;
             
             if(bytes > 1099511627776LL) // Terrabytes
-            {
                 return std::to_string(v / 1099511627776.0) + " TB";
-            }
             else if(bytes > 1073741824LL) // Gigabytes
-            {
                 return std::to_string(v / 1073741824.0) + " GB";
-            }
             else if(bytes > 1048576LL) // Megabytes
-            {
                 return std::to_string(v / 1048576.0) + " MB";
-            }
             else if(bytes > 1024LL) // Kilobytes
-            {
                 return std::to_string(v / 1024.0) + " KB";
-            }
             else
                 return std::to_string(v) + " B";
         }

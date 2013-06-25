@@ -1,13 +1,42 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           IPAddress.h
+ *      Path:           BC/Services/IPAddress.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * Used to represent an IPv4 or IPv6 address and perform address operations.
+ * *****************************************************************************
+ */
 #ifndef IPADDRESS_H
 #define	IPADDRESS_H
 
 #include <string>
-#include <sstream>
-#include "Utils.h"
-
 using std::string;
+
+#include <sstream>
 using std::stringstream;
+
+#include <vector>
+using std::vector;
+
+#include "Utils.h"
 using BC::Utils;
 
 namespace BC

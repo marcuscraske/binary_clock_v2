@@ -1,24 +1,56 @@
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           IService.h
+ *      Path:           BC/Services/IService.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The base-class used by all services; this is almost like an interface, except
+ * it contains some implemented code.
+ * *****************************************************************************
+ */
 #ifndef ISERVICE_H
 #define	ISERVICE_H
 
 #include <thread>
 #include <pthread.h>
-#include <mutex>
-#include <sys/time.h>
-#include <string>
-#include <iostream>
-#include <condition_variable>
-
-using std::mutex;
 using std::thread;
+
+#include <mutex>
+using std::mutex;
 using std::unique_lock;
-using std::condition_variable;
+
+#include <sys/time.h>
+
+#include <string>
 using std::string;
+
+#include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
 
+#include <condition_variable>
+using std::condition_variable;
+
 // Forward declarations
+#include "ServiceController.h"
 namespace BC
 {
     class ServiceController;

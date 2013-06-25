@@ -1,12 +1,37 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           Templates.h
+ *      Path:           BC/Web/Http/Templates.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * Used by the web-server for formatting templates with the custom template
+ * syntax markup for back-end function calls.
+ * *****************************************************************************
+ */
 #ifndef TEMPLATES_H
 #define	TEMPLATES_H
 
+// Forward declarations
 #include "HttpHandler.h"
 #include "HttpRequest.h"
 #include "HttpResponse.h"
-
-// Forward declarations
 namespace BC
 {
     namespace Web

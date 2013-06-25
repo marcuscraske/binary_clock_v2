@@ -1,37 +1,73 @@
-
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           Pages.h
+ *      Path:           BC/Web/Modules/Pages.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * A module for the web-server used for rendering pages.
+ * *****************************************************************************
+ */
 #ifndef PAGES_H
 #define	PAGES_H
 
+#include "Definitions.h"
+
 #include <iostream>
 #include <fstream>
-#include <map>
-#include <string>
-#include <pqxx/pqxx>
-#include <sstream>
-#include <stdlib.h>
-
-#include "Definitions.h"
-#include "WebHttp.h"
-#include "Structs.h"
-#include "HttpRequest.h"
-#include "HttpResponse.h"
-#include "IModule.h"
-#include "Templates.h"
-#include "SystemInfo.h"
-
-using std::map;
-using std::string;
-using std::stringstream;
 using std::ifstream;
+
+#include <map>
+using std::map;
+
+#include <string>
+using std::string;
+
+#include <pqxx/pqxx>
 using namespace pqxx;
 
+#include <sstream>
+using std::stringstream;
+
+#include <stdlib.h>
+
+#include "WebHttp.h"
 using BC::Services::WebHttp;
+
+#include "Structs.h"
 using BC::Web::Core::Client;
-using BC::Web::Modules::IModule;
-using BC::Web::Http::HttpHandler;
+using BC::Web::Core::Data;
+
+#include "HttpRequest.h"
 using BC::Web::Http::HttpRequest;
+
+#include "HttpResponse.h"
 using BC::Web::Http::HttpResponse;
+
+#include "IModule.h"
+using BC::Web::Modules::IModule;
+
+#include "SystemInfo.h"
 using BC::Web::Modules::SystemInfo;
+
+#include "HttpHandler.h"
+using BC::Web::Http::HttpHandler;
 
 #include "Utils.h"
 using BC::Utils;
@@ -43,6 +79,7 @@ using BC::Services::Alarm;
 using BC::Services::RelayBoard;
 
 // Forward declarations
+#include "Templates.h"
 namespace BC
 {
     namespace Web

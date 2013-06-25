@@ -1,29 +1,75 @@
+/*                       ____               ____________
+ *                      |    |             |            |
+ *                      |    |             |    ________|
+ *                      |    |             |   |
+ *                      |    |             |   |    
+ *                      |    |             |   |    ____
+ *                      |    |             |   |   |    |
+ *                      |    |_______      |   |___|    |
+ *                      |            |  _  |            |
+ *                      |____________| |_| |____________|
+ *                        
+ *      Author(s):      limpygnome (Marcus Craske)              limpygnome@gmail.com
+ * 
+ *      License:        Creative Commons Attribution-ShareAlike 3.0 Unported
+ *                      http://creativecommons.org/licenses/by-sa/3.0/
+ * 
+ *      File:           HttpHandler.h
+ *      Path:           BC/Web/Http/HttpHandler.h
+ * 
+ *      Change-Log:
+ *                      2013-06-25      Added header.
+ * 
+ * *****************************************************************************
+ * The handler responsible for implementing the web-server using HTTP/1.1; this
+ * also acts as the bridge for functions to access other services.
+ * *****************************************************************************
+ */
 #ifndef HTTPHANDLER_H
 #define	HTTPHANDLER_H
 
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <map>
-#include <string>
-
 #include "Definitions.h"
+
+#include <iostream>
+using std::ifstream;
+using std::cout;
+using std::cerr;
+using std::endl;
+
+#include <sstream>
+using std::stringstream;
+
+#include <fstream>
+
+#include <map>
+using std::map;
+
+#include <string>
+using std::string;
+
 #include "Structs.h"
+using BC::Web::Core::Client;
+using BC::Web::Core::Data;
+
 #include "IClientHandler.h"
-#include "HttpRequest.h"
-#include "HttpResponse.h"
+using BC::Web::Core::IClientHandler;
 
 #include "Utils.h"
-#include "Alarm.h"
-#include "DiskCache.h"
+using BC::Utils;
+
 #include "Templates.h"
 
-#include "IModule.h"
 #include "FunctionMapping.h"
+using BC::Web::Http::FunctionMapping;
+
+#include "HttpResponse.h"
+using BC::Web::Http::HttpResponse;
+
 #include "PageFunctions.h"
 #include "Pages.h"
+using namespace BC::Web::Modules;
 
-
+// Forward declarations
 #include "Alarm.h"
 #include "CountryLookup.h"
 #include "Configurator.h"
@@ -32,21 +78,11 @@
 #include "WebHttp.h"
 #include "RelayBoard.h"
 
-using std::map;
-using std::stringstream;
-using std::string;
-using std::ifstream;
-using std::cout;
-using std::cerr;
-using std::endl;
+#include "HttpRequest.h"
+#include "DiskCache.h"
 
-using BC::Web::Core::Client;
-using BC::Web::Http::HttpResponse;
-using BC::Web::Http::HttpRequest;
-using BC::Web::Http::FunctionMapping;
-using BC::Web::Core::Data;
+#include "IModule.h"
 
-// Forward declarations
 namespace BC
 {
     namespace Services
@@ -82,7 +118,6 @@ using BC::Services::RelayBoard;
 using BC::Web::Core::IClientHandler;
 using BC::Web::Http::HttpRequest;
 using BC::Web::Http::DiskCache;
-using namespace BC::Web::Modules;
            
 #define HTTPHANDLER_DEFAULT_PAGE_DEFAULT        "home.bc"
 #define HTTPHANDLER_DEFAULT_PAGE_NOTFOUND       "404.bct"

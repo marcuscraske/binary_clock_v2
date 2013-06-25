@@ -169,4 +169,59 @@ namespace BC
         // Stop every service
         stopServices();
     }
+    bool ServiceController::serviceAdd(IService *service)
+    {
+        unique_lock<mutex> lock(mutexController);
+        if(flagRunning)
+        {
+            cerr << "Cannot add a service when the controller is operational!" << endl;
+            return false;
+        }
+        services[service->getTitle()] = service;
+        return true;
+    }
+    bool ServiceController::serviceRemove(IService *service)
+    {
+        unique_lock<mutex> lock(mutexController);
+        if(flagRunning)
+        {
+            cerr << "Cannot remove a service when the controller is operational!" << endl;
+            return false;
+        }
+        // Find the service
+        map<string, IService*>::iterator it = services.begin();
+        while(it != services.end() && (*it).second != service)
+            it++;
+        // Remove it
+        if(it != services.end())
+        {
+            services.erase(it);
+            return true;
+        }
+        else
+        {
+            cerr << "Could not remove service with pointer '" << service << "'; not found in the service collection!" << endl;
+            return false;
+        }
+    }
+    bool ServiceController::serviceRemove(string name)
+    {
+        unique_lock<mutex> lock(mutexController);
+        if(flagRunning)
+        {
+            cerr << "Cannot remove a service when the controller is operational!" << endl;
+            return false;
+        }
+        map<string, IService*>::iterator it = services.find(name);
+        if(it == services.end())
+        {
+            cerr << "Failed to remove service '" << name << "' - not found!" << endl;
+            return false;
+        }
+        else
+        {
+            services.erase(it);
+            return true;
+        }
+    }
 }
