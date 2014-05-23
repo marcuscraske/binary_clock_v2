@@ -28,42 +28,6 @@
 #ifndef DISPLAY_H
 #define	DISPLAY_H
 
-// Definitions of shift-register pins for the LEDs
-// -- Hours
-#define DISPLAY_LED_H_16        1
-#define DISPLAY_LED_H_8         2
-#define DISPLAY_LED_H_4         4
-#define DISPLAY_LED_H_2         8
-#define DISPLAY_LED_H_1         16
-// -- Minutes
-#define DISPLAY_LED_M_32        32
-#define DISPLAY_LED_M_16        64
-#define DISPLAY_LED_M_8         128
-#define DISPLAY_LED_M_4         256
-#define DISPLAY_LED_M_2         512
-#define DISPLAY_LED_M_1         1024
-// -- Seconds
-#define DISPLAY_LED_S_32        2048
-#define DISPLAY_LED_S_16        4096
-#define DISPLAY_LED_S_8         8192
-#define DISPLAY_LED_S_4         16384
-#define DISPLAY_LED_S_2         32768
-#define DISPLAY_LED_S_1         65536
-// -- Error LEDs
-#define DISPLAY_LED_ERROR_1     131072
-#define DISPLAY_LED_ERROR_2     262144
-#define DISPLAY_LED_ERROR_3     524288
-// Definitions of pin info for interfacing with the shift-registers
-#define DISPLAY_DEFAULT_REGISTERS       3
-#define DISPLAY_DEFAULT_PIN_DATA        14
-#define DISPLAY_DEFAULT_PIN_LATCH       18
-#define DISPLAY_DEFAULT_PIN_CLOCK       15
-// Definitions of default light sequences
-#define DISPLAY_DEFAULT_SEQUENCE_LIGHT_LOW      Sequence::Offline
-#define DISPLAY_DEFAULT_SEQUENCE_LIGHT_HIGH     Sequence::Time
-#define DISPLAY_DEFAULT_SEQUENCE_LIGHT_BUZZ     Sequence::AllLeds
-#define DISPLAY_DEFAULT_LIGHT_THRESHOLD         35
-
 #include "Definitions.h"
 
 #include <unistd.h>
@@ -71,6 +35,16 @@
 
 #include "IService.h"
 using BC::Services::IService;
+
+#include "LightSeqs/LightSequence.h"
+#include "LightSeqs/All.h"
+#include "LightSeqs/Failure.h"
+#include "LightSeqs/Offline.h"
+#include "LightSeqs/SingleLed.h"
+#include "LightSeqs/SymbolX.h"
+#include "LightSeqs/LedTime.h"
+
+using namespace BC::Services::LightSeqs;
 
 #include "Utils.h"
 using BC::Utils;
@@ -102,7 +76,7 @@ namespace BC
                         sequenceLow,
                         sequenceBuzz;
                 // -- The buffer written to the shift-registers for the display;
-                // -- can be set publicly when in manual-mode.
+                // -- this is for manual-mode.
             int buffer,
                 // -- The time periods between writing the buffer to the
                 // -- shift-registers in manual-mode.
@@ -124,7 +98,7 @@ namespace BC
             // Member Functions ----------------------------------------------->
             void run();
             // Member Functions - Mutators ------------------------------------>
-            void changeBuffer(int value);
+            void changeManualBuffer(int value);
             void changeManualDelay(int delay);
             // Member Functions - Accessors ----------------------------------->
             inline Sequence getSequenceHigh() { return sequenceHigh; }
@@ -132,13 +106,14 @@ namespace BC
             inline Sequence getSequenceBuzz() { return sequenceBuzz; }
             inline int getLightThreshold() { return lightThreshold; }
         private:
+            LightSequence* seqCreate(int mode);
             // Member Functions - Light Sequences ----------------------------->
-            inline int sequence_SingleLedTest();
-            inline int sequence_Time();
-            inline int sequence_ManualBuffer();
-            inline int sequence_SymbolX();
-            inline int sequence_Failure();
-            inline int sequence_AllLeds();
+            int sequence_SingleLedTest();
+            int sequence_Time();
+            int sequence_ManualBuffer();
+            int sequence_SymbolX();
+            int sequence_Failure();
+            int sequence_AllLeds();
         public:
             string getTitle() { return SERVICETITLE_DISPLAY; }
         };

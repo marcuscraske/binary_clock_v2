@@ -147,4 +147,3 @@ namespace BC
 }
 
 #endif	/* ISERVICE_H */
-

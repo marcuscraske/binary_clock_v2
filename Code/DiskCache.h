@@ -30,8 +30,6 @@
 #ifndef DISKCACHE_H
 #define	DISKCACHE_H
 
-#define HTTP_DISKCACHE_DEFAULT_EXTENSIONS       ".bc,.bct,.css,.png,.jpg"
-
 #include "Definitions.h"
 
 #include <map>

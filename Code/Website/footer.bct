@@ -3,7 +3,7 @@
 	</div>
 	<div class="AREA_FOOTER">
 		The Monolithic Binary Clock - v1.0.0<br />
-		<a href="http://www.ubermeat.co.uk">ubermeat.co.uk</a><br />
+		<a href="http://www.limpygnome.com">limpygnome.com</a><br />
 		<span>
 			Processed in <!--getProcessTime()--><br />
 			Uptime: <!--getUptime()-->

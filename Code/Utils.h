@@ -400,9 +400,9 @@ namespace BC
         }
         static string htmlEncode(string input)
         {
+            Utils::replace(input, "&", "&amp;");
             Utils::replace(input, "<", "&lt;");
             Utils::replace(input, ">", "&gt;");
-            Utils::replace(input, "&", "&amp;");
             Utils::replace(input, "%", "&#38;");
             return input;
         }
@@ -419,6 +419,11 @@ namespace BC
             Utils::replace(input, "%27", "'");
             Utils::replace(input, "%60", "`");
             Utils::replace(input, "%23", "#");
+            Utils::replace(input, "%2F", "/");
+            Utils::replace(input, "%5C", "\\");
+            Utils::replace(input, "%3C", "<");
+            Utils::replace(input, "%3E", ">");
+            
             return input;
         }
         // -- Returns the human-readable representation of the bytes e.g.

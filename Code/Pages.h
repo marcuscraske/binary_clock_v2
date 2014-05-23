@@ -47,8 +47,8 @@ using std::stringstream;
 
 #include <stdlib.h>
 
-#include "WebHttp.h"
-using BC::Services::WebHttp;
+#include "WebService.h"
+using BC::Services::WebService;
 
 #include "Structs.h"
 using BC::Web::Core::Client;
@@ -91,20 +91,6 @@ namespace BC
     }
 }
 using BC::Web::Http::Templates;
-
-#define MODULES_PAGES_DEFAULT_ADMIN_IP_START            "10.0.0."
-#define MODULES_PAGES_DEFAULT_HOST                      "127.0.0.1"
-#define MODULES_PAGES_DEFAULT_PORT                      5432
-#define MODULES_PAGES_DEFAULT_DATABASE                  "main"
-#define MODULES_PAGES_DEFAULT_USER                      "postgres"
-#define MODULES_PAGES_DEFAULT_PASS                      ""
-
-#define MODULES_PAGES_GUESTBOOK_POSTSPERPAGE            4
-#define MODULES_PAGES_GUESTBOOK_NAME_MIN                0
-#define MODULES_PAGES_GUESTBOOK_NAME_MAX                24
-#define MODULES_PAGES_GUESTBOOK_MESSAGE_MIN             3
-#define MODULES_PAGES_GUESTBOOK_MESSAGE_MAX             512
-#define MODULES_PAGES_GUESTBOOK_DEFAULT_POST_THRESHOLD  3
 
 namespace BC
 {

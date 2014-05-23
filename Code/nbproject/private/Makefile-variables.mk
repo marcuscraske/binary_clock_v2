@@ -5,3 +5,5 @@
 #
 # Debug configuration
 # Release configuration
+# DebugWindows configuration
+# DebugLinux configuration

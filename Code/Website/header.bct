@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
 	<title>Binary Clock</title>
 	<link rel="Stylesheet" type="text/css" href="/Content/CSS/Layout.css" />
@@ -19,7 +18,7 @@
 			<a class="B2" href="/about">About</a>
 			<a class="B3" href="/tools">Tools</a>
 			<a class="B4" href="/guest_book">Guestbook</a>
-			<a class="B5" href="http://ubermeat.co.uk/revision_notes/binary_clock_v2">Tutorial [External]</a>
+			<a class="B5" href="http://limpygnome.com/software/binary_clock">Tutorial [External]</a>
 			<a class="B6" href="/admin">Admin</a>
 			<div class="clear"></div>
 		</div>

@@ -3,14 +3,14 @@
     <type>org.netbeans.modules.cnd.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>BinaryClockv2</name>
+            <name>BinaryClockv2.2</name>
             <c-extensions/>
             <cpp-extensions>cpp</cpp-extensions>
             <header-extensions>h</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>WiringPi</sourceRootElem>
+                <sourceRootElem>LightSeqs</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
@@ -21,7 +21,18 @@
                     <name>Release</name>
                     <type>1</type>
                 </confElem>
+                <confElem>
+                    <name>DebugWindows</name>
+                    <type>1</type>
+                </confElem>
+                <confElem>
+                    <name>DebugLinux</name>
+                    <type>1</type>
+                </confElem>
             </confList>
+            <formatting>
+                <project-formatting-style>false</project-formatting-style>
+            </formatting>
         </data>
     </configuration>
 </project>

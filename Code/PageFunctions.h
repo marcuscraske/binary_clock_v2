@@ -42,8 +42,8 @@ using std::string;
 #include <map>
 using std::map;
 
-#include "WebHttp.h"
-using BC::Services::WebHttp;
+#include "WebService.h"
+using BC::Services::WebService;
 
 #include "HttpHandler.h"
 using BC::Web::Http::HttpHandler;

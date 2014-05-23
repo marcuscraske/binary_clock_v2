@@ -74,10 +74,6 @@ namespace BC
 }
 using BC::Services::Relay;
 
-// Definitions ---------------------------------------------------------------->
-#define RELAYBOARD_LOGIC_INTERVAL       1000    // The delay in m/s between checking the logic for sockets.
-#define RELAYBOARD_DEFAULT_SOCKETS      6       // The default number of relay-board relays.
-
 namespace BC
 {
     namespace Services

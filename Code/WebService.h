@@ -28,11 +28,6 @@
 #ifndef WEBHTTP_H
 #define	WEBHTTP_H
 
-#define WEBHTTP_DEFAULT_PORT                    5000
-#define WEBHTTP_DEFAULT_SOCKETS_BACKLOG         64
-#define WEBHTTP_DEFAULT_THREADS_MAX             64
-#define WEBHTTP_SOCKET_POLLRATE_MS              500
-
 #include "Definitions.h"
 
 #include <iostream>
@@ -93,7 +88,7 @@ namespace BC
 {
     namespace Services
     {   
-        class WebHttp : public IService
+        class WebService : public IService
         {
         private:
             // Fields --------------------------------------------------------->
@@ -128,17 +123,17 @@ namespace BC
             IClientHandler      *clientHandler;
         public:
             // Constructors --------------------------------------------------->
-            WebHttp(ServiceController * const controller, IClientHandler *clientHandler):port(WEBHTTP_DEFAULT_PORT), socketsBacklog(WEBHTTP_DEFAULT_SOCKETS_BACKLOG),
+            WebService(ServiceController * const controller, IClientHandler *clientHandler):port(WEBHTTP_DEFAULT_PORT), socketsBacklog(WEBHTTP_DEFAULT_SOCKETS_BACKLOG),
                         threadsMax(WEBHTTP_DEFAULT_THREADS_MAX), threadsAvailable(WEBHTTP_DEFAULT_THREADS_MAX), clientHandler(clientHandler),
                     IService(controller)
             { }
             // Destructors ---------------------------------------------------->
-            ~WebHttp();
+            ~WebService();
             // Member Functions ----------------------------------------------->
             void run();
         private:
             // -- Used for executing the client threads.
-            static void threadHandleClient(WebHttp *web, Client *client, int threadId);
+            static void threadHandleClient(WebService *web, Client *client, int threadId);
             // -- Kills all the threads.
             void disposeThreads();
             // -- Used for handling startup errors.

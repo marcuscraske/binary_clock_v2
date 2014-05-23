@@ -90,7 +90,7 @@ body
 }
 .AREA_NAV a.B6
 {
-	background: #C30;
+	background-color: #C30;
 }
 .AREA_NAV a:hover, .AREA_NAV a:focus
 {

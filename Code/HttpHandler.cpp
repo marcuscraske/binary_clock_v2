@@ -9,7 +9,7 @@ namespace BC
     {
         namespace Http
         {
-            void HttpHandler::serviceStart(WebHttp *web)
+            void HttpHandler::serviceStart(WebService *web)
             {
                 // Load configuration
                 {
@@ -21,7 +21,7 @@ namespace BC
                     serviceConfig = static_cast<Configurator*>(web->getController()->getServiceByName(SERVICETITLE_CONFIGURATOR));
                     serviceDisplay = static_cast<Display*>(web->getController()->getServiceByName(SERVICETITLE_DISPLAY));
                     serviceSensors = static_cast<Sensors*>(web->getController()->getServiceByName(SERVICETITLE_SENSORS));
-                    serviceWebHttp = static_cast<WebHttp*>(web->getController()->getServiceByName(SERVICETITLE_WEBHTTP));
+                    serviceWebHttp = static_cast<WebService*>(web->getController()->getServiceByName(SERVICETITLE_WEBHTTP));
                     serviceCountryLookup = static_cast<CountryLookup*>(web->getController()->getServiceByName(SERVICETITLE_COUNTRYLOOKUP));
                     serviceRelayBoard = static_cast<RelayBoard*>(web->getController()->getServiceByName(SERVICETITLE_RELAYBOARD));
                 }
@@ -36,7 +36,7 @@ namespace BC
                 epochStartTime = Utils::getEpochTimeMs();
                 std::cout << "HTTP handler enabled." << std::endl;
             }
-            void HttpHandler::serviceEnd(WebHttp *web)
+            void HttpHandler::serviceEnd(WebService *web)
             {
                 // Dispose function mappings and modules
                 for(map<string, FunctionMapping*>::iterator it=pageFunctions.begin(); it != pageFunctions.end(); it++)
@@ -63,8 +63,12 @@ namespace BC
                 else
                     delete module;
             }
-            void HttpHandler::handleClient(WebHttp *web, Client *client)
+            void HttpHandler::handleClient(WebService *web, Client *client)
             {
+                // Small hack to check the correct clock has been set
+                // -- Daemon usually starts before Pi has sync'd time
+                if(epochStartTime < 1400881332)
+                    epochStartTime = Utils::getEpochTimeMs();
                 // Read HTTP headers
                 HttpRequest *request = new HttpRequest(this, web, client);
                 HttpResponse *response = new HttpResponse();

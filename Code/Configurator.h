@@ -28,19 +28,6 @@
 #ifndef CONFIGURATOR_H
 #define	CONFIGURATOR_H
 
-// Definitions ---------------------------------------------------------------->
-#define CONFIG_SAVE_WAIT                1000LL                  // Time in milliseconds to wait to
-                                                                // save data to disk.
-
-#define CONFIG_SAVE_MAXWAIT             10000LL                 // The maximum time in milliseconds to
-                                                                // wait to save data to disk; this avoids
-                                                                // indefinite postponement.
-
-#define CONFIG_FILE                     "binaryclock.config"    // The file location to store
-                                                                // configuration on disk.
-
-#define CONFIG_NEWLINE_CHAR             '$'                     // \n is replaced with this character.
-
 #include "Definitions.h"
 
 #include <unistd.h>
@@ -141,4 +128,3 @@ namespace BC
 }
 
 #endif	/* CONFIGURATOR_H */
-

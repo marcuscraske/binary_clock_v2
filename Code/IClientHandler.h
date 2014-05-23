@@ -48,15 +48,15 @@ using BC::Web::Core::Client;
 using BC::Web::Core::Data;
 
 // Forward declarations
-#include "WebHttp.h"
+#include "WebService.h"
 namespace BC
 {
     namespace Services
     {
-        class WebHttp;
+        class WebService;
     }
 }
-using BC::Services::WebHttp;
+using BC::Services::WebService;
 
 namespace BC
 {
@@ -78,10 +78,10 @@ namespace BC
                  * @param client The client of which to read data from.
                  * @return Null if an error occurred.
                  */
-                Data* readSocketData(WebHttp *web, Client *client, int bufferLimit);
-                virtual void serviceStart(WebHttp *web) {}
-                virtual void serviceEnd(WebHttp *web) {}
-                virtual void handleClient(WebHttp *web, Client *client) { }
+                Data* readSocketData(WebService *web, Client *client, int bufferLimit);
+                virtual void serviceStart(WebService *web) {}
+                virtual void serviceEnd(WebService *web) {}
+                virtual void handleClient(WebService *web, Client *client) { }
             };
         }
     }

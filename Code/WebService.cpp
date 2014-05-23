@@ -1,5 +1,5 @@
 
-#include "WebHttp.h"
+#include "WebService.h"
 #include "Configurator.h"
 
 using BC::Services::Configurator;
@@ -8,18 +8,18 @@ namespace BC
 {
     namespace Services
     {
-        WebHttp::~WebHttp()
+        WebService::~WebService()
         {
             delete clientHandler;
         }
-        void WebHttp::startupFailure(string message)
+        void WebService::startupFailure(string message)
         {
             cerr << getTitle() << ": " << message << endl;
             shutdown = true;
             delete[] threads;
             delete[] threadsDead;
         }
-        void WebHttp::run()
+        void WebService::run()
         {
             unique_lock<mutex> cl(mutexService);
             // Load configuration
@@ -120,7 +120,7 @@ namespace BC
                 else
                 {
                     // Create a client thread to handle the request
-                    thread *th = new thread(WebHttp::threadHandleClient, this, client, threadId);
+                    thread *th = new thread(WebService::threadHandleClient, this, client, threadId);
                     threads[threadId] = th;
                 }
             }
@@ -147,7 +147,7 @@ namespace BC
             delete[] threads;
             delete[] threadsDead;
         }
-        void WebHttp::disposeThreads()
+        void WebService::disposeThreads()
         {
             // We delete any pointers which are not null but set as available
             for(int i = 0; i < threadsMax; i++)
@@ -160,7 +160,7 @@ namespace BC
                     threads[i] = 0;
                 }
         }
-        void WebHttp::threadHandleClient(WebHttp *web, Client *client, int threadId)
+        void WebService::threadHandleClient(WebService *web, Client *client, int threadId)
         {
             // Push the client to the handler for further actions
             web->clientHandler->handleClient(web, client);

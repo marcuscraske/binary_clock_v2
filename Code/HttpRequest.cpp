@@ -7,15 +7,13 @@
 using std::stringstream;
 using BC::Web::Core::Data;
 
-#define HTTP_HEADER_LIMIT_BYTES 8190
-
 namespace BC
 {
     namespace Web
     {
         namespace Http
         {
-            HttpRequest::HttpRequest(HttpHandler* handler, WebHttp* web, Client* client)
+            HttpRequest::HttpRequest(HttpHandler* handler, WebService* web, Client* client)
             {
                 timeStart = Utils::getEpochTimeMs();
                 // Read data from stream, place into stringstream for processing

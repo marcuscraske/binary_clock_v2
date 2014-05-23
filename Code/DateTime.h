@@ -67,7 +67,7 @@ namespace BC
                         {
                             if(minute > at.minute)
                                 return true;
-                            else
+                            else if(minute == at.minute)
                                 return second > at.second;
                         }
                     }

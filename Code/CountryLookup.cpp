@@ -26,7 +26,7 @@ namespace BC
                         " password=" + c->get(CONFIG__DATABASE_PASS, MODULES_PAGES_DEFAULT_PASS);
             // -- List updating
             listsLastUpdated = c->get(CONFIG__COUNTRYLOOKUP_LAST_UPDATED, 0LL);
-            listsUpdatePeriod = c->get(CONFIG__COUNTRYLOOKUP_UPDATE_INTERVAL, COUNTRYLOOKUP_LIST_DEFAULT_UPDATE_INTERVAL);
+            listsUpdatePeriod = c->get(CONFIG__COUNTRYLOOKUP_UPDATE_INTERVAL, COUNTRYLOOKUP_LIST_UPDATE_INTERVAL);
             
             unique_lock<mutex> cl(mutexService);
             connection *conn;
@@ -108,7 +108,7 @@ namespace BC
         }
         bool CountryLookup::findIPCountry(string ip, string &country)
         {
-            cout << getTitle() << ": finding country for IP '" << ip << "'." << endl;
+            cout << getTitle() << ": '" << ip << "' : finding country for IP." << endl;
             IPAddress ipp(ip);
             // Iterate each file and parse each IP to test if the target IP belongs
             for(map<string, string>::iterator it = registrantLists.begin(); it != registrantLists.end(); it++)
@@ -130,6 +130,7 @@ namespace BC
                                 if(ipp >= ipb_start && ipp <= ipb_end)
                                 {
                                     country = tokens.at(1);
+                                    cout << getTitle() << ": '" << ip << "' : location resolved to '" << country << "'." << endl;
                                     return true;
                                 }
                             }
@@ -137,6 +138,7 @@ namespace BC
                     }
                 }
             }
+            cout << getTitle() << ": '" << ip << "' : no location found." << endl;
             return false;
         }
         void CountryLookup::updateLists()
@@ -150,7 +152,7 @@ namespace BC
             {
                 url = (*it).second;
                 file = (*it).first;
-                cout << getTitle() << ": updating list '" << url << "'..." << endl;
+                cout << getTitle() << ": list '" << url << "' - updating..." << endl;
                 int t = url.find_first_of('/');
                 string host = url.substr(0, t);
                 string path = url.substr(t+1);
@@ -158,7 +160,7 @@ namespace BC
                 bool connected;
                 for(int i = 1; i <= 10 && !(connected = cs.connectToHost(host, 80)); i++)
                 {
-                    cerr << "Failed to connect to list '" << url << "', attempt #" << i << "!" << endl;
+                    cout << getTitle() << ": list '" << url << "' - failed to connect, attempt #" << i << "!" << endl;
                     Utils::sleep(1000);
                 }
                 if(connected)
@@ -170,13 +172,13 @@ namespace BC
                     {
                         bytes = cs.readIntoStream(os);
                         os.close();
-                        cout << getTitle() << ": successfully updated list '" << url << "' - " << bytes << " bytes!" << endl;
+                        cout << getTitle() << ": list '" << url << "' - successfully updated - " << bytes << " bytes." << endl;
                     }
                     else
-                        cerr << getTitle() << ": failed to open file for list '" << url << "' at file '" << file << "'!" << endl;
+                        cerr << getTitle() << ": list '" << url << "' - failed to open downloaded file at '" << file << "'." << endl;
                 }
                 else
-                    cerr << "Failed to update list '" << url << "' - failed to connect!" << endl;
+                    cerr << getTitle() << ": list '" << url << "' - failed to connect." << endl;
                 Utils::sleep(1000);
             }
             cout << getTitle() << ": successfully finished updating IP block allocation lists!" << endl;

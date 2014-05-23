@@ -29,22 +29,6 @@
 #ifndef COUNTRYLOOKUP_H
 #define	COUNTRYLOOKUP_H
 
-// Defintiions: the IP block lists of the five IP registrants.
-// -- Heavy uses:
-// -- http://www.apnic.net/publications/media-library/documents/resource-guidelines/rir-statistics-exchange-format
-#define COUNTRYLOOKUP_LIST_RIPENCC              "iplist_ripencc"
-#define COUNTRYLOOKUP_LIST_RIPENCC_URL          "ftp.arin.net/pub/stats/ripencc/delegated-ripencc-latest"
-#define COUNTRYLOOKUP_LIST_LACNIC               "iplist_lacnic"
-#define COUNTRYLOOKUP_LIST_LACNIC_URL           "ftp.arin.net/pub/stats/lacnic/delegated-lacnic-latest"
-#define COUNTRYLOOKUO_LIST_ARIN                 "iplist_arin"
-#define COUNTRYLOOKUP_LIST_ARIN_URL             "ftp.arin.net/pub/stats/arin/delegated-arin-latest"
-#define COUNTRYLOOKUP_LIST_APNIC                "iplist_apnic"
-#define COUNTRYLOOKUP_LIST_APNIC_URL            "ftp.arin.net/pub/stats/apnic/delegated-apnic-latest"
-#define COUNTRYLOOKUP_LIST_AFRNIC               "iplist_afrinic"
-#define COUNTRYLOOKUP_LIST_AFRINIC_URL          "ftp.arin.net/pub/stats/afrinic/delegated-afrinic-latest"
-
-#define COUNTRYLOOKUP_LIST_DEFAULT_UPDATE_INTERVAL      86400000LL // Default: 1 day
-
 #include "Definitions.h"
 
 #include <string>

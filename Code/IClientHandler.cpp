@@ -6,7 +6,7 @@ namespace BC
     {
         namespace Core
         {
-            Data* IClientHandler::readSocketData(WebHttp *web, Client *client, int bufferLimit)
+            Data* IClientHandler::readSocketData(WebService *web, Client *client, int bufferLimit)
             {
                 Data *data = new Data;
                 data->data = new char[bufferLimit];

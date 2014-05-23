@@ -6,6 +6,7 @@
 #include "Alarm.h"
 #include "ServiceController.h"
 #include "Configurator.h"
+#include "LightSeqs/LedTime.h"
 
 using BC::Services::Configurator;
 using BC::Hardware::IC_74HC595;
@@ -35,70 +36,87 @@ namespace BC
             // Get access to the alarm and sensor service's
             Alarm *serviceAlarm = static_cast<Alarm*>(controller->getServiceByName(SERVICETITLE_ALARM));
             Sensors *serviceSensors = static_cast<Sensors*>(controller->getServiceByName(SERVICETITLE_SENSORS));
+            
             // Begin looping until the service is stopped
-            long long time, delayTime = 0, delay;
-            int lightMode = 0; // 0 = low, 1 = high, 2 = buzz
-            unique_lock<mutex> cl(mutexService);
+            long long           time,
+                                timeLast = 0;           // the time the handler last executed.
+            int                 lightMode,              // 0 = low, 1 = high, 2 = buzz
+                                seq = -1,               // the last sequence.
+                                newSeq;                 // the current sequence.
+            bool                updated;                // indicates if the display was updated.
+            LightSequence       *ls = 0;                // the current sequence handler.
+            unique_lock<mutex>  cl(mutexService);
+            
             while(!shutdown)
             {
-                time = Utils::getEpochTimeMs();
-                if(time > delayTime)
+                // Lock this service
+                unique_lock<mutex> lock(mutexThread);
+                // Compute light mode
+                if(serviceAlarm != 0 && serviceAlarm->isBuzzing())
+                    lightMode = 2;
+                else
+                    lightMode = serviceSensors != 0 && serviceSensors->getLight() >= lightThreshold ? 1 : 0;
+                // Compute sequence
+                switch(lightMode)
                 {
-                    unique_lock<mutex> lock(mutexThread);
-                    int currLightMode;
-                    if(serviceAlarm != 0 && serviceAlarm->isBuzzing())
-                        currLightMode = 2;
-                    else
-                        currLightMode = serviceSensors != 0 && serviceSensors->getLight() >= lightThreshold;
-                    // Check if the light-level has changed, if so reset the buffer
-                    if(lightMode != currLightMode)
-                    {
-                        buffer = 0;
-                        lightMode = currLightMode;
-                    }
-                    // Invoke the function responsible for manipulating the buffer based on the sequence
-                    switch(lightMode == 1 ? sequenceHigh : lightMode == 2 ? sequenceBuzz : sequenceLow)
-                    {
-                        case Sequence::Failure:
-                            delay = sequence_Failure();
-                            break;
-                        case Sequence::SingleLedTest:
-                            delay = sequence_SingleLedTest();
-                            break;
-                        case Sequence::Time:
-                            delay = sequence_Time();
-                            break;
-                        case Sequence::ManualBuffer:
-                            delay = manualDelay;
-                            break;
-                        case Sequence::SymbolX:
-                            delay = sequence_SymbolX();
-                            break;
-                        case Sequence::Offline:
-                            delay = 100;
-                            buffer = 0;
-                            break;
-                        case Sequence::AllLeds:
-                            delay = sequence_AllLeds();
-                            break;
-                        default:
-                            delay = 0;
-                            break;
-                    }
-                    // Push the buffer to the shift-registers
-                    IC_74HC595::write(controller, registerCount, pinData, pinClock, pinLatch, buffer);
-                    // We don't sleep for the delay-time because we want
-                    // the while-loop to be able to exit at any point
-                    delayTime = time + delay;
+                    case 1:
+                        newSeq = sequenceHigh;
+                        break;
+                    case 2:
+                        newSeq = sequenceBuzz;
+                        break;
+                    case 0:
+                    default:
+                        newSeq = sequenceLow;
+                        break;
                 }
-                Utils::conditionVariableSleep(cl, cvService, 50);
+                // Check if to recreate light handler, due to different sequence
+                if(newSeq != seq)
+                {
+                    // Dispose old handler
+                    if(ls != 0)
+                        delete ls;
+                    // Create new handler
+                    ls = seqCreate(newSeq);
+                    // Update sequence
+                    seq = newSeq;
+                    // Ensure new handler will run cycle as soon as possible...
+                    timeLast = 0;
+                }
+                // Fetch the current time
+                time = Utils::getEpochTimeMs();
+                // Check if to run the next cycle of the handler
+                updated = false;
+                if(ls != 0)
+                {
+                    if(time > timeLast+ls->getDelay())
+                    {
+                        buffer = ls->updateDisplay();
+                        updated = true;
+                    }
+                }
+                // ...or check if to write the manual buffer
+                else if(time > timeLast+manualDelay)
+                    updated = true;
+                // Check if to write the buffer
+                if(updated)
+                {
+                    IC_74HC595::write(controller, registerCount, pinData, pinClock, pinLatch, buffer);
+                    timeLast = time;
+                }
+                // Dispose lock
+                lock.unlock();
+                // Sleep...
+                Utils::conditionVariableSleep(cl, cvService, 10);
             }
-            // Set lights to failure
-            sequence_Failure();
+            // Dispose current light handler
+            if(ls != 0)
+                delete ls;
+            // Turn everything off
             if(controller->isHardwareEnabled())
-                IC_74HC595::write(controller, registerCount, pinData, pinClock, pinLatch, buffer);
+                IC_74HC595::write(controller, registerCount, pinData, pinClock, pinLatch, 0);
         }
-        void Display::changeBuffer(int value)
+        void Display::changeManualBuffer(int value)
         {
             unique_lock<mutex> lock(mutexThread);
             buffer = value;
@@ -108,6 +126,29 @@ namespace BC
             unique_lock<mutex> lock(mutexThread);
             this->manualDelay = delay;
         }
+        LightSequence* Display::seqCreate(int mode)
+        {
+            switch(mode)
+            {
+                case Sequence::Failure:
+                    return new LightSeqs::Failure(controller);
+                case Sequence::SingleLedTest:
+                    return new LightSeqs::SingleLed(controller);
+                case Sequence::Time:
+                    return new LightSeqs::LedTime(controller);
+                case Sequence::SymbolX:
+                    return new LightSeqs::SymbolX(controller);
+                case Sequence::Offline:
+                    return new LightSeqs::Offline(controller);
+                case Sequence::AllLeds:
+                    return new LightSeqs::All(controller);
+                default:
+                    // Manual will fall here.
+                    return 0;
+            }
+        }
+        
+        
         int Display::sequence_SingleLedTest()
         {
             if(buffer >= 16777216)

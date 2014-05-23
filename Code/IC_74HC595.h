@@ -38,7 +38,7 @@ namespace BC
         class IC_74HC595
         {
         public:
-            inline static void write(ServiceController *controller, uint8_t numberOfShiftRegisters, uint8_t pinData, uint8_t pinClock, uint8_t pinLatch, int value)
+            static void write(ServiceController *controller, uint8_t numberOfShiftRegisters, uint8_t pinData, uint8_t pinClock, uint8_t pinLatch, int value)
             {
                 // Place latch to low, to write data
                 controller->gpioWrite(pinLatch, false);

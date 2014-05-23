@@ -75,7 +75,7 @@ using namespace BC::Web::Modules;
 #include "Configurator.h"
 #include "Display.h"
 #include "Sensors.h"
-#include "WebHttp.h"
+#include "WebService.h"
 #include "RelayBoard.h"
 
 #include "HttpRequest.h"
@@ -91,7 +91,7 @@ namespace BC
         class Configurator;
         class Display;
         class Sensors;
-        class WebHttp;
+        class WebService;
         class CountryLookup;
         class RelayBoard;
     }
@@ -112,15 +112,12 @@ using BC::Services::Alarm;
 using BC::Services::Configurator;
 using BC::Services::Display;
 using BC::Services::Sensors;
-using BC::Services::WebHttp;
+using BC::Services::WebService;
 using BC::Services::CountryLookup;
 using BC::Services::RelayBoard;
 using BC::Web::Core::IClientHandler;
 using BC::Web::Http::HttpRequest;
 using BC::Web::Http::DiskCache;
-           
-#define HTTPHANDLER_DEFAULT_PAGE_DEFAULT        "home.bc"
-#define HTTPHANDLER_DEFAULT_PAGE_NOTFOUND       "404.bct"
 
 namespace BC
 {
@@ -148,7 +145,7 @@ namespace BC
                 Configurator    *serviceConfig;
                 Display         *serviceDisplay;
                 Sensors         *serviceSensors;
-                WebHttp         *serviceWebHttp;
+                WebService      *serviceWebHttp;
                 CountryLookup   *serviceCountryLookup;
                 RelayBoard      *serviceRelayBoard;
                 // -- Used for caching items on the file-system.
@@ -157,9 +154,9 @@ namespace BC
                 // Constructors ----------------------------------------------->
                 HttpHandler() {}
                 // Member Functions ------------------------------------------->
-                void serviceStart(WebHttp *web);
-                void serviceEnd(WebHttp *web);
-                void handleClient(WebHttp *web, Client *client);
+                void serviceStart(WebService *web);
+                void serviceEnd(WebService *web);
+                void handleClient(WebService *web, Client *client);
                 // -- Returns a function pointer to the function associated with
                 // -- the specified function name.
                 FunctionMapping* functionGet(string function)
@@ -192,7 +189,7 @@ namespace BC
                 {
                     return serviceSensors;
                 }
-                inline WebHttp *getService_WebHttp()
+                inline WebService *getService_WebHttp()
                 {
                     return serviceWebHttp;
                 }

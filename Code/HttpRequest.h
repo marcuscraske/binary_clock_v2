@@ -40,8 +40,8 @@ using BC::Web::Core::Data;
 #include "HttpHandler.h"
 using BC::Web::Http::HttpHandler;
 
-#include "WebHttp.h"
-using BC::Services::WebHttp;
+#include "WebService.h"
+using BC::Services::WebService;
 
 #include "Utils.h"
 using BC::Utils;
@@ -86,7 +86,7 @@ namespace BC
                 map<string, string> formData;
             public:
                 // Member functions - constructors
-                HttpRequest(HttpHandler* handler, WebHttp* web, Client* client);
+                HttpRequest(HttpHandler* handler, WebService* web, Client* client);
             public:
                 void parseQueryString()
                 {

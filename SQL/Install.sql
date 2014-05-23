@@ -1,13 +1,13 @@
+-- ****************************** Create the schema for the clock *********************************************
+CREATE SCHEMA bc;
+SET search_path TO bc;
+
 -- ****************************** Create the user for the clock to access ONLY the bc schema ******************
 CREATE USER bc;
 GRANT ALL PRIVILEGES ON SCHEMA bc TO bc;
 
 -- ****************************** Setup PGSQL language ********************************************************
-CREATE LANGUAGE plpgsql;
-
--- ****************************** Create the schema for the clock *********************************************
-CREATE SCHEMA bc;
-SET search_path TO bc;
+--CREATE LANGUAGE plpgsql;
 
 -- ****************************** Create tables ***************************************************************
 -- Location table: allows information to be associated with countries and reduce repeated data in tables
@@ -125,4 +125,13 @@ CREATE TRIGGER trig_gb_subpostss_cache AFTER INSERT OR UPDATE OR DELETE ON bc.tb
 -- ****************************** Views *********************************************************************
 CREATE OR REPLACE VIEW bc.vi_guestbook_posts AS
 	SELECT gb.postid, gb.parent_postid, gb.subposts, gb.message, gb.datetime, to_char(gb.datetime, 'DD-MM-YYYY "("HH24:MI:SS")"') AS datetime_raw, bc.func_date(gb.datetime) AS datetime_formatted, gb.name AS name, l.name AS cname, l.flag_img, ip.ip, ip.ipid FROM bc.tb_guestbook AS gb LEFT OUTER JOIN bc.tb_ip_lookup AS ip ON ip.ipid=gb.ipid LEFT OUTER JOIN bc.tb_locations AS l ON l.locationid=ip.locationid ORDER BY gb.datetime DESC;
+
+-- ****************************** Data ***********************************************************************
+INSERT INTO bc.tb_locations (locationid, name, flag_img) VALUES
+(2,'CA','/Content/Images/Flags/CA.png'),
+(3,'DE','/Content/Images/Flags/DE.png'),
+(4,'FR','/Content/Images/Flags/FR.png'),
+(5,'GB','/Content/Images/Flags/GB.png'),
+(6,'IE','/Content/Images/Flags/IE.png')
+;
 

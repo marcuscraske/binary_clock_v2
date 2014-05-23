@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="88">
+<configurationDescriptor version="94">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="f7" displayName="BC" projectFiles="true">
       <itemPath>DateTime.h</itemPath>
@@ -22,6 +22,15 @@
       <itemPath>TMP36.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f4" displayName="BC.Services" projectFiles="true">
+      <logicalFolder name="f2" displayName="LightSeqs" projectFiles="true">
+        <itemPath>LightSeqs/All.h</itemPath>
+        <itemPath>LightSeqs/Failure.h</itemPath>
+        <itemPath>LightSeqs/LedTime.h</itemPath>
+        <itemPath>LightSeqs/LightSequence.h</itemPath>
+        <itemPath>LightSeqs/Offline.h</itemPath>
+        <itemPath>LightSeqs/SingleLed.h</itemPath>
+        <itemPath>LightSeqs/SymbolX.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="Misc" projectFiles="true">
         <itemPath>IPAddress.h</itemPath>
         <itemPath>Relay.cpp</itemPath>
@@ -43,8 +52,8 @@
       <itemPath>RelayBoard.h</itemPath>
       <itemPath>Sensors.cpp</itemPath>
       <itemPath>Sensors.h</itemPath>
-      <itemPath>WebHttp.cpp</itemPath>
-      <itemPath>WebHttp.h</itemPath>
+      <itemPath>WebService.cpp</itemPath>
+      <itemPath>WebService.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f1" displayName="BC.Web.Core" projectFiles="true">
       <itemPath>ClientSocket.cpp</itemPath>
@@ -103,22 +112,30 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>WiringPi</Elem>
+    <Elem>LightSeqs</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
-        <compilerSet>GNU|GNU</compilerSet>
+        <compilerSet>Cygwin_4.x|Cygwin_4.x</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <cTool>
+          <commandlineTool>gcc-4.7</commandlineTool>
+        </cTool>
         <ccTool>
+          <commandlineTool>g++-4.7</commandlineTool>
           <commandLine>-std=gnu++0x -lpthread -L /usr/lib/includes -lpqxx</commandLine>
           <preprocessorList>
             <Elem>LINUX</Elem>
           </preprocessorList>
         </ccTool>
+        <linkerTool>
+          <commandlineTool>g++-4.7</commandlineTool>
+        </linkerTool>
       </compileType>
       <item path="Alarm.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -184,6 +201,20 @@
       </item>
       <item path="IService.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="LightSeqs/All.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/Failure.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/LedTime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/LightSequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/Offline.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/SingleLed.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/SymbolX.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PageFunctions.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="PageFunctions.h" ex="false" tool="3" flavor2="0">
@@ -236,17 +267,18 @@
       </item>
       <item path="Utils.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="WebHttp.cpp" ex="false" tool="1" flavor2="0">
+      <item path="WebService.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="WebHttp.h" ex="false" tool="3" flavor2="0">
+      <item path="WebService.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
@@ -326,6 +358,20 @@
       </item>
       <item path="IService.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="LightSeqs/All.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/Failure.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/LedTime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/LightSequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/Offline.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/SingleLed.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/SymbolX.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PageFunctions.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="PageFunctions.h" ex="false" tool="3" flavor2="0">
@@ -378,9 +424,306 @@
       </item>
       <item path="Utils.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="WebHttp.cpp" ex="false" tool="1" flavor2="0">
+      <item path="WebService.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="WebHttp.h" ex="false" tool="3" flavor2="0">
+      <item path="WebService.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="DebugWindows" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandlineTool>g++</commandlineTool>
+          <commandLine>-std=c++11 -lpthread -L</commandLine>
+        </ccTool>
+      </compileType>
+      <item path="Alarm.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Alarm.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ClientSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ClientSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Configurator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Configurator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="CountryLookup.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CountryLookup.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DateTime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Definitions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DiskCache.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DiskCache.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DiskCacheItem.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Display.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FileInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FileItemType.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FunctionMapping.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="HttpHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="HttpHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="HttpRequest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="HttpRequest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="HttpResponse.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="HttpResponse.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IC_74HC595.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IC_MCP3008.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="IC_MCP3008.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IClientHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="IClientHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IModule.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IPAddress.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IService.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/All.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/Failure.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/LedTime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/LightSequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/Offline.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/SingleLed.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/SymbolX.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PageFunctions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PageFunctions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Pages.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Pages.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PhotoResistor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RaspberryPi.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Relay.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Relay.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RelayBoard.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="RelayBoard.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RelayCondition.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RelayConditionFunctions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="RelayConditionFunctions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Sensors.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Sensors.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ServiceController.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ServiceController.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Structs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SystemInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TMP36.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Templates.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Templates.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Time.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Time.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WebService.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WebService.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="DebugLinux" type="1">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandLine>-std=c++11 -lpthread -lpqxx</commandLine>
+        </ccTool>
+      </compileType>
+      <item path="Alarm.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Alarm.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ClientSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ClientSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Configurator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Configurator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="CountryLookup.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CountryLookup.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DateTime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Definitions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DiskCache.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="DiskCache.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DiskCacheItem.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Display.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Display.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FileInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FileItemType.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FunctionMapping.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="HttpHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="HttpHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="HttpRequest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="HttpRequest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="HttpResponse.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="HttpResponse.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IC_74HC595.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IC_MCP3008.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="IC_MCP3008.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IClientHandler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="IClientHandler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IModule.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IPAddress.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IService.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/All.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/Failure.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/LedTime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/LightSequence.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/Offline.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/SingleLed.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LightSeqs/SymbolX.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PageFunctions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PageFunctions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Pages.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Pages.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PhotoResistor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RaspberryPi.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Relay.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Relay.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RelayBoard.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="RelayBoard.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RelayCondition.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RelayConditionFunctions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="RelayConditionFunctions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Sensors.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Sensors.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ServiceController.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ServiceController.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Structs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SystemInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TMP36.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Templates.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Templates.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Time.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Time.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Utils.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WebService.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WebService.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

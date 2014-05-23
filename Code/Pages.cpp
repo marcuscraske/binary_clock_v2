@@ -580,6 +580,7 @@ namespace BC
                     }
                     stringstream output;
                     // Field Data
+                    cout << "data '" << request->formData["gb_message"] << "' -> '" << Utils::urlDecodeBasic(request->formData["gb_message"]) << "'." << endl;
                     string message = Utils::urlDecodeBasic(request->formData["gb_message"]);
                     string name = Utils::urlDecodeBasic(request->formData["gb_name"]);
                     string parent = Utils::urlDecodeBasic(request->formData["gb_parent"]);
@@ -598,6 +599,11 @@ namespace BC
                             error = "Name must be " + Utils::intToString(MODULES_PAGES_GUESTBOOK_NAME_MIN) + " to " + Utils::intToString(MODULES_PAGES_GUESTBOOK_NAME_MAX) + " characters in length!";
                         else if(parent.length() > 0 && !Utils::tryParse(parent, parentPostId))
                             error = "Invalid parent post ID!";
+                        else if(message.find("<script") != string::npos || message.find("<iframe") != string::npos)
+                        {
+                            error = "Trying to do some cross-site scripting? :3333";
+                            response->redirect("https://www.youtube.com/v/f9Y2QGOz5bM?autoplay=1&start=17");
+                        }
                         else
                         {
                             work np(conn);
@@ -614,25 +620,41 @@ namespace BC
                                 newIp = true;
                             }
                             // Check the user has not made too many posts in the last hour
-                            result postC = np.exec("SELECT COUNT('') FROM bc.tb_guestbook WHERE ipid='" + escape_binary(Utils::intToString(ipid)) + "'");
+                            result postC = np.exec("SELECT COUNT('') FROM bc.tb_guestbook WHERE ipid='" + escape_binary(Utils::intToString(ipid)) + "' AND datetime >= (current_timestamp-INTERVAL '15 minute');");
                             if(postC.size() > 0 && postC[0][0].as<int>() >= m->guestbookThreshold)
-                                error = "You have made too many posts within the last hour; calm down or you will be banned!";
+                                error = "You have made too many posts recently; calm down or you will be banned!";
                             else
                             {
-                                // Create the guestbook post
-                                try
+                                // Check the sub-level is not too deep
+                                string currParent = parent;
+                                int level = 0;
+                                int maxLevel = 4;
+                                result postDepth;
+                                while(currParent.size() > 0 && level < maxLevel)
                                 {
-                                    np.exec("INSERT INTO bc.tb_guestbook (postid, parent_postid, ipid, name, message, datetime) VALUES(COALESCE((SELECT MAX(postid)+1 FROM bc.tb_guestbook), 1), " + (parentPostId == 0 ? "NULL" : "'" + Utils::intToString(parentPostId) + "'") + ", '" + Utils::intToString(ipid) + "', '" + escape_binary(name) + "', '" + escape_binary(message) + "', current_timestamp);");
-                                    np.commit();
-                                    if(newIp)
-                                        handler->getCountryLookup()->wake();
-                                    // Success - reset field data
-                                    name = message = parent = "";
+                                    postDepth = np.exec("SELECT parent_postid FROM bc.tb_guestbook WHERE postid='"+escape_binary(currParent)+"';");
+                                    currParent = postDepth.size() == 1 && !postDepth[0][0].is_null() ? postDepth[0][0].as<string>() : "";
+                                    level++;
                                 }
-                                catch(integrity_constraint_violation ex)
+                                if(level >= maxLevel)
+                                    error = "The thread has gone too deep, please reply to a higher post.";
+                                else
                                 {
-                                    error = "Parent post does not exist!";
-                                    np.abort();
+                                    // Create the guestbook post
+                                    try
+                                    {
+                                        np.exec("INSERT INTO bc.tb_guestbook (postid, parent_postid, ipid, name, message, datetime) VALUES(COALESCE((SELECT MAX(postid)+1 FROM bc.tb_guestbook), 1), " + (parentPostId == 0 ? "NULL" : "'" + Utils::intToString(parentPostId) + "'") + ", '" + Utils::intToString(ipid) + "', '" + escape_binary(name) + "', '" + escape_binary(message) + "', current_timestamp);");
+                                        np.commit();
+                                        if(newIp)
+                                            handler->getCountryLookup()->wake();
+                                        // Success - reset field data
+                                        name = message = parent = "";
+                                    }
+                                    catch(integrity_constraint_violation ex)
+                                    {
+                                        error = "Parent post does not exist!";
+                                        np.abort();
+                                    }
                                 }
                             }
                         }
@@ -640,9 +662,9 @@ namespace BC
                     // Append postbox to the top of the page
                     {
                         string postbox = handler->getDiskCache()->fetch("guestbook_postbox.bct", "Failed to load guestbook postbox template!");
-                        Utils::replace(postbox, "%NAME%", name.length() > 0 ? Utils::htmlEncode(request->formData["gb_name"]) : "");
-                        Utils::replace(postbox, "%PARENT%", parent.length() > 0 ? Utils::htmlEncode(request->formData["gb_parent"]) : "");
-                        Utils::replace(postbox, "%MESSAGE%", message.length() > 0 ? Utils::htmlEncode(request->formData["gb_message"]) : "");
+                        Utils::replace(postbox, "%NAME%", name.length() > 0 ? Utils::htmlEncode(name) : "");
+                        Utils::replace(postbox, "%PARENT%", parent.length() > 0 ? Utils::htmlEncode(parent) : "");
+                        Utils::replace(postbox, "%MESSAGE%", message.length() > 0 ? Utils::htmlEncode(message) : "");
                         Utils::replace(postbox, "%MESSAGE_MAX%", Utils::intToString(MODULES_PAGES_GUESTBOOK_MESSAGE_MAX));
                         output << postbox;
                     }
@@ -657,24 +679,28 @@ namespace BC
                             work w(conn);
                             // Fetch the post data
                             result postR = w.exec("SELECT * FROM bc.vi_guestbook_posts WHERE postid='" + escape_binary(pid) + "'");
-                            // Apply option to post/author
-                            if(option == "ban")
+                            // Check we have a valid post
+                            if(postR.size() == 1)
                             {
-                                w.exec("INSERT INTO bc.tb_ipbans (banid, ip) VALUES(COALESCE((SELECT MAX(banid) FROM bc.tb_ipbans), 0)+1, '" + escape_binary(postR[0]["ip"].c_str()) + "'); DELETE FROM bc.tb_guestbook WHERE ipid='" + escape_binary(postR[0]["ipid"].c_str()) + "';");
-                                w.commit();
+                                // Apply option to post/author
+                                if(option == "ban")
+                                {
+                                    w.exec("INSERT INTO bc.tb_ipbans (banid, ip) VALUES(COALESCE((SELECT MAX(banid) FROM bc.tb_ipbans), 0)+1, '" + escape_binary(postR[0]["ip"].c_str()) + "'); DELETE FROM bc.tb_guestbook WHERE ipid='" + escape_binary(postR[0]["ipid"].c_str()) + "';");
+                                    w.commit();
+                                }
+                                else if(option == "delete")
+                                {
+                                    w.exec("DELETE FROM bc.tb_guestbook WHERE postid='" + escape_binary(postR[0]["postid"].c_str()) + "'");
+                                    w.commit();
+                                }
+                                else if(option == "delete_all")
+                                {
+                                    w.exec("DELETE FROM bc.tb_guestbook WHERE ipid='" + escape_binary(postR[0]["ipid"].c_str()) + "'");
+                                    w.commit();
+                                }
+                                else
+                                    error = "Unknown admin option '" + option + "'!";
                             }
-                            else if(option == "delete")
-                            {
-                                w.exec("DELETE FROM bc.tb_guestbook WHERE postid='" + escape_binary(postR[0]["postid"].c_str()) + "'");
-                                w.commit();
-                            }
-                            else if(option == "delete_all")
-                            {
-                                w.exec("DELETE FROM bc.tb_guestbook WHERE ipid='" + escape_binary(postR[0]["ipid"].c_str()) + "'");
-                                w.commit();
-                            }
-                            else
-                                error = "Unknown admin option '" + option + "'!";
                         }
                     }
                     // Append error-box
@@ -710,8 +736,9 @@ namespace BC
                     
                     return output.str();
                 }
-                catch(std::exception)
+                catch(std::exception &ex)
                 {
+                    cerr << "Guestbook : exception - '" << ex.what() << "'." << endl;
                     return handler->getDiskCache()->fetch("database_failure.bct", "Failed to load database failure template!");
                 }
             }

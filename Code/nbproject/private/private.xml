@@ -2,7 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
         <activeConfTypeElem>1</activeConfTypeElem>
-        <activeConfIndexElem>0</activeConfIndexElem>
+        <activeConfIndexElem>3</activeConfIndexElem>
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/files/Dropbox/Programming/BinaryClockV2/Code/LightSeqs/LightSequence.h</file>
+            <file>file:/files/Dropbox/Programming/BinaryClockV2/Code/main.cpp</file>
+            <file>file:/files/Dropbox/Programming/BinaryClockV2/Code/LightSeqs/Offline.h</file>
+            <file>file:/files/Dropbox/Programming/BinaryClockV2/Code/Display.h</file>
+            <file>file:/files/Dropbox/Programming/BinaryClockV2/Code/Display.cpp</file>
+        </group>
+    </open-files>
 </project-private>

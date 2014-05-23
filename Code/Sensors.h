@@ -46,17 +46,6 @@ using BC::Hardware::TMP36;
 #include "Utils.h"
 using BC::Utils;
 
-#define SENSORS_DEFAULT_MCP_TMP36                IC_MCP3008::Pin1
-#define SENSORS_DEFAULT_MCP_PHOTORESISTOR        IC_MCP3008::Pin0
-#define SENSORS_DEFAULT_PIN_CLOCK                23
-#define SENSORS_DEFAULT_PIN_DATA_OUT             24
-#define SENSORS_DEFAULT_PIN_DATA_IN              25
-#define SENSORS_DEFAULT_PIN_CHIP_SELECT          8
-#define SENSORS_DEFAULT_POLL_RATE_MS             500
-#define SENSORS_VOLTAGE                         3.3
-#define SENSORS_MCP_TMP36_ERROR                 4
-#define SENSORS_MCP_PHOTORESISTOR_ERROR         7
-
 namespace BC
 {
     namespace Services
@@ -96,4 +85,3 @@ namespace BC
 }
 
 #endif	/* SENSORS_H */
-

@@ -59,10 +59,6 @@ using BC::DateTime;
 #include "Utils.h"
 using BC::Utils;
 
-#define ALARM_DEFAULT_PIN_BUZZER        7
-#define ALARM_DEFAULT_BUZZES            20
-#define ALARM_DEFAULT_BUZZ_LENGTH       1
-
 namespace BC
 {
     namespace Services
@@ -159,4 +155,3 @@ namespace BC
 }
 
 #endif	/* ALARM_H */
-
